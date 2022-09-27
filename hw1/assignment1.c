@@ -44,7 +44,7 @@ int max_occur(const void *arr, int curr_num, int pos, int length) {
 }
 
 int most_frequent(const int* arr, int n) {
-  qsort(arr, n, sizeof(int), comp);
+  qsort((void*)arr, n, sizeof(int), comp);
   int i = 0, num, max = 0, cnt = 0;
   while (i < n) {
     cnt = max_occur(arr, arr[i], i, n);
