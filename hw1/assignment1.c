@@ -45,7 +45,7 @@ int max_occur(const void *arr, int curr_num, int pos, int length) {
 
 int most_frequent(const int* arr, int n) {
   qsort((void*)arr, n, sizeof(int), comp);
-  int i = 0, num, max = 0, cnt = 0;
+  int i = 0, max = 0, cnt = 0, num;
   while (i < n) {
     cnt = max_occur(arr, arr[i], i, n);
     if (cnt > max)  {
@@ -78,10 +78,28 @@ bool is_odd_palindrome(const char* str) {
   return i == chars;
 }
 
-int longest_odd_subpalindrome(const char* str)  {
-  // implement me
-  return -1;
-}  
+
+bool is_palindrome(const char* str, int start, int end) {
+  int i, j = 0, mid = (end - start) / 2;
+  for (i = start; i < start + mid && str[i] == str[end - j]; i++, j++)
+    ;
+  return i == start + mid;
+}
+
+ int longest_odd_subpalindrome(const char* str) {
+  int max = 0;
+  for (int i = 0; str[i] != NULL; i++) {
+    for(int pos = i; str[pos] != NULL; pos++) {
+      if ((pos - i) % 2 == 0) {
+        if (is_palindrome(str, i, pos) && (pos - i + 1) > max) {
+          max = (pos - i + 1) ;
+        }
+      }
+    }
+  }
+  return max;
+ } 
+
 
 char* str_div_by_digit(const char* num, int digit) {
   // implement me

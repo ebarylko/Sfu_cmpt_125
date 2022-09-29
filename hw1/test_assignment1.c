@@ -34,8 +34,6 @@ bool test_q1_3()  {
   }
   else  {
     printf("Q1-3 ERROR\n");
-    printf("Count_even(8,-8): %ld\n",count_even(8, -8 ));
-    printf("Count_even(-11,11 ): %ld\n",count_even(-11, 11 ));
     return false;
   }
 }
@@ -70,7 +68,6 @@ bool test_q2_2()  {
     return true;
   }
   else  {
-    printf("Most common num: %d\n", ans);
     printf("Q2-2 ERROR\n");
     return false;
   }
@@ -83,8 +80,6 @@ bool test_q3_1()  {
     return true;
   }
   else  {
-    printf("the number is %d", is_odd_palindrome("a2z@d@z2a"));
-    printf("the number is %d", is_odd_palindrome("ae11&edwdccek"));
     printf("Q3-1 ERROR\n");
     return false;
   }
@@ -97,8 +92,6 @@ bool test_q3_2()  {
     return true;
   }
   else  {
-    printf("the number is %d", is_odd_palindrome("a"));
-    printf("the number is %d", is_odd_palindrome("abba"));
     printf("Q3-2 ERROR\n");
     return false;
   }
@@ -106,7 +99,7 @@ bool test_q3_2()  {
 
 
 bool test_q4_1()  {
-  if (longest_odd_subpalindrome("aba")==3 && longest_odd_subpalindrome("12321abcba")==5) {
+ if (longest_odd_subpalindrome("aba")==3 && longest_odd_subpalindrome("12321abcba")==5) {
     printf("Q4-1 ok\n");
     return true;
   }
@@ -244,12 +237,12 @@ int main()  {
   test_q3_1();
   test_q3_2();
 //
-//  test_q4_1();
-//  test_q4_2();
-//  test_q4_3();
-//  
-//  test_q5_1();
-//  test_q5_2();
+  test_q4_1();
+  test_q4_2();
+  test_q4_3();
+ 
+  //  test_q5_1();
+  //  test_q5_2();
   
   return 0;
 }
