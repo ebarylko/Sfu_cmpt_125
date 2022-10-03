@@ -194,6 +194,8 @@ bool test_q5_1()  {
   }
 }
 
+
+
 bool test_q5_2()  {
   char* num1 = "10000000000000000000000000000003";
   int digit1 = 5;
@@ -204,7 +206,6 @@ bool test_q5_2()  {
   char* ans1 = str_div_by_digit(num1, digit1);
   char* ans2 = str_div_by_digit(num2, digit2);
 
- 
   bool ok = ans1 && strcmp(ans1,"2000000000000000000000000000000R3")==0 &&
             ans2 && strcmp(ans2,"176808161330369616070530362R5")==0;
   if (ans1)
@@ -218,6 +219,27 @@ bool test_q5_2()  {
   }
   else  {
     printf("Q5-2 ERROR\n");
+    return false;
+  }
+}
+
+bool test_q5_3()  {
+  char* num1 = "0";
+  int digit1 = 4;
+
+  char* ans1 = str_div_by_digit(num1, digit1);
+  printf("ans1: %s\n", ans1);
+
+  bool ok = ans1 && strcmp(ans1,"0R0")==0 ;
+  if (ans1)
+    free(ans1);
+
+  if (ok)  {
+    printf("Q5-3 ok\n");
+    return true;
+  }
+  else  {
+    printf("Q5-3 ERROR\n");
     return false;
   }
 }
@@ -239,10 +261,11 @@ int main()  {
 //
   test_q4_1();
   test_q4_2();
-  test_q4_3();
- 
-  //  test_q5_1();
-  //  test_q5_2();
-  
+//  test_q4_3();
+
+  test_q5_1();
+  test_q5_2();
+  test_q5_3();
   return 0;
 }
+

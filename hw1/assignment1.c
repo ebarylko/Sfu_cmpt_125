@@ -44,26 +44,23 @@ int max_occur(const void *arr, int curr_num, int pos, int length) {
 }
 
 int most_frequent(const int* arr, int n) {
-  qsort((void*)arr, n, sizeof(int), comp);
+  int* new_arr = (int*)malloc(n * sizeof(int));
+  int pos;
+  for (pos = 0; pos < n; pos ++) {
+    new_arr[pos] = arr[pos];
+  }
+  qsort((void*)new_arr, n, sizeof(int), comp);
   int i = 0, max = 0, cnt = 0, num;
   while (i < n) {
-    cnt = max_occur(arr, arr[i], i, n);
+    cnt = max_occur(new_arr, new_arr[i], i, n);
     if (cnt > max)  {
-      num = arr[i];
+      num = new_arr[i];
     }
     i += cnt;
   }
+  free(new_arr);
   return num;
 }
-
-  // there are X plataeus x1, x2...
-  // while (i < n)
-  // {
-  //   Pt pt = count_pt(arr, n, i);
-  //   max = max_fn(max, pt.length);
-  //   i += pt.length - 1;
-  // }
-
 
 
 bool is_odd_palindrome(const char* str) {
@@ -88,11 +85,17 @@ bool is_palindrome(const char* str, int start, int end) {
 
  int longest_odd_subpalindrome(const char* str) {
   int max = 0;
-  for (int i = 0; str[i] != NULL; i++) {
-    for(int pos = i; str[pos] != NULL; pos++) {
-      if ((pos - i) % 2 == 0) {
-        if (is_palindrome(str, i, pos) && (pos - i + 1) > max) {
-          max = (pos - i + 1) ;
+  //int length = strlen(str);
+  //  for (int i = 0; str[i] != NULL; i++) {
+  //    for(int pos = length - 1 - i; pos >= i; pos -= 1) {
+  //      if ((pos - i) % 2 == 0) {
+  //        if (is_palindrome(str, i, pos) && (pos - i + 1) > max) {
+  //          max = (pos - i + 1) ;
+    for (int i = 0; str[i] != '\0'; i++) {
+      for(int pos = i; str[pos] != '\0'; pos++) {
+        if ((pos - i) % 2 == 0) {
+          if (is_palindrome(str, i, pos) && (pos - i + 1) > max) {
+            max = (pos - i + 1) ;
         }
       }
     }
@@ -101,7 +104,35 @@ bool is_palindrome(const char* str, int start, int end) {
  } 
 
 
+/*
+Initialize mod = 0
+quo[i] = (mod * 10 + num[i]) / m
+mod = (mod * 10 + num[i]) % m
+Where i denotes the position of the i-th digit
+
+*/
+
 char* str_div_by_digit(const char* num, int digit) {
-  // implement me
-  return NULL;
+  int length = strlen(num);
+  int mod = 0, pos = 0;
+  int i;
+  char* result = (char*)malloc( (length + 3) * sizeof(char));
+
+  for (i = 0; i < length; i++) {
+    int dt = num[i] - '0';
+    mod = mod * 10 + dt;
+    result[pos] = mod / digit + '0';
+    if (pos || result[pos] != '0') {
+      pos++;
+    }
+    mod =  (mod % digit);
+  }
+  mod %= digit;
+  if (!pos) {
+    pos++; 
+  }
+  result[pos++] = 'R';
+  result[pos++] = mod + '0';
+  result[pos] = '\0';
+  return result;
 }  
