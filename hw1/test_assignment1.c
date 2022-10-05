@@ -104,6 +104,7 @@ bool test_q4_1()  {
     return true;
   }
   else  {
+
     printf("Q4-1 ERROR\n");
     return false;
   }
@@ -132,6 +133,7 @@ bool test_q4_2()  {
   str3[77] = 'k';
   str3[78] = '0';
 
+
   if (longest_odd_subpalindrome(str1)==7
       && longest_odd_subpalindrome(str2)==3
       && longest_odd_subpalindrome(str3)==9
@@ -147,7 +149,7 @@ bool test_q4_2()  {
 
 // test on a very long string of the form AAAABAAAAAAAAA
 // change the length STR_LEN_AAABAA, and see how it affect the running time
-#define STR_LEN_AAABAAAAA 10000
+#define STR_LEN_AAABAAAAA 100000
 bool test_q4_3()  {
   char aabaaaa[STR_LEN_AAABAAAAA];
   memset(aabaaaa,'A',STR_LEN_AAABAAAAA-1);
@@ -261,7 +263,7 @@ int main()  {
 //
   test_q4_1();
   test_q4_2();
-//  test_q4_3();
+  test_q4_3();
 
   test_q5_1();
   test_q5_2();

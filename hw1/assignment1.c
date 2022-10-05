@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// 3, -3: 3|| 3, -4: 4|| 2, -2: 3
-
 #include "assignment1.h"
-// use inline if test? true : false
+#include <stdbool.h>
+
 long count_even(long x, long y)
 {
   bool odd_x = x % 2 != 0, odd_y = y % 2 != 0;
@@ -17,22 +15,6 @@ int comp(const void* a, const void* b) {
   return ( *(int*)a - *(int*)b);
 }
 
-//  int ar[6] = {1,7,-3,7,4,7};
-// [-3, 1, 4, 7, 7, 7]
-
-// typedef struct Plateau {
-//   int nbr;
-//   int length;
-// } Pt;
-
-// Pt count_pt(const int* arr, int n, int i) {
-//   while (i < n && arr[i] == arr[j]) //   {
-//     i++;
-//   }
-
-//   Pt pt = {arr[j], i - j};
-//   return pt;
-// }
 
 int max_occur(const void *arr, int curr_num, int pos, int length) {
   int occured = 0;
@@ -85,32 +67,27 @@ bool is_palindrome(const char* str, int start, int end) {
 
  int longest_odd_subpalindrome(const char* str) {
   int max = 0;
-  //int length = strlen(str);
-  //  for (int i = 0; str[i] != NULL; i++) {
-  //    for(int pos = length - 1 - i; pos >= i; pos -= 1) {
-  //      if ((pos - i) % 2 == 0) {
-  //        if (is_palindrome(str, i, pos) && (pos - i + 1) > max) {
-  //          max = (pos - i + 1) ;
-    for (int i = 0; str[i] != '\0'; i++) {
-      for(int pos = i; str[pos] != '\0'; pos++) {
-        if ((pos - i) % 2 == 0) {
-          if (is_palindrome(str, i, pos) && (pos - i + 1) > max) {
-            max = (pos - i + 1) ;
-        }
-      }
+  int length = strlen(str);
+  int middle = length / 2;
+
+  for (int i = 0; str[i] != '\0'; i++)
+  {
+    int limit = i <= middle ? i : length - i - 1;
+    int match = 1;
+    int pos;
+    for (pos = 0; pos <= limit && str[i-pos] == str[i+pos]; pos++)
+    {
     }
-  }
+    if ((2 * pos -1) > max) {
+      max = 2 * pos - 1;
+    }
+
+    }
   return max;
- } 
+  }
 
 
-/*
-Initialize mod = 0
-quo[i] = (mod * 10 + num[i]) / m
-mod = (mod * 10 + num[i]) % m
-Where i denotes the position of the i-th digit
 
-*/
 
 char* str_div_by_digit(const char* num, int digit) {
   int length = strlen(num);
