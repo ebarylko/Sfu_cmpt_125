@@ -4,18 +4,31 @@
 #include "assignment1.h"
 #include <stdbool.h>
 
+/**
+ * @brief count even numbers between x and y, inclusive  
+ * @param x starting number 
+ * @param y ending number
+ * @return a long with the amount of even numbers between x and y, inclusive 
+ */
 long count_even(long x, long y)
 {
   bool odd_x = x % 2 != 0, odd_y = y % 2 != 0;
   long digits = x > y ? x - y : y - x ;
+  // The amount of even numbers between x and y is always half the difference
+  // plus one if one or both numbers are even.
   return digits / 2 + !(odd_x && odd_y);
 }
 
-int comp(const void* a, const void* b) {
-  return ( *(int*)a - *(int*)b);
-}
 
-
+/**
+ * @brief 
+ * 
+ * @param arr 
+ * @param curr_num 
+ * @param pos 
+ * @param length 
+ * @return int 
+ */
 int max_occur(const void *arr, int curr_num, int pos, int length) {
   int occured = 0;
   while (*((int *)arr + pos) == curr_num && pos < length) {
@@ -25,10 +38,22 @@ int max_occur(const void *arr, int curr_num, int pos, int length) {
   return occured;
 }
 
+/**
+ * @brief comparing function used for qsort
+ * @param a pointer to a number 
+ * @param b pointer to a number
+ * @return a positive int if *a is greater than *b, 
+ * 0 if *a = *b, a negative int otherwise
+ */
+int comp(const void* a, const void* b) {
+  return ( *(int*)a - *(int*)b);
+}
+
+
+
 int most_frequent(const int* arr, int n) {
   int* new_arr = (int*)malloc(n * sizeof(int));
-  int pos;
-  for (pos = 0; pos < n; pos ++) {
+  for (int pos = 0; pos < n; pos ++) {
     new_arr[pos] = arr[pos];
   }
   qsort((void*)new_arr, n, sizeof(int), comp);
@@ -65,7 +90,8 @@ bool is_palindrome(const char* str, int start, int end) {
   return i == start + mid;
 }
 
- int longest_odd_subpalindrome(const char* str) {
+int longest_odd_subpalindrome(const char *str)
+{
   int max = 0;
   int length = strlen(str);
   int middle = length / 2;
@@ -73,21 +99,17 @@ bool is_palindrome(const char* str, int start, int end) {
   for (int i = 0; str[i] != '\0'; i++)
   {
     int limit = i <= middle ? i : length - i - 1;
-    int match = 1;
     int pos;
-    for (pos = 0; pos <= limit && str[i-pos] == str[i+pos]; pos++)
+    for (pos = 1; pos <= limit && str[i - pos] == str[i + pos]; pos++)
+      ;
+
+    if ((2 * pos - 1) > max)
     {
-    }
-    if ((2 * pos -1) > max) {
       max = 2 * pos - 1;
     }
-
-    }
-  return max;
   }
-
-
-
+  return max;
+}
 
 char* str_div_by_digit(const char* num, int digit) {
   int length = strlen(num);
