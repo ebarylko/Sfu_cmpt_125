@@ -29,13 +29,13 @@ long count_even(long x, long y)
  * @param length 
  * @return int 
  */
-int max_occur(const void *arr, int curr_num, int pos, int length) {
-  int occured = 0;
-  while (*((int *)arr + pos) == curr_num && pos < length) {
-    occured += 1;
+int occurrences(const int *arr, int pos, int length) {
+  int curr_num = arr[pos];
+  int start_pos = pos;
+  while (arr[pos] == curr_num && pos < length) {
     pos++;
   }
-  return occured;
+  return pos - start_pos;
 }
 
 /**
@@ -50,7 +50,12 @@ int comp(const void* a, const void* b) {
 }
 
 
-
+/**
+ * @brief gets a array of integers, and returns the most frequent integer in the array
+ * @param arr an array of positive or negative integers
+ * @param n the quantity of numbers in the array
+ * @return int the most frequent occuring integer in the array
+ */
 int most_frequent(const int* arr, int n) {
   int* new_arr = (int*)malloc(n * sizeof(int));
   for (int pos = 0; pos < n; pos ++) {
@@ -59,7 +64,7 @@ int most_frequent(const int* arr, int n) {
   qsort((void*)new_arr, n, sizeof(int), comp);
   int i = 0, max = 0, cnt = 0, num;
   while (i < n) {
-    cnt = max_occur(new_arr, new_arr[i], i, n);
+    cnt = occurrences(new_arr, i, n);
     if (cnt > max)  {
       num = new_arr[i];
     }

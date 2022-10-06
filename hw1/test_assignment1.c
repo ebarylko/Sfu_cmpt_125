@@ -230,7 +230,6 @@ bool test_q5_3()  {
   int digit1 = 4;
 
   char* ans1 = str_div_by_digit(num1, digit1);
-  printf("ans1: %s\n", ans1);
 
   bool ok = ans1 && strcmp(ans1,"0R0")==0 ;
   if (ans1)
