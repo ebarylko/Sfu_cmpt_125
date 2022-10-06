@@ -21,13 +21,11 @@ long count_even(long x, long y)
 
 
 /**
- * @brief 
- * 
- * @param arr 
- * @param curr_num 
- * @param pos 
- * @param length 
- * @return int 
+ * @brief takes an array of integers, the current position, and the length of the array
+ * @param arr an array of positive or negative integers
+ * @param pos the current position to start from in the array
+ * @param length the size of the array
+ * @return int the number of times the integer occurs in the array
  */
 int occurrences(const int *arr, int pos, int length) {
   int curr_num = arr[pos];
@@ -74,27 +72,33 @@ int most_frequent(const int* arr, int n) {
   return num;
 }
 
-
+/**
+ * @brief takes a string, and returns true if it is an odd palindrome, false otherwise
+ * @param str the string to check
+ * @return true if the string is an odd palindrome
+ * @return false if the condition above is not satisfied
+ */
 bool is_odd_palindrome(const char* str) {
   int length = strlen(str);
   if (length % 2 == 0)
   {
     return false;
   }
+  //calculating the middle index of the string
   int chars = (length - 1) / 2, i;
+  //checking that the characters before the middle index match the characters after the middle index
   for (i = 0; i < chars && str[i] == str[length - 1 - i]; i++)
     ;
   return i == chars;
 }
 
 
-bool is_palindrome(const char* str, int start, int end) {
-  int i, j = 0, mid = (end - start) / 2;
-  for (i = start; i < start + mid && str[i] == str[end - j]; i++, j++)
-    ;
-  return i == start + mid;
-}
 
+/**
+ * @brief takes a string and returns the length of the largest odd palindrome within
+ * @param str the string to check
+ * @return int the length of the largest odd palindrome found
+ */
 int longest_odd_subpalindrome(const char *str)
 {
   int max = 0;
