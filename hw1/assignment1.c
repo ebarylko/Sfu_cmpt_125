@@ -120,22 +120,34 @@ int longest_odd_subpalindrome(const char *str)
   return max;
 }
 
+/**
+ * @brief takes a string representing a number and a integer and returns a string 
+ * with the quotient and remainder of the string's numerical value divided by the integer
+ * @param num a string which represents a number
+ * @param digit an integer
+ * @return char* a string with the quotient and remainder of the string's numeric
+ * value divided by the integer in the form "quotientRremainder"
+ */
 char* str_div_by_digit(const char* num, int digit) {
   int length = strlen(num);
   int mod = 0, pos = 0;
+  // create a string with space for the quotient,the remainder and the null character
+  char* result = (char*)malloc((length + 3) * sizeof(char));
   int i;
-  char* result = (char*)malloc( (length + 3) * sizeof(char));
-
   for (i = 0; i < length; i++) {
     int dt = num[i] - '0';
     mod = mod * 10 + dt;
     result[pos] = mod / digit + '0';
+    // making sure the quotient does not have leading zeros by not incrementing pos
+    // until a non-zero value is found
     if (pos || result[pos] != '0') {
       pos++;
     }
     mod =  (mod % digit);
   }
   mod %= digit;
+  // if there is a quotient of zero, pos is incremented so the 
+  //quotient is not overwritten
   if (!pos) {
     pos++; 
   }
