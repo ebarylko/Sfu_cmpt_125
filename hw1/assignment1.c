@@ -25,7 +25,7 @@ long count_even(long x, long y)
  * @param arr an array of positive or negative integers
  * @param pos the current position to start from in the array
  * @param length the size of the array
- * @return int the number of times the integer occurs in the array
+ * @return int the number of times the integer in pos appears in the array
  */
 int occurrences(const int *arr, int pos, int length) {
   int curr_num = arr[pos];
@@ -44,13 +44,13 @@ int occurrences(const int *arr, int pos, int length) {
  * 0 if *a = *b, a negative int otherwise
  */
 int comp(const void* a, const void* b) {
-  return ( *(int*)a - *(int*)b);
+  return (*(int*)a - *(int*)b);
 }
 
 
 /**
  * @brief gets a array of integers, and returns the most frequent integer in the array
- * @param arr an array of positive or negative integers
+ * @param arr an array of integers
  * @param n the quantity of numbers in the array
  * @return int the most frequent occuring integer in the array
  */
@@ -66,6 +66,8 @@ int most_frequent(const int* arr, int n) {
     if (cnt > max)  {
       num = new_arr[i];
     }
+    // adding the amount of occurences to i assures the loop starts
+    // on the next integer if i is less than n
     i += cnt;
   }
   free(new_arr);
@@ -86,7 +88,7 @@ bool is_odd_palindrome(const char* str) {
   }
   //calculating the middle index of the string
   int chars = (length - 1) / 2, i;
-  //checking that the characters before the middle index match the characters after the middle index
+  //checking that the characters before and after the middle index match
   for (i = 0; i < chars && str[i] == str[length - 1 - i]; i++)
     ;
   return i == chars;
@@ -107,8 +109,11 @@ int longest_odd_subpalindrome(const char *str)
 
   for (int i = 0; str[i] != '\0'; i++)
   {
+    // calculating how many characters to the left/right of i can be checked 
+    // without exiting the string
     int limit = i <= middle ? i : length - i - 1;
     int pos;
+    // seeing how far the palindrome extends
     for (pos = 1; pos <= limit && str[i - pos] == str[i + pos]; pos++)
       ;
 
@@ -131,9 +136,9 @@ int longest_odd_subpalindrome(const char *str)
 char* str_div_by_digit(const char* num, int digit) {
   int length = strlen(num);
   int mod = 0, pos = 0;
-  // create a string with space for the quotient,the remainder and the null character
   char* result = (char*)malloc((length + 3) * sizeof(char));
   int i;
+  // calculating the remainder and quotient by going through every digit
   for (i = 0; i < length; i++) {
     int dt = num[i] - '0';
     mod = mod * 10 + dt;
