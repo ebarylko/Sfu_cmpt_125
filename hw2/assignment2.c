@@ -18,33 +18,18 @@ int add_user_password(const char *file_name,
     return -1;
   fseek(file, 0, SEEK_SET);
   char* buffer = NULL;
-  char arr[strlen(username) + 2];
-  sprintf(arr, "%s\n\0", username);
   size_t size;
   ssize_t read;
-  printf("\n--\nsearching for: %s\n", username);
   while ((read = getline(&buffer, &size, file)) > 0)
   {
     buffer[read - 1] = 0;
-    int eq;
-    int i = 0;
-    while (buffer[i] != '\0')
-    {
-      printf("\nASCII Value of %d = %d i:%d size:%d", username[i], buffer[i], i, size);
-      i++;
-    }
-    printf("pos_user: %s-%ld-arr: %s\n", buffer, read, arr);
-
-    if ((eq = strcmp(username, buffer)) == 0)
+    if (strcmp(username, buffer) == 0)
     {
       fclose(file);
       return 0;
     }
-    printf("Value of eq is: %d\n", eq);
     getdelim(&buffer, &size, 0, file);
   }
-  printf("Value of read is: %ld", read);
-  printf("Hello, How was your day\n");
   fprintf(file, "%s\n%s", username, password);
   fputc(0, file);
   fclose(file);
