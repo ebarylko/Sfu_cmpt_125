@@ -5,9 +5,6 @@
 
 #include "assignment2.h"
 
-// invarient of a dictionary: no duplicate keys, O(1) lookup time
-// hash Formula: sum from 0-> n-1 of (s[i] * p^i) % m, p is prime number larger than input variety, m is large
-// number to reduce chances of collision
 
 
 
@@ -21,18 +18,29 @@ int add_user_password(const char *file_name,
     return -1;
   fseek(file, 0, SEEK_SET);
   char* buffer = NULL;
+  char arr[strlen(username) + 2];
+  sprintf(arr, "%s\n\0", username);
   size_t size;
   ssize_t read;
   printf("\n--\nsearching for: %s\n", username);
   while ((read = getline(&buffer, &size, file)) > 0)
   {
-    buffer[size - 1] = '\0';
-    printf("pos_user: %s %ld \n", buffer, read);
-    if (!strcmp(username, buffer))
+    buffer[read - 1] = 0;
+    int eq;
+    int i = 0;
+    while (buffer[i] != '\0')
+    {
+      printf("\nASCII Value of %d = %d i:%d size:%d", username[i], buffer[i], i, size);
+      i++;
+    }
+    printf("pos_user: %s-%ld-arr: %s\n", buffer, read, arr);
+
+    if ((eq = strcmp(username, buffer)) == 0)
     {
       fclose(file);
       return 0;
     }
+    printf("Value of eq is: %d\n", eq);
     getdelim(&buffer, &size, 0, file);
   }
   printf("Value of read is: %ld", read);
