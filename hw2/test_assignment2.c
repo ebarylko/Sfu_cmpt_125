@@ -15,7 +15,6 @@ bool test_q1_1()  {
   int ans1 = add_user_password(filename, user1, pass1); // new user: return 1
   int ans2 = add_user_password(filename, user2, pass2); // new user: return 1
   int ans3 = add_user_password(filename, user2, "wrong guess"); // existing user: return 0
-  printf("ans1: %d, ans2: %d, ans3: %d\n", ans1, ans2, ans3);
   if (ans1==1 && ans2==1 && ans3==0)  {
     printf("Q1-1 ok\n");
     return true;
@@ -117,7 +116,7 @@ bool test_q2_3()  {
   int ans2 = fib3_p(5000000,17);
   int ans3 = fib3_p(1000001,29);
   if (ans1==2 && ans2==14 && ans3==16)  {
-    printf("Q2-3k\n");
+    printf("Q2-3 OK\n");
     return true;
   }
   else  {
@@ -235,8 +234,8 @@ int main()  {
  
   // don't forget to delete the files between tests
   test_q1_1();
-  // test_q1_2();
-  // test_q1_3();
+  test_q1_2();
+  test_q1_3();
   
   test_q2_1();
   test_q2_2();

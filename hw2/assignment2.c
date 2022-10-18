@@ -26,6 +26,7 @@ int add_user_password(const char *file_name,
     if (strcmp(username, buffer) == 0)
     {
       fclose(file);
+      free(buffer);
       return 0;
     }
     getdelim(&buffer, &size, 0, file);
@@ -33,31 +34,36 @@ int add_user_password(const char *file_name,
   fprintf(file, "%s\n%s", username, password);
   fputc(0, file);
   fclose(file);
+  free(buffer);
   return 1;
 }
 
 int check_user_password(const char* file_name,
                     const char* username, const char* password) {
-                    //   FILE *file;
-                    //   file = fopen(file_name, "r");
-                    //   int length_pass = strlen(password);
-                    //   int length_user = strlen(username);
-
-                    //   char pos_user[length_user + 1];
-                    //   char pos_password[length_pass + 1];
-                    //   if (file) {
-                    //   while (fgets(pos_user, length_user + 2, file)) {
-                    //     if (!strcmp(username, pos_user)) {
-                    //      fseek(file, length_user + 1, 0);
-                    //      getdelim(pos_password, length_pass + 1, 0, file);
-                    //      int val = strcmp(password, pos_password)? -3 : 1;
-                    //      fclose(file);
-                    //      return val;
-                    //     }
-                    //   return -2;
-                    //   }
-                    //   }
-                      return -1;
+                      FILE *file;
+                      file = fopen(file_name, "r");
+                      if (!file) {
+                        return -1;
+                      }
+  char* buffer = NULL;
+  size_t size;
+  ssize_t read;
+  while ((read = getline(&buffer, &size, file)) > 0)
+  {
+    buffer[read - 1] = 0;
+    if (strcmp(username, buffer) == 0)
+    {
+    getdelim(&buffer, &size, 0, file);
+    fclose(file);
+    int match = strcmp(buffer, password) == 0 ? 1 : -3;
+    free(buffer);
+    return match;
+    }
+    getdelim(&buffer, &size, 0, file);
+  }
+  fclose(file);
+  free(buffer);
+  return -2;
 }
 
 /**
