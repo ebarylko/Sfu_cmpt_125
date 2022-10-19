@@ -87,8 +87,47 @@ int fib3_p(unsigned int n, unsigned int p) {
 
 
 char* evolve(const char* state) {
-  // implement me
-  return NULL;
+int length = strlen(state);
+char* new_state = (char*)malloc((length + 1) * sizeof(char));
+memset(new_state, '-', length);
+new_state[length] = 0;
+int* indices = (int*)malloc(length * sizeof(int));
+int pebbles = 0;
+int j = 0;
+for (int i = 0; i < length; i++) {
+  if (state[i] == '@') {
+    pebbles++;
+    indices[j] = i;
+    j++;
+  }
+}
+
+if (pebbles > 1) {
+  int * new_pos = (int*)malloc(pebbles * sizeof(int));
+  new_pos[0] = indices[0] + 1;
+  new_pos[1] = indices[pebbles -1] -1;
+  j= 2;
+  for (int i = 1; i < pebbles - 1; i++) {
+    int left = indices[i] - indices[i - 1];
+    int right = indices[i + 1] - indices[i];
+    if (left - right)  {
+      new_pos[j] = left > right? indices[i] + 1 : indices[i] - 1;
+      j++;
+    }
+  }
+  for (int pos = 0; pos < j; pos++) {
+    if (new_state[new_pos[pos]] ==  '@') {
+      new_state[new_pos[pos]] = '-';
+    } else {
+    new_state[new_pos[pos]] =  '@';
+    }
+}
+  free(new_pos);
+  } else if (pebbles) {
+    new_state[indices[0]] = '@';
+  }
+free(indices);
+return new_state;
 }  
 
 

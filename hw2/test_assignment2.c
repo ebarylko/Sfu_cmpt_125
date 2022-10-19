@@ -157,7 +157,6 @@ bool test_q3a_2()  {
 
   char* next1 = evolve(state1);
   char* next2 = evolve(state2);
-  
 
   bool ok = next1 && strcmp(next1,"----@-----@--")==0 &&
             next2 && strcmp(next2,"--@---@-----@---@--")==0;
@@ -176,6 +175,44 @@ bool test_q3a_2()  {
   }
 }
 
+bool test_q3a_3()  {
+  char* state1 = "-----@-@-----";
+  char* state2 = "---@-@---@-@--@--@-";
+  char* state3 = "@@@@@@@";
+  char* state4 = "---@---";
+
+
+  char* next1 = evolve(state1);
+  char* next2 = evolve(state2);
+  char* next3 = evolve(state3);
+  char* next = evolve(state4);
+
+  bool ok = next1 && strcmp(next1,"-------------")==0 &&
+            next2 && strcmp(next2,"----------------@--")==0
+            && next3 && strcmp(next3, "-@---@-") == 0 &&
+            next && strcmp(next, "---@---") == 0;
+            
+
+  if (next1)
+    free(next1);
+  if (next2)
+    free(next2);
+  if (next3)
+    free(next3);
+  if (next)
+    free(next);
+
+
+  if (ok)  {
+    printf("Q3a-3 ok\n");
+    return true;
+  }
+  else  {
+    printf("Q3a-3 ERROR\n");
+    return false;
+  }
+}
+
 
 bool test_q3b_1()  {
   char* state1 = "---";
@@ -183,7 +220,7 @@ bool test_q3b_1()  {
 
   char* last1 = last_state(state1);
   char* last2 = last_state(state2);
-  
+
   bool ok = last1 && strcmp(last1,"---")==0 &&
             last2 && strcmp(last2,"--@@----@@-")==0;
   if (last1)
@@ -205,9 +242,12 @@ bool test_q3b_1()  {
 bool test_q3b_2()  {
   char* state1 = "--@---@-@----";
   char* state2 = "--@--@------@-@-@-@----@--@-----------------@---@-@----@-";
+  // char* state3 = "@@@@@@@";
+
 
   char* last1 = last_state(state1);
   char* last2 = last_state(state2);
+  // char* last3 = last_state(state2);
   
   bool ok = last1 && strcmp(last1,"---@---------")==0 &&
             last2 && strcmp(last2,"---@@-------------------@@-----------------------@@------")==0;
@@ -233,16 +273,17 @@ bool test_q3b_2()  {
 int main()  {
  
   // don't forget to delete the files between tests
-  test_q1_1();
-  test_q1_2();
-  test_q1_3();
+  // test_q1_1();
+  // test_q1_2();
+  // test_q1_3();
   
-  test_q2_1();
-  test_q2_2();
-  test_q2_3();
+  // test_q2_1();
+  // test_q2_2();
+  // test_q2_3();
   
-  // test_q3a_1();
-  // test_q3a_2();
+  test_q3a_1();
+  test_q3a_2();
+  test_q3a_3();
   
   // test_q3b_1();
   // test_q3b_2();
