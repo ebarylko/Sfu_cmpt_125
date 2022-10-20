@@ -35,8 +35,8 @@ bool test_q1_2()  {
 
   int ans1 = add_user_password(filename1, user1, pass1); // return 1
   int ans2 = check_user_password(filename1, user1, pass1); // return 1
-
   int ans3 = check_user_password(no_filename, "user", "pass"); // no file: return -1
+
   if (ans1==1 && ans2==1 && ans3==-1)  {
     printf("Q1-2 ok\n");
     return true;
@@ -271,13 +271,13 @@ bool test_q3b_2()  {
 int main()  {
  
   // don't forget to delete the files between tests
-  // test_q1_1();
-  // test_q1_2();
-  // test_q1_3();
+  test_q1_1();
+  test_q1_2();
+  test_q1_3();
   
-  // test_q2_1();
-  // test_q2_2();
-  // test_q2_3();
+  test_q2_1();
+  test_q2_2();
+  test_q2_3();
   
   test_q3a_1();
   test_q3a_2();

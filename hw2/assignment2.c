@@ -8,63 +8,133 @@
 
 
 
-//use get_delim
-int add_user_password(const char *file_name,
-                      const char *username, const char *password)
-{
+/**
+ * @brief Takes
+ * 
+ * @param file_name 
+ * @param username 
+ * @param password 
+ * @return int 
+ */
+// check password + user is repeated, while es lo mismo, la uniqua cosa que cambia
+// son los valores que devuelvo
+//make general function called add_or_check_user, takes filename, username, and password
+
+int add_or_check_user(const char *file_name,
+                      const char *username, const char *password, int edit) {
+
   FILE *file;
+  if (edit) {
   file = fopen(file_name, "a+");
+  } else {
+  file = fopen(file_name, "r");
+  }
   if (!file)
     return -1;
   fseek(file, 0, SEEK_SET);
   char* buffer = NULL;
   size_t size;
   ssize_t read;
-  while ((read = getline(&buffer, &size, file)) > 0)
-  {
+  while ((read = getline(&buffer, &size, file)) > 0) {
     buffer[read - 1] = 0;
-    if (strcmp(username, buffer) == 0)
-    {
+    if (strcmp(username, buffer) == 0) {
+      if (edit) {
       fclose(file);
       free(buffer);
       return 0;
+      } else {
+      getdelim(&buffer, &size, 0, file);
+      fclose(file);
+      int match = strcmp(buffer, password) == 0 ? 1 : -3;
+      free(buffer);
+      return match;
+      }
     }
     getdelim(&buffer, &size, 0, file);
   }
-  fprintf(file, "%s\n%s", username, password);
-  fputc(0, file);
+  if (edit) {
+    fprintf(file, "%s\n%s", username, password);
+    fputc(0, file);
+    fclose(file);
+    free(buffer);
+    return 1;
+  } else {
   fclose(file);
   free(buffer);
-  return 1;
+  return -2;
+  } 
+  }
+
+int add_user_password(const char *file_name,
+                      const char *username, const char *password) {
+  int val = add_or_check_user(file_name, username, password, 1);
+  return val;
 }
 
 int check_user_password(const char* file_name,
                     const char* username, const char* password) {
-                      FILE *file;
-                      file = fopen(file_name, "r");
-                      if (!file) {
-                        return -1;
-                      }
-  char* buffer = NULL;
-  size_t size;
-  ssize_t read;
-  while ((read = getline(&buffer, &size, file)) > 0)
-  {
-    buffer[read - 1] = 0;
-    if (strcmp(username, buffer) == 0)
-    {
-    getdelim(&buffer, &size, 0, file);
-    fclose(file);
-    int match = strcmp(buffer, password) == 0 ? 1 : -3;
-    free(buffer);
-    return match;
-    }
-    getdelim(&buffer, &size, 0, file);
-  }
-  fclose(file);
-  free(buffer);
-  return -2;
+  int val = add_or_check_user(file_name, username, password, 0);
+  return val;
 }
+
+
+
+// int add_user_password(const char *file_name,
+//                       const char *username, const char *password)
+// {
+//   FILE *file;
+//   file = fopen(file_name, "a+");
+//   if (!file)
+//     return -1;
+//   fseek(file, 0, SEEK_SET);
+//   char* buffer = NULL;
+//   size_t size;
+//   ssize_t read;
+//   while ((read = getline(&buffer, &size, file)) > 0)
+//   {
+//     buffer[read - 1] = 0;
+//     if (strcmp(username, buffer) == 0) {
+//       fclose(file);
+//       free(buffer);
+//       return 0;
+//     }
+//     getdelim(&buffer, &size, 0, file);
+//   }
+//   fprintf(file, "%s\n%s", username, password);
+//   fputc(0, file);
+//   fclose(file);
+//   free(buffer);
+//   return 1;
+// }
+
+// int check_user_password(const char* file_name,
+//                     const char* username, const char* password) {
+//   FILE *file;
+//   file = fopen(file_name, "r");
+//   if (!file)
+//   {
+//     return -1;
+//   }
+//   char *buffer = NULL;
+//   size_t size;
+//   ssize_t read;
+//   while ((read = getline(&buffer, &size, file)) > 0)
+//   {
+//     buffer[read - 1] = 0;
+//     if (strcmp(username, buffer) == 0)
+//     {
+//       getdelim(&buffer, &size, 0, file);
+//       fclose(file);
+//       int match = strcmp(buffer, password) == 0 ? 1 : -3;
+//       free(buffer);
+//       return match;
+//     }
+//     getdelim(&buffer, &size, 0, file);
+//   }
+//   fclose(file);
+//   free(buffer);
+//   return -2;
+// }
 
 /**
  * @brief takes two unsigned ints A and B,  A indicating the position of the fibonacci sequence the user 
@@ -82,7 +152,9 @@ int fib3_p(unsigned int n, unsigned int p) {
  for (int i = 3; i <= n; i++) {
    fib_seq[i] = (fib_seq[i - 1] + fib_seq[i - 2] + fib_seq[i - 3]) % p;
  }
- return fib_seq[n];
+ int final_val = fib_seq[n];
+ free(fib_seq);
+ return final_val;
 }
 
 
@@ -96,9 +168,8 @@ int pebbles = 0;
 int j = 0;
 for (int i = 0; i < length; i++) {
   if (state[i] == '@') {
+    indices[pebbles] = i;
     pebbles++;
-    indices[j] = i;
-    j++;
   }
 }
 
@@ -130,8 +201,6 @@ free(indices);
 return new_state;
 }  
 
-// make recursive calls to evolve
-// if the results of one call is equal to the argument passed to the call, return the result
 char* last_state(const char* state) {
   
   char* previous = strdup(state);
