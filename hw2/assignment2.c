@@ -130,9 +130,18 @@ free(indices);
 return new_state;
 }  
 
-
+// make recursive calls to evolve
+// if the results of one call is equal to the argument passed to the call, return the result
 char* last_state(const char* state) {
-  // implement me
-  return NULL;
+  
+  char* previous = strdup(state);
+  char* new_state = evolve(state);
+  while (strcmp(previous, new_state) != 0) {
+    free(previous);
+    previous = new_state;
+    new_state = evolve(new_state);
+  }
+  free(new_state);
+  return previous;
 }  
   

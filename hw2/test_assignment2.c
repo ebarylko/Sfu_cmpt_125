@@ -242,12 +242,10 @@ bool test_q3b_1()  {
 bool test_q3b_2()  {
   char* state1 = "--@---@-@----";
   char* state2 = "--@--@------@-@-@-@----@--@-----------------@---@-@----@-";
-  // char* state3 = "@@@@@@@";
 
 
   char* last1 = last_state(state1);
   char* last2 = last_state(state2);
-  // char* last3 = last_state(state2);
   
   bool ok = last1 && strcmp(last1,"---@---------")==0 &&
             last2 && strcmp(last2,"---@@-------------------@@-----------------------@@------")==0;
@@ -285,8 +283,8 @@ int main()  {
   test_q3a_2();
   test_q3a_3();
   
-  // test_q3b_1();
-  // test_q3b_2();
+  test_q3b_1();
+  test_q3b_2();
   
   return 0;
 }
