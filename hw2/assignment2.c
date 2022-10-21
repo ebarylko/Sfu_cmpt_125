@@ -7,135 +7,84 @@
 #include "assignment2.h"
 
 
-
+typedef struct password_info{
+  char* password;
+  int file_exists;
+} password_info;
 
 /**
- * @brief Takes
+ * @brief Takes a file name, a username, a password, and an integer 
+ * representing whether the file is supposed to be edited or read. 
+ * if file is to be edited, if the the username is not in the file 
+ * or the file does not exist, 1 is returned and username is added to the 
+ * returns 1 and username is added to file if not there. if
+ * 
  * 
  * @param file_name 
  * @param username 
  * @param password 
  * @return int 
  */
-// check password + user is repeated, while es lo mismo, la uniqua cosa que cambia
-// son los valores que devuelvo
-//make general function called add_or_check_user, takes filename, username, and password
-
-int add_or_check_user(const char *file_name,
-                      const char *username, const char *password, int edit) {
-
-  FILE *file;
-  if (edit) {
-  file = fopen(file_name, "a+");
-  } else {
-  file = fopen(file_name, "r");
+password_info find_user(const char *file_name, const char *username, const char *password)
+{
+  FILE *file = fopen(file_name, "r");
+  password_info info;
+  info.password = NULL;
+  if (!file) {
+    info.file_exists = 0;
+    return info;
   }
-  if (!file)
-    return -1;
-  fseek(file, 0, SEEK_SET);
-  char* buffer = NULL;
+  info.file_exists = 1;
+  char *buffer = NULL;
   size_t size;
   ssize_t read;
-  while ((read = getline(&buffer, &size, file)) > 0) {
+  while ((read = getline(&buffer, &size, file)) > 0)
+  {
     buffer[read - 1] = 0;
-    if (strcmp(username, buffer) == 0) {
-      if (edit) {
-      fclose(file);
-      free(buffer);
-      return 0;
-      } else {
-      getdelim(&buffer, &size, 0, file);
-      fclose(file);
-      int match = strcmp(buffer, password) == 0 ? 1 : -3;
-      free(buffer);
-      return match;
-      }
+    if (strcmp(username, buffer) == 0)
+    {
+        getdelim(&buffer, &size, 0, file);
+        fclose(file);
+        info.password = buffer;
+        return info;
     }
-    getdelim(&buffer, &size, 0, file);
   }
-  if (edit) {
+  fclose(file);
+  free(buffer);
+  return info;
+}
+
+int add_user_password(const char *file_name, const char *username, const char *password)
+{
+  password_info found = find_user(file_name, username, password);
+  int result = 0;
+  if (!found.password)
+  {
+    FILE *file = fopen(file_name, "a");
     fprintf(file, "%s\n%s", username, password);
     fputc(0, file);
     fclose(file);
-    free(buffer);
-    return 1;
-  } else {
-  fclose(file);
-  free(buffer);
-  return -2;
-  } 
+    result = 1;
   }
-
-int add_user_password(const char *file_name,
-                      const char *username, const char *password) {
-  int val = add_or_check_user(file_name, username, password, 1);
-  return val;
+  free(found.password);
+  return result;
 }
 
-int check_user_password(const char* file_name,
-                    const char* username, const char* password) {
-  int val = add_or_check_user(file_name, username, password, 0);
-  return val;
+int check_user_password(const char *file_name, const char *username, const char *password)
+{
+  password_info found = find_user(file_name, username, password);
+  if (!found.file_exists)
+  {
+    return -1;
+  }
+  if (!found.password)
+  {
+    return -2;
+  }
+  int match = strcmp(found.password, password) == 0 ? 1 : -3;
+  free(found.password);
+  return match;
 }
-
-
-
-// int add_user_password(const char *file_name,
-//                       const char *username, const char *password)
-// {
-//   FILE *file;
-//   file = fopen(file_name, "a+");
-//   if (!file)
-//     return -1;
-//   fseek(file, 0, SEEK_SET);
-//   char* buffer = NULL;
-//   size_t size;
-//   ssize_t read;
-//   while ((read = getline(&buffer, &size, file)) > 0)
-//   {
-//     buffer[read - 1] = 0;
-//     if (strcmp(username, buffer) == 0) {
-//       fclose(file);
-//       free(buffer);
-//       return 0;
-//     }
-//     getdelim(&buffer, &size, 0, file);
-//   }
-//   fprintf(file, "%s\n%s", username, password);
-//   fputc(0, file);
-//   fclose(file);
-//   free(buffer);
-//   return 1;
-// }
-
-// int check_user_password(const char* file_name,
-//                     const char* username, const char* password) {
-//   FILE *file;
-//   file = fopen(file_name, "r");
-//   if (!file)
-//   {
-//     return -1;
-//   }
-//   char *buffer = NULL;
-//   size_t size;
-//   ssize_t read;
-//   while ((read = getline(&buffer, &size, file)) > 0)
-//   {
-//     buffer[read - 1] = 0;
-//     if (strcmp(username, buffer) == 0)
-//     {
-//       getdelim(&buffer, &size, 0, file);
-//       fclose(file);
-//       int match = strcmp(buffer, password) == 0 ? 1 : -3;
-//       free(buffer);
-//       return match;
-//     }
-//     getdelim(&buffer, &size, 0, file);
-//   }
-//   fclose(file);
-//   free(buffer);
-//   return -2;
-// }
 
 /**
  * @brief takes two unsigned ints A and B,  A indicating the position of the fibonacci sequence the user 
