@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#define  _GNU_SOURCE
 
 #include "assignment2.h"
 
@@ -157,7 +158,14 @@ int fib3_p(unsigned int n, unsigned int p) {
  return final_val;
 }
 
-
+/**
+ * @brief takes a string representing the initial state of a group of pebbles in a 
+ * line, and returns the next state after applying the rules to each pebble in the 
+ * form of a string
+ * @param state the initial state of the group of pebbles
+ * @return char* the next state after applying the rules to every pebble in the initial
+ * state
+ */
 char* evolve(const char* state) {
 int length = strlen(state);
 char* new_state = (char*)malloc((length + 1) * sizeof(char));
@@ -165,28 +173,35 @@ memset(new_state, '-', length);
 new_state[length] = 0;
 int* indices = (int*)malloc(length * sizeof(int));
 int pebbles = 0;
-int j = 0;
+//count all the pebbles in state and store their indices
 for (int i = 0; i < length; i++) {
   if (state[i] == '@') {
     indices[pebbles] = i;
     pebbles++;
   }
 }
-
+//
 if (pebbles > 1) {
+  // stores new positions of pebbles after applying rules
   int * new_pos = (int*)malloc(pebbles * sizeof(int));
+  // left-most neighbor can only move right, and right-most neighbor can only 
+  // move left
   new_pos[0] = indices[0] + 1;
   new_pos[1] = indices[pebbles -1] -1;
-  j= 2;
+  int j = 2;
+  // stores new positions of pebbles
   for (int i = 1; i < pebbles - 1; i++) {
     int left = indices[i] - indices[i - 1];
     int right = indices[i + 1] - indices[i];
+    // if pebble is not the same distance from both neighbors
     if (left - right)  {
       new_pos[j] = left > right? indices[i] + 1 : indices[i] - 1;
       j++;
     }
   }
+  // generating the next state of the game
   for (int pos = 0; pos < j; pos++) {
+    // checking if another pebble is in the same location
     if (new_state[new_pos[pos]] ==  '@') {
       new_state[new_pos[pos]] = '-';
     } else {
@@ -194,6 +209,7 @@ if (pebbles > 1) {
     }
 }
   free(new_pos);
+  // sets position of sole pebble
   } else if (pebbles) {
     new_state[indices[0]] = '@';
   }
@@ -201,10 +217,17 @@ free(indices);
 return new_state;
 }  
 
+/**
+ * @brief takes a string representing the initial state of a group of pebbles in 
+ * a line, and returns the final state according to the rules
+ * @param state a string representing a group of pebbles
+ * @return char* the final state of the group of pebbles according to the rules
+ */
 char* last_state(const char* state) {
   
   char* previous = strdup(state);
   char* new_state = evolve(state);
+  // while the final state has not been reached
   while (strcmp(previous, new_state) != 0) {
     free(previous);
     previous = new_state;
