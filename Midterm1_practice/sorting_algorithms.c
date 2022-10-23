@@ -156,11 +156,6 @@ void swap(int arr[], int start, int end) {
  */
 
 void sort_rec(int arr[], int start, int end) {
-    printf("--Start: %d , end: %d\n", start, end);
-    for (int i = start; i <= end; i++) {
-        printf("%d, ", arr[i]);
-    }
-    printf("\n");
 
     if (start == end)
         return;
@@ -172,14 +167,12 @@ void sort_rec(int arr[], int start, int end) {
         left++;
     while (right >= start && arr[right] >= pivot)
         right--;
-    printf("Left: %d, Right: %d\n", left, right);
     if (left <= end && right >= start) {
+        swap(arr, right, start);
         if (left > right) {
-            swap(arr, right, start);
             new_pivot = right;
         } else {
         swap(arr, left, right); 
-        swap(arr, left, start);
         }
     } else if (right >= start) {
         swap(arr, start, right);
@@ -212,9 +205,9 @@ void print_array(int arr[], int length) {
 int main() {
     int arr1[] = {9, 4, 3, 9, 9, 9, -1, -10, 2, 1};
     int arr[] = {4, 2, 1, -2, 5};
-    // quicksort(arr1, 10);
+    quicksort(arr1, 10);
     quicksort(arr, 5);
-    // print_array(arr1, 10);
+    print_array(arr1, 10);
     print_array(arr, 5);
 
 
