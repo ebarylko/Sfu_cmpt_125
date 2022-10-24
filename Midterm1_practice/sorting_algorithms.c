@@ -100,45 +100,6 @@ void reverse_string_recur(char* str) {
 }
 
 
-typedef struct {
-char* courseID; // courseID, e.g. “CMPT125”
-int grade; // numerical grade
-} course_grade;
-
-
-typedef struct {
-unsigned int ID;
-char* name;
-course_grade* grades; // array of grades
-unsigned int grades_len; // length of the array grades
-} student;    
-
-/// Write a function that gets a name and an id of a student and returns a pointer to a
-//new student with the given name and ID. The grades of the new student will be initialized to
-//NULL, and grades_len set to 0.
-
-student* create_student(int id, char* name) {
-    student* new_student = (student*)malloc(sizeof(student));
-    new_student->ID = id;
-    new_student->name = name;
-    new_student->grades = NULL;
-    new_student->grades_len = 0;
-    return new_student;
-}
-
-// . Write a function that gets a pointer to a student and a course ID, and returns the
-//grade of the student for this course. If the array of grades is NULL or the course is not in the
-//array of grades, the function returns -1.
-
-int find_grade(student* s, char* courseID) {
-    course_grade* exists = s->grades;
-    int grade = -1;
-    if (exists) {
-        int class = s->grades->courseID == courseID;
-        grade = class? s->grades->grade: -1;
-    }
-    return grade;
-}
 
 void swap(int arr[], int start, int end) {
     int temp = arr[start];
@@ -202,15 +163,53 @@ void print_array(int arr[], int length) {
 }
 
 
+typedef struct {
+char* courseID; // courseID, e.g. “CMPT125”
+int grade; // numerical grade
+} course_grade;
+
+
+typedef struct {
+unsigned int ID;
+char* name;
+course_grade* grades; // array of grades
+unsigned int grades_len; // length of the array grades
+} student;    
+
+/// Write a function that gets a name and an id of a student and returns a pointer to a
+//new student with the given name and ID. The grades of the new student will be initialized to
+//NULL, and grades_len set to 0.
+
+student* create_student(int id, char* name) {
+    student* new_student = (student*)malloc(sizeof(student));
+    new_student->ID = id;
+    new_student->name = name;
+    new_student->grades_len = 0;
+    return new_student;
+}
+
+// . Write a function that gets a pointer to a student and a course ID, and returns the
+//grade of the student for this course. If the array of grades is NULL or the course is not in the
+//array of grades, the function returns -1.
+
+int find_grade(student* s, char* courseID) {
+    int exists = s->grades_len;
+    int student_grade = -1;
+    for (int i = 0; i < exists; i++) {
+        if (strcmp(s->grades[i].courseID, courseID) == 0)
+            student_grade = s->grades[i].grade;
+    }
+    return student_grade;
+}
+
+
 int main() {
-    int arr1[] = {9, 4, 3, 9, 9, 9, -1, -10, 2, 1};
-    int arr[] = {4, 2, 1, -2, 5};
-    quicksort(arr1, 10);
-    quicksort(arr, 5);
-    print_array(arr1, 10);
-    print_array(arr, 5);
-
-
+    // int arr1[] = {9, 4, 3, 9, 9, 9, -1, -10, 2, 1};
+    // int arr[] = {4, 2, 1, -2, 5};
+    // quicksort(arr1, 10);
+    // quicksort(arr, 5);
+    // print_array(arr1, 10);
+    // print_array(arr, 5);
     // // selection_sort(arr, 7);
     // insertion_sort(arr, 5);
     // for (int i = 0; i < 5; i++) {
@@ -223,13 +222,16 @@ int main() {
     // reverse_string_recur(str_ex1);
     // reverse_string_recur(str_ex2);
     // printf("reversed strings: \n str1: %s\n str2: %s\n str3: %s\n", str_ex, str_ex1, str_ex2);
-    // student* james = create_student(12, "James");
-    // course_grade info;
-    // info.courseID = "CMPT125";
-    // info.grade = 88;
-    // james->grades = &info; 
-    // int grade = find_grade(james, "CMPT125");
-    // printf("Grade is %d\n", grade);
+    student* james = create_student(12, "James");
+    course_grade grades[2];
+    grades[0].courseID = "ARCH130";
+    grades[0].grade = 23;
+    grades[1].courseID = "CMPT125";
+    grades[1].grade = 88;
+    james->grades_len = 2;
+    james->grades = grades; 
+    int grade = find_grade(james, "ARCH130");
+    printf("Grade is %d\n", grade);
     // printf("ID: %d, name: %s, grades_len: %d", james->ID, james->name, james->grades_len);
     return 0;
 }
