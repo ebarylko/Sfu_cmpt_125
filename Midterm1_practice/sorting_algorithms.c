@@ -402,23 +402,22 @@ void cut_space(char* str, int pos, int spaces) {
         spaces++;
         pos++;
     }
-    while (str[pos] != 0 || str[pos] != 32) {
+    while (str[pos] && str[pos] != 32) {
         str[pos - spaces] = str[pos];
         pos++;
     }
     if (str[pos] == 0) {
         str[pos - spaces] = str[pos];
         return;
-    } else {
-        cut_space(str, pos, spaces);
-    }
+    } 
+    cut_space(str, pos, spaces);
 }
 
 
 
 // write a function that removes spaces from a string
 // check if there is a white space or null char. if null char, stop.
-// "a b x", "abc", 
+// "a b x", "abc c", "a bcd ert" "abcdert"
 // else, implement until the end of string
 void rem_space(char* str) {
     int pos = 0;
@@ -439,15 +438,10 @@ void mod_string_test() {
     char test1[] = "  hello";
     char test2[] = "";
     char test3[] = "a b x";
-    // rem_space(test1);
+    rem_space(test1);
     rem_space(test2);
-    // rem_space(test3);
-    // printf("%s\n%s\n%s\n%s\n", test, test1, test2, test3);
-    // printf("%c---", test[5]);
-    printf("%s---", test2);
-
-    // printf("%d", len);
-    // printf("%c\n%c\n%c\n%c\n", test[0], test1[0], test2[0], test3[0]);
+    rem_space(test3);
+    printf("%s\n%s\n%s\n%s\n", test, test1, test2, test3);
 
 }
 
