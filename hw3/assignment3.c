@@ -79,7 +79,7 @@ int* insertion_sort(int* array, int n) {
 }
 
 /**
- * @brief takes an arraay of integers, the length of the array, and a boolean predicate
+ * @brief takes an array of integers, the length of the array, and a boolean predicate
  * if the predicate returns true for an element in the array, returns the index
  * of the first element which the predicate returns true. else, returns -1.
  * 
@@ -89,23 +89,60 @@ int* insertion_sort(int* array, int n) {
  * @return int 
  */
 int find(int* A, int n, bool (*pred)(int)) {
-
+  for (int pos = 0; pos < n; pos++) {
+    if ( pred(A[pos]) ){
+      return pos;
+    }
+  }
   return -1;
 }
 
-
+/**
+ * @brief takes an array, the length of the array, and a predicate.
+ * returns the amount of items for which the predicate returns true
+ * 
+ * @param A 
+ * @param n 
+ * @param pred 
+ * @return int 
+ */
 int count(int* A, int n, bool (*pred)(int)) {
-  // implement me
-  return -1;
+  int matches = 0;
+  for (int pos = 0; pos < n; pos++) {
+    if (pred(A[pos])){
+      matches++;
+    }
+  }
+  return matches;
 }
 
-
+/**
+ * @brief takes an array, length of array, and a function. applies the function to
+ * every element in the array
+ * 
+ * @param A 
+ * @param n 
+ * @param f 
+ */
 void map(int* A, int n, int (*f)(int)) {
-  // implement me
+  for (int pos = 0; pos < n; pos++) {
+    A[pos] = f(A[pos]);
+  }
 }
 
-
+/**
+ * @brief takes an array, the length of the array, and a function that takes
+ * two integers. returns the accumalator after applying the function to pairs in 
+ * the array.
+ * 
+ * @param A 
+ * @param n 
+ * @param f 
+ * @return int 
+ */
 int reduce(int* A, int n, int (*f)(int,int)) {
-  // implement me
-  return -1;
+int acc = A[0];  
+for (int pos = 1; pos < n; pos++) {
+  acc = f(acc, A[pos])
+}
 }
