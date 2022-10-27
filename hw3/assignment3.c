@@ -132,9 +132,11 @@ void map(int* A, int n, int (*f)(int)) {
 
 /**
  * @brief takes an array, the length of the array, and a function that takes
- * two integers. returns the accumalator after applying the function to pairs in 
- * the array.
- * 
+ * two integers. returns the result after applying the function to the first two
+ * elements, then applying it to the result of the first call with the third 
+ * element, and then applying it to the result of the last call with the fourth 
+ * element, and so forth until the end. returns the accumalated value of all the 
+ * calls
  * @param A 
  * @param n 
  * @param f 
@@ -143,6 +145,7 @@ void map(int* A, int n, int (*f)(int)) {
 int reduce(int* A, int n, int (*f)(int,int)) {
 int acc = A[0];  
 for (int pos = 1; pos < n; pos++) {
-  acc = f(acc, A[pos])
+  acc = f(acc, A[pos]);
 }
+return acc;
 }
