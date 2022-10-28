@@ -22,24 +22,18 @@ int count_occur(const int arr[], int pos, int length) {
 int longest_seq(const int* ar, int n, int k) {
   int pos = 0;
   int max = 0;
-  int occurences;
   // go through entire string
   while (pos < n) {
-    occurences = 1;
+   int occurences = 1;
     if (ar[pos] == k) {
       occurences = count_occur(ar, pos, n);
       // check occurences of char
       if (occurences > max) {
         max = occurences;
       }
-      // // move to character following sequence
-      // pos += occurences;
-    } 
+    }
+    // // move to character following sequence
     pos += occurences;
-    // else {
-    //   // move to next char
-    //   pos++;
-    // }
   }
   return max;
 }
@@ -47,12 +41,10 @@ int longest_seq(const int* ar, int n, int k) {
 // takes a string, and converts all digits to *. if no digits, does nothing 
 // go through entire string, and change digits
 void hide_digits(char* str) {
-  int pos = 0;
-  while (str[pos]) {
+  for (int pos = 0; str[pos]; pos++) {
     if (isdigit(str[pos])) {
       str[pos] = '*';
     }
-    pos++;
   }
 }
 
