@@ -1,13 +1,15 @@
 #include "set_t.h"
 
 set_t* set_create_empty() {
-  // implement me
-  return NULL;
+  // create the set to return
+  set_t* aset = (set_t*) malloc(sizeof(set_t));
+  // initialize the values of the set
+  aset->data = (int*) malloc(100 * sizeof(int));
+  return aset;
 }
 
 int set_size(set_t* A) {
-  // implement me
-  return -1;
+  return A->size;
 }
 
 void set_insert(set_t* A, int x) {

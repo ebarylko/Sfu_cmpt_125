@@ -6,9 +6,11 @@
 #include <stdlib.h>
 
 /* Question 4 */
-
+//set: arr with space for 100 nums, num saying how many elements
+// are in array
 typedef struct {
-  // implement me
+  int* data;
+  int size;
 } set_t;
 
 // creates an empty set
