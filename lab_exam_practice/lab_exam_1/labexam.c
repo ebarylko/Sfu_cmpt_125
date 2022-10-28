@@ -69,14 +69,8 @@ int sum_leaves(const BTnode_t* root) {
   }
   BTnode_t * left = root->left;
   BTnode_t * right = root->right;
-  if (left && right) {
+  if (left || right) {
     return sum_leaves(left) + sum_leaves(right);
-  }
-  if (left) {
-    return sum_leaves(left);
-  }
-  if (right) {
-    return sum_leaves(right);
   }
   // if there are no children
   return root->value;
