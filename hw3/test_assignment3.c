@@ -115,6 +115,12 @@ bool test_q2_2()  {
   }
 }
 
+void print_arr(int arr[], int n) {
+  for (int i = 0; i < n; i++) {
+    printf("%d,", arr[i]);
+  }
+}
+
 // used for test Q3-find and Q3-count
 bool is_even(int x) { return x%2 == 0; }
 bool is_positive(int x) { return x>0; }
@@ -143,7 +149,6 @@ int mult4(int x) { return x*4;}
 void test_q3_map()  {
   int A[6] = {-1,3,-6,5,2,7};
   map(A, 6, mult4);
-
   if (A[0]==-4 && A[3]==20) 
     printf("Q3-map ok\n");
   else
@@ -291,9 +296,9 @@ int main()  {
   test_q2_2();
 
   test_q3_find();
-  // test_q3_count();
-  // test_q3_map();
-  // test_q3_reduce(); 
+  test_q3_count();
+  test_q3_map();
+  test_q3_reduce(); 
 
   // test_q4_1();
   // test_q4_2();
