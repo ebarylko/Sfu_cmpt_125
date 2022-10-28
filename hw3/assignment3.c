@@ -9,8 +9,8 @@
  * the same, else returns the difference of the first character of each string
  */
 int string_sort(const void* str1, const void* str2) {
-  const char* act_str1 = *(const char* *)str1;
-  const char* act_str2 = *(const char* *)str2;
+  const char* act_str1 = *(const char**)str1;
+  const char* act_str2 = *(const char**)str2;
   int len_1 = strlen(act_str1);
   int len_2 = strlen(act_str2);
   if (len_1 != len_2) {
@@ -20,8 +20,8 @@ int string_sort(const void* str1, const void* str2) {
 }
 
 /**
- * @brief takes an array of strings and a integer N representing the length of
- * the array sorts the array such that
+ * @brief takes an array of strings and a integer N 
+ * representing the length of the array sorts the array such that
  * longer strings come after shorter strings and strings of equal length are
  * ordered by result of comparing first character
  * 
@@ -89,12 +89,9 @@ int* insertion_sort(int* array, int n) {
  * @return int 
  */
 int find(int* A, int n, bool (*pred)(int)) {
-  for (int pos = 0; pos < n; pos++) {
-    if ( pred(A[pos]) ){
-      return pos;
-    }
-  }
-  return -1;
+  int pos;
+  for (pos = 0; pos < n && !pred(A[pos]); pos++);
+  return pos < n ? pos : -1;
 }
 
 /**
