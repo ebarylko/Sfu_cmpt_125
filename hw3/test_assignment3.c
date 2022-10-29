@@ -275,9 +275,9 @@ bool test_q4_3() {
   set_insert(A, 1); // A becomes {1,9,11,12,14,15}
   set_insert(A, 12); // A doesn’t change because 12 was already in A
   
-  // int ans2 = set_map(A, mod5); // A becomes  {0,1,2,4}
-  // if (ans2!= 4 || set_size(A)!=4)
-  //   flag_ok = false;
+  int ans2 = set_map(A, mod5); // A becomes  {0,1,2,4}
+  if (ans2!= 4 || set_size(A)!=4)
+    flag_ok = false;
 
   set_free(A);
 
