@@ -5,6 +5,7 @@ set_t* set_create_empty() {
   set_t* aset = (set_t*) malloc(sizeof(set_t));
   // initialize the values of the set
   aset->data = (int*) malloc(100 * sizeof(int));
+  aset->size = 0;
   return aset;
 }
 
@@ -29,24 +30,33 @@ void set_insert(set_t* A, int x) {
     }
     return;
 }
-
+/**
+ * @brief takes a set and an element, and removes element from
+ * set
+ * 
+ * @param A 
+ * @param x 
+ */
+// pass over set looking for element. when found, change 
+// set[pos] = set[size -1], replace removed element with last 
+// element and shrink size
+// remove(1, [1]
 void set_remove(set_t* A, int x) {
-  // implement me
+  int pos;
+  for (pos = 0; A->data[pos] != x; pos++);
+  A->data[pos] = A->data[A->size - 1];
+  A->size--;
 }
 
 /**
  * @brief Takes a set and a number, and returns true if element is 
  * in set. otherwise, returns false
  * 
- * @param A 
- * @param x 
- * @return true 
- * @return false 
+ * @param A the set to check
+ * @param x the integer to check for within the set
+ * @return true if x is in the set
+ * @return false if x is not in the set
  */
-// go over entire set checking if num is there.
-// if it is, short circuit and return, else return false
-// if in array, index of num < set_size. if not, index-num 
-// == set_size
 bool set_contains(set_t* A, int x) {
     int pos;
     for (pos = 0; pos < A->size && x != A->data[pos]; pos++);
@@ -56,11 +66,61 @@ bool set_contains(set_t* A, int x) {
     return true;
 }
 
-int set_map(set_t* A, int (*f)(int)) {
-  // implement me
-  return -1;
+
+int int_comp(const void* str1, const void* str2) {
+  return *(int*)str1 - *(int*)str2;
 }
 
+
+// counts number of occurences of a number in an array
+// stop counting when no more matches or we pass array
+int occurences(int* set, int pos, int length) {
+  int val = set[pos];
+  int occurs = 0;
+  while (pos < length && val == set[pos]) {
+    pos++;
+    occurs++;
+  }
+  return occurs;
+}
+
+/**
+ * @brief takes a set, and a function, and applies the function
+ * to every element of the set. returns the amount of elements
+ * in the set after removing duplicates
+ * 
+ * @param A 
+ * @param f 
+ * @return int 
+ */
+// sort elements, grab unique elements, note how many elements 
+// you grabbed, and put them in the set. shrink size later
+// since I always go to the next char, i can add it to the array
+int set_map(set_t* A, int (*f)(int)) {
+  // maps function to every element
+    for (int pos = 0; pos < A->size; pos++) {
+      A->data[pos] = f(A->data[pos]);
+    }
+    // order set so duplicates can be checked for
+    qsort((void*)A->data, A->size, sizeof(int), int_comp);
+    int new_pos = 0;
+    int start = 0;
+    // grabs unique elements and puts them at the front of the
+    // set
+    while (start < A->size) {
+     A->data[new_pos] = A->data[start]; 
+     start += occurences(A->data, start, A->size);
+     new_pos++;
+    }
+  A->size = new_pos;
+  return new_pos;
+}
+/**
+ * @brief takes the set, and frees the memory associated with it
+ * 
+ * @param A the set to free
+ */
 void set_free(set_t* A) {
-  // implement me
+ free(A->data);
+ free(A);
 }

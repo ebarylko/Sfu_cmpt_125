@@ -208,9 +208,12 @@ bool test_q4_2() {
   bool flag_ok = true;
 
   set_t* A = set_create_empty(); // A = {}
+  set_t* B = set_create_empty(); // A = {}
 
+  set_insert(B, 1);
   for (int i=0;i<5;i++)
     set_insert(A, i);
+  
   // A = {0,1,2,3,4}
 
   set_insert(A, 2);
@@ -223,12 +226,17 @@ bool test_q4_2() {
     if (!set_contains(A,i))
       flag_ok = false;
 
+
+  set_remove(B, 1);
   set_remove(A, 1); // A = {0,2,3,4,9}
   set_remove(A, 9); // A = {0,2,3,4}
   if (set_size(A) != 4)
     flag_ok = false;
-
   set_free(A);
+
+  if (set_size(B) != 0)
+    flag_ok = false;
+  set_free(B);
 
 
   if (flag_ok) {
@@ -267,9 +275,9 @@ bool test_q4_3() {
   set_insert(A, 1); // A becomes {1,9,11,12,14,15}
   set_insert(A, 12); // A doesn’t change because 12 was already in A
   
-  int ans2 = set_map(A, mod5); // A becomes  {0,1,2,4}
-  if (ans2!= 4 || set_size(A)!=4)
-    flag_ok = false;
+  // int ans2 = set_map(A, mod5); // A becomes  {0,1,2,4}
+  // if (ans2!= 4 || set_size(A)!=4)
+  //   flag_ok = false;
 
   set_free(A);
 
@@ -300,8 +308,8 @@ int main()  {
   test_q3_map();
   test_q3_reduce(); 
 
-  // test_q4_1();
-  // test_q4_2();
-  // test_q4_3();
+  test_q4_1();
+  test_q4_2();
+  test_q4_3();
 
 }
