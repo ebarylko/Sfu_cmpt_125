@@ -291,6 +291,30 @@ bool test_q4_3() {
   }
 }
 
+bool test_q4_4() {
+  bool flag_ok = true;
+
+  set_t* A = set_create_empty(); 
+  int ans1 = set_map(A, plus1); 
+  if (ans1!= 0 || set_contains(A,15) || set_contains(A,10))
+    flag_ok = false;
+  
+  int ans2 = set_map(A, mod5); 
+  if (ans2!= 0 || set_size(A)!=0)
+    flag_ok = false;
+
+  set_free(A);
+
+  if (flag_ok) {
+    printf("Q4-4 ok\n");
+    return true;
+  }
+  else  {
+    printf("Q4-4 ERROR\n");
+    return false;
+  }
+}
+
 
 // when testing your code, it may be convenient 
 // to comment out some of the test cases
@@ -311,5 +335,7 @@ int main()  {
   test_q4_1();
   test_q4_2();
   test_q4_3();
+  test_q4_4();
+
 
 }
