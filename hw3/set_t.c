@@ -1,5 +1,10 @@
 #include "set_t.h"
 
+/**
+ * @brief Creates an empty set, and returns it
+ * 
+ * @return set_t* an empty set
+ */
 set_t* set_create_empty() {
   // create the set to return
   set_t* aset = (set_t*) malloc(sizeof(set_t));
@@ -8,10 +13,16 @@ set_t* set_create_empty() {
   aset->size = 0;
   return aset;
 }
-
+/**
+ * @brief takes a set, and returns the number of elements within
+ * 
+ * @param A the set being passed
+ * @return int the amount of elements in the set
+ */
 int set_size(set_t* A) {
   return A->size;
 }
+
 /**
  * @brief takes a set and a number, and inserts the number in the
  * set if it is not there. otherwise, does nothing
@@ -31,11 +42,11 @@ void set_insert(set_t* A, int x) {
     return;
 }
 /**
- * @brief takes a set and an element, and removes element from
- * set
+ * @brief takes a set and an element, and removes the
+ *  element from set
  * 
- * @param A 
- * @param x 
+ * @param A the set being passed
+ * @param x the element to remove within the set
  */
 // pass over set looking for element. when found, change 
 // set[pos] = set[size -1], replace removed element with last 
@@ -89,13 +100,12 @@ int occurences(int* set, int pos, int length) {
  * to every element of the set. returns the amount of elements
  * in the set after removing duplicates
  * 
- * @param A 
- * @param f 
- * @return int 
+ * @param A the set being passed
+ * @param f a function that receives an int and returns an int
+ * @return int the number of elements remaining in the set
+ * after applying the function to all elements and
+ * removing duplicates
  */
-// sort elements, grab unique elements, note how many elements 
-// you grabbed, and put them in the set. shrink size later
-// since I always go to the next char, i can add it to the array
 int set_map(set_t* A, int (*f)(int)) {
   // maps function to every element
     for (int pos = 0; pos < A->size; pos++) {
@@ -112,8 +122,8 @@ int set_map(set_t* A, int (*f)(int)) {
      start += occurences(A->data, start, A->size);
      new_pos++;
     }
-  A->size = new_pos;
-  return new_pos;
+    A->size = new_pos;
+    return new_pos;
 }
 /**
  * @brief takes the set, and frees the memory associated with it
