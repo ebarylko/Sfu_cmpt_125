@@ -3,7 +3,7 @@
 /**
  * @brief Creates an empty set, and returns it
  * 
- * @return set_t* an empty set
+ * @return set_t* a pointer to an empty set
  */
 set_t* set_create_empty() {
   // create the set to return
@@ -13,8 +13,9 @@ set_t* set_create_empty() {
   aset->size = 0;
   return aset;
 }
+
 /**
- * @brief takes a set, and returns the number of elements within
+ * @brief takes a set, and returns the number of elements within it
  * 
  * @param A the set being passed
  * @return int the amount of elements in the set
@@ -24,38 +25,43 @@ int set_size(set_t* A) {
 }
 
 /**
- * @brief takes a set and a number, and inserts the number in the
- * set if it is not there. otherwise, does nothing
+ * @brief takes a set and a number N,  and inserts N in the
+ * set if it is not present. otherwise, does nothing 
  * 
- * @param A the pointer to the set
+ * @param A the set
  * @param x the number to insert
  */
 void set_insert(set_t* A, int x) {
     int set_size = A->size;
     int pos;
+    // checks over set seeing if element is within
     for (pos = 0; pos < set_size && x != A->data[pos]; pos++);
-    // element not in set
+    // check if element not in set
     if (pos == set_size) {
       A->data[set_size] = x;
       A->size++;
     }
     return;
 }
+
 /**
- * @brief takes a set and an element, and removes the
- *  element from set
- * 
+ * @brief takes a set and a number, and removes the number 
+ * from the set
  * @param A the set being passed
- * @param x the element to remove within the set
+ * @param x the number to remove from the set
  */
 // pass over set looking for element. when found, change 
 // set[pos] = set[size -1], replace removed element with last 
 // element and shrink size
 // remove(1, [1]
 void set_remove(set_t* A, int x) {
+  int* set_vals = A->data;
   int pos;
-  for (pos = 0; A->data[pos] != x; pos++);
-  A->data[pos] = A->data[A->size - 1];
+  // gets the position of the element to remove
+  for (pos = 0; set_vals[pos] != x; pos++);
+  // swaps value of removed element with last element in set, 
+  // avoids bubbling all values to reorder set
+  set_vals[pos] = set_vals[A->size - 1];
   A->size--;
 }
 
