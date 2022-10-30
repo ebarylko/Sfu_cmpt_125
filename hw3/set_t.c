@@ -83,14 +83,28 @@ bool set_contains(set_t* A, int x) {
     // return true;
 }
 
-
-int int_comp(const void* str1, const void* str2) {
-  return *(int*)str1 - *(int*)str2;
+// if difference, what kind of data type? should I specify it is 
+// a void pointer? should I describe my function without mentioning
+// it works with void*?
+/**
+ * @brief takes two pointers, and returns the difference between 
+ * them after dereferencing them
+ * @param num1 the first pointer
+ * @param num2 the second pointer
+ * @return int the difference between *num1 and *num2
+ */
+int int_comp(const void* num1, const void* num2) {
+  return *(int*)num1 - *(int*)num2;
 }
 
 
-// counts number of occurences of a number in an array
-// stop counting when no more matches or we pass array
+/**
+ * @brief 
+ * @param set 
+ * @param pos 
+ * @param length 
+ * @return int 
+ */
 int occurences(int* set, int pos, int length) {
   int val = set[pos];
   int occurs = 0;
@@ -102,35 +116,40 @@ int occurences(int* set, int pos, int length) {
 }
 
 /**
- * @brief takes a set, and a function, and applies the function
+ * @brief takes a set and a function, and applies the function
  * to every element of the set. returns the amount of elements
- * in the set after removing duplicates
+ * remaining in the set after removing duplicates
  * 
  * @param A the set being passed
  * @param f a function that receives an int and returns an int
  * @return int the number of elements remaining in the set
- * after applying the function to all elements and
- * removing duplicates
+ * after mapping the function over the set and removing duplicates
  */
 int set_map(set_t* A, int (*f)(int)) {
+  int *set_values = A->data;
+  int set_size = A->size;
+
   // maps function to every element
-    for (int pos = 0; pos < A->size; pos++) {
-      A->data[pos] = f(A->data[pos]);
-    }
-    // order set so duplicates can be checked for
-    qsort((void*)A->data, A->size, sizeof(int), int_comp);
-    int new_pos = 0;
-    int start = 0;
-    // grabs unique elements and puts them at the front of the
-    // set
-    while (start < A->size) {
-     A->data[new_pos] = A->data[start]; 
-     start += occurences(A->data, start, A->size);
-     new_pos++;
-    }
-    A->size = new_pos;
-    return new_pos;
+  for (int pos = 0; pos < set_size; pos++) {
+    set_values[pos] = f(set_values[pos]);
+  }
+
+  // order set so duplicates are grouped together
+  qsort((void *)set_values, set_size, sizeof(int), int_comp);
+  int new_pos = 0;
+  int start = 0;
+
+  // grabs unique elements and puts them at the front of the set
+  while (start < set_size) {
+    set_values[new_pos] = set_values[start];
+    // moves to next unique element
+    start += occurences(set_values, start, set_size);
+    new_pos++;
+  }
+  A->size = new_pos;
+  return new_pos;
 }
+
 /**
  * @brief takes the set, and frees the memory associated with it
  * 
