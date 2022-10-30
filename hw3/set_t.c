@@ -75,20 +75,12 @@ bool set_contains(set_t* A, int x) {
     // checks for the element in the set
     for (pos = 0; pos < A->size && x != A->data[pos]; pos++);
     // seeing whether the element is not in the set
-    bool match = pos == A->size ? false : true;
-    return match;
-    // if (pos == A->size) {
-    //   return false;
-    // }
-    // return true;
+    return pos != A->size; 
 }
 
-// if difference, what kind of data type? should I specify it is 
-// a void pointer? should I describe my function without mentioning
-// it works with void*?
 /**
- * @brief takes two pointers, and returns the difference between 
- * them after dereferencing them
+ * @brief takes two int pointers, and returns the difference 
+ * between them 
  * @param num1 the first pointer
  * @param num2 the second pointer
  * @return int the difference between *num1 and *num2
