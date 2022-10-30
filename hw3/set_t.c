@@ -50,10 +50,6 @@ void set_insert(set_t* A, int x) {
  * @param A the set being passed
  * @param x the number to remove from the set
  */
-// pass over set looking for element. when found, change 
-// set[pos] = set[size -1], replace removed element with last 
-// element and shrink size
-// remove(1, [1]
 void set_remove(set_t* A, int x) {
   int* set_vals = A->data;
   int pos;
@@ -66,21 +62,25 @@ void set_remove(set_t* A, int x) {
 }
 
 /**
- * @brief Takes a set and a number, and returns true if element is 
- * in set. otherwise, returns false
+ * @brief Takes a set and a number, and returns true if the number
+ *  is in the set. Otherwise, returns false
  * 
  * @param A the set to check
- * @param x the integer to check for within the set
+ * @param x the number to check for within the set
  * @return true if x is in the set
  * @return false if x is not in the set
  */
 bool set_contains(set_t* A, int x) {
     int pos;
+    // checks for the element in the set
     for (pos = 0; pos < A->size && x != A->data[pos]; pos++);
-    if (pos == A->size) {
-      return false;
-    }
-    return true;
+    // seeing whether the element is not in the set
+    bool match = pos == A->size ? false : true;
+    return match;
+    // if (pos == A->size) {
+    //   return false;
+    // }
+    // return true;
 }
 
 
