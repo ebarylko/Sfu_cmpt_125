@@ -1,8 +1,8 @@
+#define  _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#define  _GNU_SOURCE
 
 #include "assignment2.h"
 
