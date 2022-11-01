@@ -1,4 +1,5 @@
 #include "set_t.h"
+#define MAX_SIZE 100
 
 /**
  * @brief Creates an empty set, and returns it
@@ -24,6 +25,12 @@ int set_size(set_t* A) {
   return A->size;
 }
 
+int index_of(set_t* set, int num) {
+    int pos;
+    for (pos = 0; pos < set->size && num != set->data[pos]; pos++);
+    return pos == set->size ? -1 : pos;
+}
+
 /**
  * @brief takes a set and a number N,  and inserts N in the
  * set if it is not present. otherwise, does nothing 
@@ -33,11 +40,13 @@ int set_size(set_t* A) {
  */
 void set_insert(set_t* A, int x) {
     int set_size = A->size;
-    int pos;
+    // checking if set is full
+    if (set_size == MAX_SIZE) 
+      return;
     // checks over set seeing if element is within
-    for (pos = 0; pos < set_size && x != A->data[pos]; pos++);
+    int pos = index_of(A, x);
     // check if element not in set
-    if (pos == set_size) {
+    if (pos == -1) {
       A->data[set_size] = x;
       A->size++;
     }
@@ -52,13 +61,14 @@ void set_insert(set_t* A, int x) {
  */
 void set_remove(set_t* A, int x) {
   int* set_vals = A->data;
-  int pos;
   // gets the position of the element to remove
-  for (pos = 0; set_vals[pos] != x; pos++);
+  int pos = index_of(A, x);
   // swaps value of removed element with last element in set, 
   // avoids bubbling all values to reorder set
-  set_vals[pos] = set_vals[A->size - 1];
-  A->size--;
+  if (pos != -1){
+    set_vals[pos] = set_vals[A->size - 1];
+    A->size--;
+  }
 }
 
 /**
@@ -71,11 +81,8 @@ void set_remove(set_t* A, int x) {
  * @return false if x is not in the set
  */
 bool set_contains(set_t* A, int x) {
-    int pos;
-    // checks for the element in the set
-    for (pos = 0; pos < A->size && x != A->data[pos]; pos++);
-    // seeing whether the element is not in the set
-    return pos != A->size; 
+    // // seeing whether the element is in the set
+    return index_of(A, x) != -1; 
 }
 
 /**
@@ -107,6 +114,18 @@ int occurences(int* set, int pos, int length) {
   return occurs;
 }
 
+int remove_duplicates(int set_values[], int set_size) {
+  int start = 0;
+  int new_pos = 0;
+  while (start < set_size) {
+    set_values[new_pos] = set_values[start];
+    start += occurences(set_values, start, set_size);
+    new_pos++;
+  }
+  return new_pos;
+
+}
+
 /**
  * @brief takes a set and a function, and applies the function
  * to every element of the set. returns the amount of elements
@@ -128,18 +147,9 @@ int set_map(set_t* A, int (*f)(int)) {
 
   // order set so duplicates are grouped together
   qsort((void *)set_values, set_size, sizeof(int), int_comp);
-  int new_pos = 0;
-  int start = 0;
 
-  // grabs unique elements and puts them at the front of the set
-  while (start < set_size) {
-    set_values[new_pos] = set_values[start];
-    // moves to next unique element
-    start += occurences(set_values, start, set_size);
-    new_pos++;
-  }
-  A->size = new_pos;
-  return new_pos;
+  A->size = remove_duplicates(set_values, set_size);
+  return A->size;
 }
 
 /**
