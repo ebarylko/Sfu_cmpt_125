@@ -142,9 +142,14 @@ void map(int* A, int n, int (*f)(int)) {
  * @return int 
  */
 int reduce(int* A, int n, int (*f)(int,int)) {
+if (!n) 
+  return 0;
 int acc = A[0];  
 for (int pos = 1; pos < n; pos++) {
   acc = f(acc, A[pos]);
 }
+// for (int pos = 0; pos < n; pos++) {
+//   acc = f(acc, A[pos]);
+// }
 return acc;
 }

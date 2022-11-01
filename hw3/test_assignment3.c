@@ -188,8 +188,10 @@ int last(int x, int y) {return y;}
 
 void test_q3_reduce()  {
   int A[6] = {-1,3,-6,5,2,7};
+  int B[6] = {-1,3,-6,5,2,7};
 
-  if (reduce(A, 6, sum)==10 && reduce(A, 6, last)==7) 
+  if (reduce(A, 6, sum)==10 && reduce(A, 6, last)==7 && 
+  reduce(B, 0, sum) == 0 && reduce(B, 1, sum) == -1) 
     printf("Q3-reduce ok\n");
   else
     printf("Q3-reduce ERROR\n");
