@@ -315,6 +315,43 @@ bool test_q4_4() {
   }
 }
 
+void fill_set(set_t* set, int elems) {
+  for (int start = 0; start < elems; start++){
+    set_insert(set, start);
+  }
+}
+
+
+bool test_q4_5() {
+  bool flag_ok = true;
+
+  set_t* A = set_create_empty(); 
+  fill_set(A, 200);
+
+  set_t* B = set_create_empty(); 
+  fill_set(A, 10);
+  fill_set(A, 10);
+  fill_set(A, 10);
+  fill_set(A, 10);
+  fill_set(A, 10);
+
+  if (set_size(A) != 100 && set_size(B) != 10)
+    flag_ok = false;
+
+  set_free(A);
+  set_free(B);
+
+  if (flag_ok) {
+    printf("Q4-5 ok\n");
+    return true;
+  }
+  else  {
+    printf("Q4-5 ERROR\n");
+    return false;
+  }
+}
+
+
 
 // when testing your code, it may be convenient 
 // to comment out some of the test cases
@@ -336,5 +373,6 @@ int main()  {
   test_q4_2();
   test_q4_3();
   test_q4_4();
+  test_q4_5();
 
 }
