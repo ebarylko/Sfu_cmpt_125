@@ -115,6 +115,33 @@ bool test_q2_2()  {
   }
 }
 
+bool test_q2_3()  {
+  int ar[0];
+  int* trace =  insertion_sort(ar, 0);
+
+  int correct_ans[] = {};
+  int * correct_trace = NULL;
+
+  bool flag_ok;
+  if (trace) {
+    flag_ok = false;
+  }
+  else {
+    flag_ok = (equal_arrays(ar, correct_ans, 0) && equal_arrays(trace, correct_trace, 0));
+    free(trace);
+  }
+
+  if (flag_ok) {
+    printf("Q2-3 ok\n");
+    return true;
+  }
+  else  {
+    printf("Q2-3 ERROR\n");
+    return false;
+  }
+}
+
+
 void print_arr(int arr[], int n) {
   for (int i = 0; i < n; i++) {
     printf("%d,", arr[i]);
@@ -363,6 +390,8 @@ int main()  {
 
   test_q2_1();
   test_q2_2();
+  test_q2_3();
+
 
   test_q3_find();
   test_q3_count();

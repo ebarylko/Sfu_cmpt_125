@@ -58,6 +58,8 @@ void swap(int arr[], int index1, int index2) {
  * in the other array using insertion sort
  */
 int* insertion_sort(int* array, int n) {
+  if (!n)
+    return NULL;
   int* new_ar = (int*)malloc(n * sizeof(int));
   // no swaps are made on the first element
   new_ar[0] = 0;
