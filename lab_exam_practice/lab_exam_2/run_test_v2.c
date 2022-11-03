@@ -17,10 +17,11 @@ void test_q1() {
   int m3 = m[3];
 
   int ar2[1][1] = {{6}};
-  int* m2 = max_row(1,1, ar2);
-  int m0 = m2[0];
-  free(m); // checking dynamic memory allocation
-  if (m0==3 && m1==7 && m2==12 && m3==5)
+  int* mx = max_row(1,1, ar2);
+  int mr = mx[0];
+  free(m);
+  free(mx); // checking dynamic memory allocation
+  if (m0==3 && m1==7 && m2==12 && m3==5 && mr == 6)
     printf("Q1 ok\n");
   else
     printf("Q1 ERROR\n");
@@ -84,7 +85,7 @@ void test_q3() {
 
 int main(void) {
   test_q1();
-  // test_q2();
-  // test_q3();
+  test_q2();
+  test_q3();
   return 0;
 }
