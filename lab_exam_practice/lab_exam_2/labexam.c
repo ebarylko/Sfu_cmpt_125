@@ -34,16 +34,14 @@ int* max_row(int height, int width, int ar[height][width]) {
 }
 
 // looking for char. if not found, return -1. else, return pos
-int find_char(const char* str, int pos, int length, char c) {
-  while (str[pos] && str[pos] != c)
-    pos++;
-  return pos != length ? pos : -1;
+int find_char(const char* str, int pos, char c) {
+  while (str[pos] && str[pos++] != c);
+  return str[pos] ? pos : -1;
 }
 
 // moves to next unique char
 int next_char(const char* str, int pos, char c) {
-  while (str[pos] && str[pos] == c) 
-    pos++;
+  while (str[pos] && str[pos++] == c);
   return pos;
 }
 
@@ -51,8 +49,7 @@ int count_occurences(const char* str, char c) {
   int occurences = 0;
   int char_index;
   int search_index = 0;
-  int length = strlen(str);
-  while ((char_index = find_char(str, search_index, length, c)) != -1) {
+  while ((char_index = find_char(str, search_index, c)) != -1) {
     occurences++;
     search_index = next_char(str, char_index, c);
   }
