@@ -25,7 +25,7 @@ For Linked List the functions are: add_to_head, add_to_tail, remove_from_head,
 
 typedef struct node{
     int data;
-    node* next;
+    struct node* next;
 } node;
 
 typedef struct {
@@ -42,6 +42,46 @@ linked_list* create_list() {
     return list;
 }
 
+node* create_node(int val) {
+    node* new_node = (node*)malloc(sizeof(node));
+    new_node->data = val;
+    new_node->next = NULL;
+    return new_node;
+}
+
+void free_node(node* node) {
+;
+}
+
+//if empty, add and make head and tail point to same place
+// make element point to head, and replace it as the head
+// increment size list
+// if size is 0, when adding elem head and tail point to the same place
+void add_to_head(linked_list* list, node* node) {
+    node->next = list->head;
+    list->head = node;
+    if (!(list->elems)) {
+        list->tail = node;
+    }
+    (list->elems)++;
+}
+
+// if empty, add and make head and tail point to same place
+// make tail point to new pointer, and make new pointer be tail
+// increment size of list
+// if empty 
+void add_to_tail(linked_list* list, node* node) {
+    if (!(list->elems)) {
+        list->tail = node;
+        list->head = node;
+    } else {
+        list->tail->next = node;
+        list->tail = node;
+    }
+    (list->elems)++;
+}
+
+
 void list_exists_test() {
     linked_list* list = create_list();
     if (list) {
@@ -50,8 +90,34 @@ void list_exists_test() {
         printf("The list is not valid");
 }
 
+void add_node_test() {
+    linked_list* list = create_list();
+    linked_list* list2 = create_list();
+
+    node* node1 = create_node(5);
+    node* node2 = create_node(6);
+    node* node3 = create_node(3);
+    add_to_head(list, node1);
+    add_to_head(list, node2);
+    add_to_head(list, node3);
+    add_to_tail(list2, node1);
+    add_to_tail(list2, node2);
+    add_to_tail(list2, node3);
+
+    if (list->elems == 3 && list->head->data == 3 && list->tail->data == 5) {
+        printf("\nHead_insertion worked");
+    } else 
+        printf("Head_insertion failed");
+
+    if (list2->elems == 3 && list2->head->data == 5 && list2->tail->data == 3) {
+        printf("\nTail_insertion worked");
+    } else 
+        printf("\nTail_insertion failed");
+
+}
 
 int main() {
     list_exists_test();
+    add_node_test();
     return 0;
 }
