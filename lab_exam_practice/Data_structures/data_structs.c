@@ -97,13 +97,7 @@ void remove_head(linked_list* list) {
     } else 
         list->head = list->head->next;
 
-    // printf("\n%d", list->head->next);
-    // list->head = list->head->next;
     free(old_head);
-
-    // if (list->elems == 1)
-    //     list->tail = NULL;
-
     (list->elems)--;
 }
 
@@ -150,19 +144,19 @@ void remove_node_test() {
     node* node3 = create_node(3);
 
     add_to_head(list, node1);
-    // add_to_head(list, node2);
-    // add_to_head(list, node3);
+    add_to_head(list, node2);
+    add_to_head(list, node3);
 
     add_to_tail(list2, node1);
     add_to_tail(list2, node2);
     add_to_tail(list2, node3);
 
     remove_head(list);
-    if (list->elems == 0 && list->head == NULL && list->tail == NULL) {
+    if (list->elems == 2 && list->head->data == 6 && list->tail->data == 5) {
         printf("\nHead_removal worked");
     } else 
         printf("\nHead_removal failed");
-        printf("\n %d, head: %d, tail: %d", list->elems, list->head, list->tail);
+        printf("\n %d, head: %d, tail: %d", list->elems, list->head->data, list->tail->data);
 
     // if (list2->elems == 3 && list2->head->data == 5 && list2->tail->data == 3) {
     //     printf("\nTail_insertion worked");
