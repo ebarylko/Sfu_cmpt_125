@@ -53,11 +53,9 @@ void free_node(node* node) {
 ;
 }
 
-//if empty, add and make head and tail point to same place
-// make element point to head, and replace it as the head
-// increment size list
-// if size is 0, when adding elem head and tail point to the same place
-void add_to_head(linked_list* list, node* node) {
+// adds to head
+void add_to_head(linked_list* list, int val) {
+    node* node = create_node(val);
     node->next = list->head;
     list->head = node;
     if (!(list->elems)) {
@@ -66,11 +64,22 @@ void add_to_head(linked_list* list, node* node) {
     (list->elems)++;
 }
 
+// void add_to_head(linked_list* list, node* node) {
+//     node->next = list->head;
+//     list->head = node;
+//     if (!(list->elems)) {
+//         list->tail = node;
+//     }
+//     (list->elems)++;
+// }
+
 // if empty, add and make head and tail point to same place
 // make tail point to new pointer, and make new pointer be tail
 // increment size of list
 // if empty 
-void add_to_tail(linked_list* list, node* node) {
+//adds to tail
+void add_to_tail(linked_list* list, int val) {
+    node* node = create_node(val);
     if (!(list->elems)) {
         list->tail = node;
         list->head = node;
@@ -81,11 +90,23 @@ void add_to_tail(linked_list* list, node* node) {
     (list->elems)++;
 }
 
+// void add_to_tail(linked_list* list, node* node) {
+//     if (!(list->elems)) {
+//         list->tail = node;
+//         list->head = node;
+//     } else {
+//         list->tail->next = node;
+//         list->tail = node;
+//     }
+//     (list->elems)++;
+// }
+
 // if empty, do nothing
 // else, assign another variable of the head, and make the element in front of
 // the head be the new head. free the old head, and decrement the size of the list
 // if only one element, make the tail null after
-void remove_head(linked_list* list) {
+// gives all elements after head
+void rest(linked_list* list) {
     if (!(list->elems))
         return;
 
@@ -113,15 +134,12 @@ void add_node_test() {
     linked_list* list = create_list();
     linked_list* list2 = create_list();
 
-    node* node1 = create_node(5);
-    node* node2 = create_node(6);
-    node* node3 = create_node(3);
-    add_to_head(list, node1);
-    add_to_head(list, node2);
-    add_to_head(list, node3);
-    add_to_tail(list2, node1);
-    add_to_tail(list2, node2);
-    add_to_tail(list2, node3);
+    add_to_head(list, 5);
+    add_to_head(list, 6);
+    add_to_head(list, 3);
+    add_to_tail(list2, 5);
+    add_to_tail(list2, 6);
+    add_to_tail(list2, 3);
 
     if (list->elems == 3 && list->head->data == 3 && list->tail->data == 5) {
         printf("\nHead_insertion worked");
@@ -139,19 +157,15 @@ void remove_node_test() {
     linked_list* list = create_list();
     linked_list* list2 = create_list();
 
-    node* node1 = create_node(5);
-    node* node2 = create_node(6);
-    node* node3 = create_node(3);
+    add_to_head(list, 5);
+    add_to_head(list, 6);
+    add_to_head(list, 3);
 
-    add_to_head(list, node1);
-    add_to_head(list, node2);
-    add_to_head(list, node3);
+    add_to_tail(list2, 5);
+    add_to_tail(list2, 6);
+    add_to_tail(list2, 3);
 
-    add_to_tail(list2, node1);
-    add_to_tail(list2, node2);
-    add_to_tail(list2, node3);
-
-    remove_head(list);
+    rest(list);
     if (list->elems == 2 && list->head->data == 6 && list->tail->data == 5) {
         printf("\nHead_removal worked");
     } else 
