@@ -49,8 +49,9 @@ node* create_node(int val) {
     return new_node;
 }
 
-void free_node(node* node) {
-;
+// get size of list
+int get_size(linked_list* list) {
+    return list->elems;
 }
 
 // adds to head
@@ -63,15 +64,6 @@ void add_to_head(linked_list* list, int val) {
     }
     (list->elems)++;
 }
-
-// void add_to_head(linked_list* list, node* node) {
-//     node->next = list->head;
-//     list->head = node;
-//     if (!(list->elems)) {
-//         list->tail = node;
-//     }
-//     (list->elems)++;
-// }
 
 // if empty, add and make head and tail point to same place
 // make tail point to new pointer, and make new pointer be tail
@@ -90,22 +82,12 @@ void add_to_tail(linked_list* list, int val) {
     (list->elems)++;
 }
 
-// void add_to_tail(linked_list* list, node* node) {
-//     if (!(list->elems)) {
-//         list->tail = node;
-//         list->head = node;
-//     } else {
-//         list->tail->next = node;
-//         list->tail = node;
-//     }
-//     (list->elems)++;
-// }
 
 // if empty, do nothing
 // else, assign another variable of the head, and make the element in front of
 // the head be the new head. free the old head, and decrement the size of the list
 // if only one element, make the tail null after
-// gives all elements after head
+// gives all elements after head, returns taken element
 void rest(linked_list* list) {
     if (!(list->elems))
         return;
@@ -121,6 +103,59 @@ void rest(linked_list* list) {
     free(old_head);
     (list->elems)--;
 }
+
+//remove element from tai
+// if only one element, made head and tail point to the same place
+// if not, traverse until tail, free tail, set new tail, decrement size
+
+void remove_tail(linked_list* list){ 
+    if (!(list->elems))
+        return;
+
+    if (list->elems == 1) {
+        free(list->head);
+        list->head = NULL;
+        list->tail = NULL;
+    } else {
+    node* curr = list->head;
+    while (curr->next != list->tail)    
+        curr = curr->next;
+
+    free(list->tail);
+    curr->next = NULL;
+    list->tail = curr;
+    }
+    (list->elems)--;
+}
+
+//practice problems
+/**
+ *Write a function node_t* get_middle(LL_t* list).
+* The function gets a linked list, and returns the pointer to the middle element.
+
+* If the number of element in the list is even, it returns the pointer to the element in position (size/2).
+* If the list is empty the function returns NULL.
+
+* You may not assume that you have the length() function. @brief 
+ * @brief 
+ * 
+ */
+ // go up to midpoint, and return node at that point. if empty, return NULL
+ // when midpoint is zero, we know to stop
+
+node* get_mid(const linked_list* list) {
+    if (!(list->elems)) 
+        return NULL;
+    int mid = list->elems / 2;
+    node* curr = list->head;
+
+    while (mid-- != 0)
+        curr = curr->next;
+
+    return curr;
+}
+
+//tests
 
 void list_exists_test() {
     linked_list* list = create_list();
@@ -150,7 +185,6 @@ void add_node_test() {
         printf("\nTail_insertion worked");
     } else 
         printf("\nTail_insertion failed");
-
 }
 
 void remove_node_test() {
@@ -162,27 +196,44 @@ void remove_node_test() {
     add_to_head(list, 3);
 
     add_to_tail(list2, 5);
-    add_to_tail(list2, 6);
-    add_to_tail(list2, 3);
+    // add_to_tail(list2, 6);
+    // add_to_tail(list2, 3);
 
     rest(list);
+    remove_tail(list2);
     if (list->elems == 2 && list->head->data == 6 && list->tail->data == 5) {
         printf("\nHead_removal worked");
     } else 
         printf("\nHead_removal failed");
         printf("\n %d, head: %d, tail: %d", list->elems, list->head->data, list->tail->data);
 
-    // if (list2->elems == 3 && list2->head->data == 5 && list2->tail->data == 3) {
-    //     printf("\nTail_insertion worked");
-    // } else 
-    //     printf("\nTail_insertion failed");
+    if (list2->elems == 0 && list2->head == list2->tail) {
+        printf("\nHead_removal worked for list 2");
+    } else 
+        printf("\nHead_removal failed for list 2");
+        printf("\n %d, head: %d, tail: %d", list2->elems, list2->head, list2->tail);
+}
 
+void mid_list_test() {
+    linked_list* list = create_list();
+    int arr[] = {1};
+    for (int pos = 0; pos < 1; pos++) 
+        add_to_tail(list, arr[pos]);
+    node* mid_node = get_mid(list);
+    int val = mid_node->data;
+    // free(mid_node);
+    if (val == 1) {
+        printf("middle node matches");
+    } else {
+        printf("Middle node does not match: %d", mid_node->data);
+    }
 }
 
 
 int main() {
-    list_exists_test();
-    add_node_test();
-    remove_node_test();
+    // list_exists_test();
+    // add_node_test();
+    // remove_node_test();
+    mid_list_test();
     return 0;
 }
