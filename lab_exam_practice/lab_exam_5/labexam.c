@@ -66,11 +66,31 @@ int longest_equal_seq(const int* ar, int n) {
   return max;
 }
 
+void fill_queue(queue_t* q1, queue_t* q2) {
+  while (!(queue_is_empty(q1))) {
+    enqueue(q2, dequeue(q1));
+  }
+}
+
 // take two queues and swap their content
 // create third queue, and grab values of q1.
 // put all values of q2 into q1, then put values from q3 into q2
 // free q2.
+// if same queue, do nothing
 void queues_swap(queue_t* q1, queue_t* q2) {
-  // implement me
-  return;
+  //checks if they are the same queue
+  if (q1 == q2)
+    return;
+
+  queue_t* q3 = queue_create();
+
+  //take out elements from queue 1
+  fill_queue(q1, q3);
+
+  // // fill q1 with elements from q2
+  fill_queue(q2, q1);
+
+  // //fill q2 with elements from q1
+  fill_queue(q3, q2);
+  queue_free(q3);
 }  
