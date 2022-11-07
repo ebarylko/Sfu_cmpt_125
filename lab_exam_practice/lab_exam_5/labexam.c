@@ -5,7 +5,7 @@
 
 #include "labexam.h"
 
-int lower_vowel(char c) {
+int lowercase_vowel(char c) {
   if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
     return 1;
   }
@@ -17,7 +17,8 @@ int modify(char* str) {
   int changes = 0;
   int pos = 0;
   while (str[pos]) {
-    if (lower_vowel(str[pos])) {
+    // checks if lower-case vowel
+    if (lowercase_vowel(str[pos])) {
       str[pos] = '*';
       changes++;
     }
@@ -33,6 +34,7 @@ int modify(char* str) {
 //return counter at end
 int vowels2asterisks(char* ar[], int n) {
   int changes = 0;
+  // go over all strings
   for (int pos = 0; pos < n; pos++) {
     changes += modify(ar[pos]);
   }
@@ -61,6 +63,7 @@ int longest_equal_seq(const int* ar, int n) {
     int matches = occurences(ar, pos, n);
     if (matches > max) 
       max = matches;
+
     pos += matches;
   }
   return max;
