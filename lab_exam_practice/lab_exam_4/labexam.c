@@ -64,14 +64,15 @@ int countif(LL_t* list, bool(*pred)(int)) {
 stack_tt* stack_copy(stack_tt* orig) {
   stack_tt* unordered_s = stack_create();
   stack_tt* ordered_s = stack_create();
-  node_t* curr = orig->list->head;
-  while (curr) {
-    stack_push(unordered_s, curr->data);
-    curr = curr->next;
+
+  while (!(stack_is_empty(orig))) {
+    stack_push(unordered_s, stack_pop(orig));
   }
 
   while (!(stack_is_empty(unordered_s))) {
-    stack_push(ordered_s, stack_pop(unordered_s));
+    int val = stack_pop(unordered_s); 
+    stack_push(ordered_s, val);
+    stack_push(orig, val);
   }
 
   free(unordered_s);
