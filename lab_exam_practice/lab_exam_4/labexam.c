@@ -5,38 +5,46 @@
 
 #include "labexam.h"
 
-// return pos of where hyphen is no longer found or end of string
+int count_hyphens(const char* str, int pos) {
+  int occurences = 0;
+  while (str[pos] == '-') {
+    pos++;
+    occurences++;
+  }
+  return occurences;
+}
+
+// return how many characters consumed to find hyphen if within
+// string or -1
 //"--aabc-----hi***"
 int find_hyphens(const char* str, int pos) {
   // lookiing for apperance of hyphen
+  int consumed = 0;
   while (str[pos] && str[pos] != '-') {
     pos++;
+    consumed++;
   }
-
-  int matches = 0;
   if (str[pos]) {
-    //count hyphens
-    while (str[pos] == '-') {
-      pos++;
-      matches++;
-    }
-  }
-  return matches;
+    return consumed;
+  } else
+    return -1;
 }
 
 /**
  *Write a function that gets a string and returns the 
  number of substrings consisting of hyphens only 
  */
+// go through string until hyphen is found. return number of 
+// chars consumed to get there. count number of hypehns, then 
+// add that to pos. repeat until we pass over string
 int count_hyphens_substrings(const char* str) {
-  // int length = strlen(str);
   int matches = 0;
   int hyphens = 0;
   int pos = 0;
-  printf("hyphens:%d\n", find_hyphens("a!ba-ei-XXoi---", 9));
-  while ((matches = find_hyphens(str, pos)) > 0) {
+  while ((matches = find_hyphens(str, pos)) != -1) {
     hyphens++;
     pos += matches;
+    pos += count_hyphens(str, pos);
   }
   return hyphens;
 }
