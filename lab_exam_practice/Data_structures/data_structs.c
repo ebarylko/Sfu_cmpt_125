@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /**
  *queue the functions are: enqueue, dequeue, isEmpty.
@@ -23,6 +24,8 @@ For Linked List the functions are: add_to_head, add_to_tail, remove_from_head,
 // linked list: head, tail, number of elements
 // node: data, pointer to next node
 
+//data structures
+
 typedef struct node{
     int data;
     struct node* next;
@@ -33,6 +36,25 @@ typedef struct {
     node* tail;
     int elems;
 } linked_list;
+
+typedef node* linked_list_iterator;
+
+linked_list_iterator create_iterator(linked_list* list) {
+return list->head;
+}
+
+
+bool has_next(linked_list_iterator iter) {
+return iter && iter->next;
+}
+
+int get_elem(linked_list_iterator iter) {
+return iter->data;
+}
+
+linked_list_iterator next(linked_list_iterator iter) {
+return iter->next;
+}
 
 linked_list* create_list() {
     linked_list* list = (linked_list*)malloc(sizeof(linked_list));
@@ -88,20 +110,21 @@ void add_to_tail(linked_list* list, int val) {
 // the head be the new head. free the old head, and decrement the size of the list
 // if only one element, make the tail null after
 // gives all elements after head, returns taken element
-void rest(linked_list* list) {
-    if (!(list->elems))
-        return;
+int rest(linked_list* list) {
+    if (!list->elems)
+        return -1;
 
 
     node* old_head = list->head;
+    int val = old_head->data;
     if (list->elems == 1) {
-        list->head = NULL;
         list->tail = NULL;
-    } else 
-        list->head = list->head->next;
+    }
 
+    list->head = list->head->next;
     free(old_head);
-    (list->elems)--;
+    list->elems--;
+    return val;
 }
 
 //remove element from tai
@@ -154,6 +177,16 @@ node* get_mid(const linked_list* list) {
 
     return curr;
 }
+
+// question 2
+/**
+ *Write a function LL_t* copy_list(LL_t* orig).
+* The function gets a pointer to a linked list, and returns a copy with the have same elements in the same order.
+* In the end orig must be in the same state as in the beginning.
+ @brief 
+ * 
+ */
+
 
 //tests
 
@@ -231,9 +264,9 @@ void mid_list_test() {
 
 
 int main() {
-    // list_exists_test();
-    // add_node_test();
-    // remove_node_test();
-    mid_list_test();
+    list_exists_test();
+    add_node_test();
+    remove_node_test();
+    // mid_list_test();
     return 0;
 }
