@@ -14,20 +14,17 @@ int count_hyphens(const char* str, int pos) {
   return occurences;
 }
 
-// return how many characters consumed to find hyphen if within
-// string or -1
-//"--aabc-----hi***"
-int find_hyphens(const char* str, int pos) {
+// returns how many chars were consumed to find a hyphen
+int find_hyphen(const char* str, int pos) {
   // lookiing for apperance of hyphen
+  // "-"
   int consumed = 0;
   while (str[pos] && str[pos] != '-') {
     pos++;
     consumed++;
   }
-  if (str[pos]) {
-    return consumed;
-  } else
-    return -1;
+
+  return str[pos] ? consumed : -1;
 }
 
 /**
@@ -38,12 +35,12 @@ int find_hyphens(const char* str, int pos) {
 // chars consumed to get there. count number of hypehns, then 
 // add that to pos. repeat until we pass over string
 int count_hyphens_substrings(const char* str) {
-  int matches = 0;
+  int consumed = 0;
   int hyphens = 0;
   int pos = 0;
-  while ((matches = find_hyphens(str, pos)) != -1) {
+  while ((consumed = find_hyphen(str, pos)) != -1) {
     hyphens++;
-    pos += matches;
+    pos += consumed;
     pos += count_hyphens(str, pos);
   }
   return hyphens;
