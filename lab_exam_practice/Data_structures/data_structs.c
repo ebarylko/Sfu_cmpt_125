@@ -149,11 +149,8 @@ int remove_tail(linked_list* list){
 }
 
 void free_list(linked_list* list) {
-    linked_list_iterator iter = create_iterator(list);
-    while(has_next(iter)) {
-        next(iter);
+    while (list->head)
         rest(list);
-    }
     free(list);
 }
 
@@ -280,6 +277,7 @@ void iter_test() {
 void queue_test() {
     queue* queue1 = create_queue();
     queue* queue2 = create_queue();
+    linked_list* list = create_list();
 
     enqueue(queue1, 2);
     enqueue(queue1, 3);
