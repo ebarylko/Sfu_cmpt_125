@@ -16,10 +16,6 @@ int transfer_queue(queue_str_t* q1, queue_str_t* q2) {
  * @param q the queue being passed
  * @return int the number of elements inside
  */ 
-//make a copy of a queue,then move all elements over.
-// count how many times you removed from the queue.
-// move back contents into original queue. free copy.
-// return val
 int queue_size(queue_str_t* q) {
   queue_str_t* copy = queue_create();
   //get size of queue
@@ -42,14 +38,6 @@ int queue_size(queue_str_t* q) {
  * @return true if both queues are equal
  * @return false if thhey are different
  */
-// check to see they have the same size. if not, stop.
-// stopping condition: both/one queue is empty, or a rejection occured
-// create two queues, one for q1(cq1) and one for q2(cq2).
-// store dequeues of both queues into a variable, then compare.
-// if they match, do nothing. if not, change flag.
-// after check, send content of queues back into their origiinal position
-// if one queue is empty and the other is not, flag = false
-// if both are empty, return the flag
 bool queue_equal(queue_str_t* q1, queue_str_t* q2) {
   if (queue_size(q1) != queue_size(q2))
     return false;
@@ -85,10 +73,55 @@ queue_free(q2_copy);
 return match;
 
 }
-
+/**
+ * @brief takes a queue, and returns a string containing
+ * all the strings in the queues
+ * 
+ * @param q the queue being passed
+ * @return char* the string which contains all the strings
+ * in the queue
+ */ //use strcat
+// go over every string in the queue, then realloc more memory
+// to accomodate the string(include null char)
+// copy string over, repeat until
+// queue is empty. need soome way to keep count of amount of
+// memory used for current consumption before usage
+//add more memory for null character
+// make a new queue to store strings
+// amount of memory = strlen(str) + 1 for null
+// before repetition, allocate for first string plus one,
+// make additional queue to store strings.
+// transfer at end
 char* queue_str_to_string(queue_str_t* q) {
-  // implement me;
-  return NULL;
+  queue_str_t* copy_queue = queue_create();
+  char* str;
+
+  // no strings to concatenate
+  if (queue_is_empty(q)) 
+    return NULL;
+
+  str = dequeue(q);
+  enqueue(copy_queue, str);
+  // keeping track of how much memory to allocate for later
+  int total_chars = strlen(str) + 1;
+
+  // add additional piece of memory so null char is accounted for
+  char* full_str = (char*)malloc(total_chars * sizeof(char));
+  strcat(full_str, str);
+
+
+  // grab all strings from queue and concatenate them.
+  while (!(queue_is_empty(q))) {
+  str = dequeue(q);
+  enqueue(copy_queue, str);
+  total_chars += strlen(str);
+  full_str = (char*)realloc(full_str, total_chars * sizeof(char));
+  strcat(full_str, str);
+  }
+  // // restore original queue
+  transfer_queue(copy_queue, q);
+  queue_free(copy_queue);
+  return full_str;
 }
 
 
