@@ -188,13 +188,19 @@ void map(BTnode_t* root, int (*f)(int)) {
 // is reached.
 // if passed a null pointer, return 0
 int sum_of_leaves(const BTnode_t* root) {
+  // checking if the node is valid
   if (!root)
     return 0;
 
-  const BTnode_t right = root->right;
-  const BTnode_t left = root->left;
+  const BTnode_t* right = root->right;
+  const BTnode_t* left = root->left;
 
-  return -1;
+  // seeing if node is a leaf
+  if (!right && !left) {
+    return root->value;
+  }
+
+  return sum_of_leaves(left) + sum_of_leaves(right);
 }
 
 
