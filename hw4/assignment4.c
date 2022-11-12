@@ -142,19 +142,23 @@ char* queue_str_to_string(queue_str_t* q) {
 // if found, return node. else, return null
 // stop when all nodes have been checked.
 // else, recur on follwing nodes
+// returning value of || is either 1 or 0, which is not
+// a node to a tree.
+// implement non-recursively
+// use a while loop to continue checking for the nodes until 
+// values match the predicate or is null
 BTnode_t* find(BTnode_t* root, bool (*pred)(int)) {
   // checking for a valid node
   if (!root)
     return NULL;
 
-  printf("\n%d", root->value);
   // if node is valid
   if (pred(root->value)) {
-    printf("Found a valid value");
     return root;
   }
   // check in children
-  return (find(root->left, pred) || find(root->right, pred));
+  BTnode_t* result = find(root->left, pred);
+  return result == NULL ? find(root->right, pred) : result;
 }  
 
 /**
@@ -196,9 +200,9 @@ int sum_of_leaves(const BTnode_t* root) {
   const BTnode_t* left = root->left;
 
   // seeing if node is a leaf
-  if (!right && !left) {
+  if (!right && !left) 
     return root->value;
-  }
+  
 
   return sum_of_leaves(left) + sum_of_leaves(right);
 }
