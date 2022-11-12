@@ -127,19 +127,73 @@ char* queue_str_to_string(queue_str_t* q) {
 
 /* Question 2 */
 
+/**
+ * @brief takes the root of a tree, and a predicate that takes 
+ * a number. returns the first node whose data passes the predicate,
+ * else returns null.
+ * 
+ * @param root the root of the tree
+ * @param pred the predicate given
+ * @return BTnode_t* the first node of the tree which passes 
+ * the predicate, otherwise null.
+ */
+// check first if root is valid. if not, return null.
+// else, go through tree looking for node which passes pred.
+// if found, return node. else, return null
+// stop when all nodes have been checked.
+// else, recur on follwing nodes
 BTnode_t* find(BTnode_t* root, bool (*pred)(int)) {
-  // implement me;
-  return NULL;
+  // checking for a valid node
+  if (!root)
+    return NULL;
+
+  printf("\n%d", root->value);
+  // if node is valid
+  if (pred(root->value)) {
+    printf("Found a valid value");
+    return root;
+  }
+  // check in children
+  return (find(root->left, pred) || find(root->right, pred));
 }  
 
-
+/**
+ * @brief takes a tree, and a function which takes a number.
+ * applies the function to every node in the tree
+ * 
+ * @param root the tree being passed
+ * @param f a function which takes a number and returns a number
+ */
+// stop when node is null. else, apply function on the value.
+// repeat on the children
 void map(BTnode_t* root, int (*f)(int)) {
-  // implement me;
+ // checks for valid node
+ if (!root) 
+  return;
+ 
+  // applies function, then repeats on children
+  root->value = f(root->value);
+  map(root->left, f);
+  map(root->right, f);
 }
 
-
+/**
+ * @brief takes a tree, and returns the sum of all the leaves
+ * 
+ * @param root the tree given
+ * @return int the sum of all the leaves
+ */
+// only add the value of node when it has no children.
+// stop when reaching there. else, continue until that point
+// is reached.
+// if passed a null pointer, return 0
 int sum_of_leaves(const BTnode_t* root) {
-  // implement me;
+  if (!root)
+    return 0;
+
+  const BTnode_t right = root->right;
+  const BTnode_t left = root->left;
+
   return -1;
 }
 
