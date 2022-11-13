@@ -488,7 +488,7 @@ int main()  {
  
   test_q1tostring_1();
   test_q1tostring_2();
-  // test_q1tostring_3();
+  test_q1tostring_3();
  
   test_q2find();
   test_q2map();
