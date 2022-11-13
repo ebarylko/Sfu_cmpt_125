@@ -180,7 +180,7 @@ void test_q1tostring_1() {
   if (flag_ok)    printf("Q1-tostring-1 ok\n");
   else {
     printf("Q1-tostring-1 ERROR\n");
-    printf("\n%s", result);
+    printf("\n--%s--\n", result);
   }            
 }
 
@@ -200,7 +200,10 @@ void test_q1tostring_2() {
   if (!check_and_free(q, strings, 2))               flag_ok = false;
   
   if (flag_ok)    printf("Q1-tostring-2 ok\n");
-  else            printf("Q1-tostring-2 ERROR\n");
+  else     {
+       printf("Q1-tostring-2 ERROR\n");
+       printf("\n--%s--\n", result);
+  }
 }
 
 
