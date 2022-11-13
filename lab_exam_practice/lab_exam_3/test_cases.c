@@ -52,14 +52,14 @@ void test_q2() {
 
 void test_q3() { 
 
-  stack_t* s = stack_create();
+  stack_tt* s = stack_create();
   for(int i=0;i<10;i++)
     stack_push(s,i);
 
   stack_forget(s, 4);
 
   /**********test answer**********/
-  stack_t* correct_ans = stack_create();
+  stack_tt* correct_ans = stack_create();
   for(int i=4;i<10;i++)
     stack_push(correct_ans,i);
 
