@@ -209,9 +209,42 @@ int sum_of_leaves(const BTnode_t* root) {
 
 
 /* Question 3 */
-
+/**
+ * @brief Takes a node of the tree, and returns the node that
+ * follows in preorder traversal. if no node follows, returns null
+ * 
+ * @param node  the node to start searching from
+ * @return BTnode_t* the following node in preorder traversal
+ */
+// check first that node is valid. if not return null
+// check if there are children. if left child exists,
+// go there. if not and right child exists, go there.
+// if neither, go up the branch until the node which you went 
+// up from stops being the right child and there is right child
+// to check for and node not null. in that case go to 
+// right child. if the node never stops being the right, 
+// return null
 BTnode_t* next_preorder(BTnode_t* node) {
-  // implement me;
-  return NULL;
+  if (!node)
+    return NULL;
+
+  BTnode_t* left = node->left;
+  BTnode_t* right = node->right;
+
+  if (left)
+    return left;
+
+  if (right)
+    return right;
+
+// go up to node
+  while (node && node->parent && (node != node->parent->left || !node->parent->right)) {
+    node = node->parent;
+  }
+
+  if (!node || !node->parent) 
+    return NULL;
+
+  return node->parent->right;
 }
 
