@@ -80,43 +80,28 @@ return match;
  * @param q the queue being passed
  * @return char* the string which contains all the strings
  * in the queue
- */ //use strcat
-// go over every string in the queue, then realloc more memory
-// to accomodate the string(include null char)
-// copy string over, repeat until
-// queue is empty. need soome way to keep count of amount of
-// memory used for current consumption before usage
-//add more memory for null character
-// make a new queue to store strings
-// amount of memory = strlen(str) + 1 for null
-// before repetition, allocate for first string plus one,
-// make additional queue to store strings.
-// transfer at end
+ */
 char* queue_str_to_string(queue_str_t* q) {
-  queue_str_t* copy_queue = queue_create();
-  char* str;
-
   // no strings to concatenate
   if (queue_is_empty(q)) 
     return NULL;
 
-  str = dequeue(q);
-  enqueue(copy_queue, str);
+  queue_str_t* copy_queue = queue_create();
+  char* str;
+
   // keeping track of how much memory to allocate for later
-  int total_chars = strlen(str) + 1;
+  int total_chars = 1;
 
   // add additional piece of memory so null char is accounted for
   char* full_str = (char*)malloc(total_chars * sizeof(char));
-  strcat(full_str, str);
-
 
   // grab all strings from queue and concatenate them.
-  while (!(queue_is_empty(q))) {
-  str = dequeue(q);
-  enqueue(copy_queue, str);
-  total_chars += strlen(str);
-  full_str = (char*)realloc(full_str, total_chars * sizeof(char));
-  strcat(full_str, str);
+  while (!queue_is_empty(q)) {
+    str = dequeue(q);
+    enqueue(copy_queue, str);
+    total_chars += strlen(str);
+    full_str = (char *)realloc(full_str, total_chars * sizeof(char));
+    strcat(full_str, str);
   }
   // // restore original queue
   transfer_queue(copy_queue, q);
