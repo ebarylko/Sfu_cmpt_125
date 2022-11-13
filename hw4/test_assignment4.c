@@ -290,38 +290,35 @@ bool is_even(int x) {return x%2==0;}
 
 void test_q2find() {
   BTnode_t* root_zero = build_tree();
-  // BTnode_t* two = root_zero->right;
+  BTnode_t* two = root_zero->right;
   BTnode_t* hundred = root_zero->right->right;
-  // BTnode_t* neg_two = hundred->right;
+  BTnode_t* neg_two = hundred->right;
 
   if (find(root_zero, greater20) == hundred)
     printf("Q2-find-1 ok\n");
   else
   {
     printf("Q2-find-1 ERROR\n");
-    // printf("\n%d, %d", find(root_zero, greater20), hundred);
-
   }
 
-  // if (find(root_zero, is_negative) == neg_two)
-  //   printf("Q2-find-2 ok\n");
-  // else {
-  //   printf("Q2-find-2 ERROR\n");
-  //   // printf("\n%d", (find(root_zero, is_negative))->value);
-  // }
+  if (find(root_zero, is_negative) == neg_two)
+    printf("Q2-find-2 ok\n");
+  else {
+    printf("Q2-find-2 ERROR\n");
+  }
 
-  // if (find(root_zero, is_even) == root_zero ||
-  //     find(root_zero, is_even) == two ||
-  //     find(root_zero, is_even) == hundred ||
-  //     find(root_zero, is_even) == neg_two)
-  //   printf("Q2-find-3 ok\n");
-  // else
-  //   printf("Q2-find-3 ERROR\n");
+  if (find(root_zero, is_even) == root_zero ||
+      find(root_zero, is_even) == two ||
+      find(root_zero, is_even) == hundred ||
+      find(root_zero, is_even) == neg_two)
+    printf("Q2-find-3 ok\n");
+  else
+    printf("Q2-find-3 ERROR\n");
 
-  // if (find(root_zero, greater100) == NULL)
-  //   printf("Q2-find-4 ok\n");
-  // else
-  //   printf("Q2-find-4 ERROR\n");
+  if (find(root_zero, greater100) == NULL)
+    printf("Q2-find-4 ok\n");
+  else
+    printf("Q2-find-4 ERROR\n");
 
 
   BT_free(root_zero);
@@ -492,8 +489,8 @@ int main()  {
  
   test_q2find();
   test_q2map();
-  // test_q2sum_of_leaves();
+  test_q2sum_of_leaves();
 
-  // test_q3_1();
-  // test_q3_2();
+  test_q3_1();
+  test_q3_2();
 }
