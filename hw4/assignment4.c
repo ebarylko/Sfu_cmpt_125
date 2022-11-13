@@ -172,13 +172,13 @@ BTnode_t* find(BTnode_t* root, bool (*pred)(int)) {
 // repeat on the children
 void map(BTnode_t* root, int (*f)(int)) {
  // checks for valid node
- if (!root) 
-  return;
- 
+ if (!root)
+   return;
+
   // applies function, then repeats on children
-  root->value = f(root->value);
-  map(root->left, f);
-  map(root->right, f);
+ root->value = f(root->value);
+ map(root->left, f);
+ map(root->right, f);
 }
 
 /**
