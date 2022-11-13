@@ -94,6 +94,7 @@ char* queue_str_to_string(queue_str_t* q) {
 
   // add additional piece of memory so null char is accounted for
   char* full_str = (char*)malloc(total_chars * sizeof(char));
+  full_str[0] = 0;
 
   // grab all strings from queue and concatenate them.
   while (!queue_is_empty(q)) {
