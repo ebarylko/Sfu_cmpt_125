@@ -98,6 +98,7 @@ char* queue_str_to_string(queue_str_t* q) {
   // grab all strings from queue and concatenate them.
   while (!queue_is_empty(q)) {
     str = dequeue(q);
+    printf("\n--%s--\n", str);
     enqueue(copy_queue, str);
     total_chars += strlen(str);
     full_str = (char *)realloc(full_str, total_chars * sizeof(char));
