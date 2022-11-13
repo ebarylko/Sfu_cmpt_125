@@ -94,6 +94,7 @@ char* queue_str_to_string(queue_str_t* q) {
 
   // add additional piece of memory so null char is accounted for
   char* full_str = (char*)malloc(total_chars * sizeof(char));
+  full_str[0] = 0;
 
   // grab all strings from queue and concatenate them.
   while (!queue_is_empty(q)) {
@@ -122,16 +123,6 @@ char* queue_str_to_string(queue_str_t* q) {
  * @return BTnode_t* the first node of the tree which passes 
  * the predicate, otherwise null.
  */
-// check first if root is valid. if not, return null.
-// else, go through tree looking for node which passes pred.
-// if found, return node. else, return null
-// stop when all nodes have been checked.
-// else, recur on follwing nodes
-// returning value of || is either 1 or 0, which is not
-// a node to a tree.
-// implement non-recursively
-// use a while loop to continue checking for the nodes until 
-// values match the predicate or is null
 BTnode_t* find(BTnode_t* root, bool (*pred)(int)) {
   // checking for a valid node
   if (!root)
@@ -172,10 +163,6 @@ void map(BTnode_t* root, int (*f)(int)) {
  * @param root the tree given
  * @return int the sum of all the leaves
  */
-// only add the value of node when it has no children.
-// stop when reaching there. else, continue until that point
-// is reached.
-// if passed a null pointer, return 0
 int sum_of_leaves(const BTnode_t* root) {
   // checking if the node is valid
   if (!root)
@@ -201,14 +188,6 @@ int sum_of_leaves(const BTnode_t* root) {
  * @param node  the node to start searching from
  * @return BTnode_t* the following node in preorder traversal
  */
-// check first that node is valid. if not return null
-// check if there are children. if left child exists,
-// go there. if not and right child exists, go there.
-// if neither, go up the branch until the node which you went 
-// up from stops being the right child and there is right child
-// to check for and node not null. in that case go to 
-// right child. if the node never stops being the right, 
-// return null
 BTnode_t* next_preorder(BTnode_t* node) {
   if (!node)
     return NULL;
