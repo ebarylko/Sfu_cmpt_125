@@ -57,10 +57,10 @@ RM = /usr/local/Cellar/cmake/3.24.1/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/ebarylko/Workbench/cmpt_125/Exercises/binary_tree_traversal
+CMAKE_SOURCE_DIR = /Users/ebarylko/Workbench/cmpt_125/Assignments/binary_tree_traversal
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/ebarylko/Workbench/cmpt_125/Exercises/binary_tree_traversal
+CMAKE_BINARY_DIR = /Users/ebarylko/Workbench/cmpt_125/Assignments/binary_tree_traversal
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ebarylko/Workbench/cmpt_125/Exercises/binary_tree_traversal/CMakeFiles /Users/ebarylko/Workbench/cmpt_125/Exercises/binary_tree_traversal//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ebarylko/Workbench/cmpt_125/Assignments/binary_tree_traversal/CMakeFiles /Users/ebarylko/Workbench/cmpt_125/Assignments/binary_tree_traversal//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ebarylko/Workbench/cmpt_125/Exercises/binary_tree_traversal/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ebarylko/Workbench/cmpt_125/Assignments/binary_tree_traversal/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -153,6 +153,30 @@ traverse_tree.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/traverse_tree.dir/build.make CMakeFiles/traverse_tree.dir/traverse_tree.c.s
 .PHONY : traverse_tree.c.s
 
+traverse_tree_test.o: traverse_tree_test.c.o
+.PHONY : traverse_tree_test.o
+
+# target to build an object file
+traverse_tree_test.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/traverse_tree.dir/build.make CMakeFiles/traverse_tree.dir/traverse_tree_test.c.o
+.PHONY : traverse_tree_test.c.o
+
+traverse_tree_test.i: traverse_tree_test.c.i
+.PHONY : traverse_tree_test.i
+
+# target to preprocess a source file
+traverse_tree_test.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/traverse_tree.dir/build.make CMakeFiles/traverse_tree.dir/traverse_tree_test.c.i
+.PHONY : traverse_tree_test.c.i
+
+traverse_tree_test.s: traverse_tree_test.c.s
+.PHONY : traverse_tree_test.s
+
+# target to generate assembly for a file
+traverse_tree_test.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/traverse_tree.dir/build.make CMakeFiles/traverse_tree.dir/traverse_tree_test.c.s
+.PHONY : traverse_tree_test.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -165,6 +189,9 @@ help:
 	@echo "... traverse_tree.o"
 	@echo "... traverse_tree.i"
 	@echo "... traverse_tree.s"
+	@echo "... traverse_tree_test.o"
+	@echo "... traverse_tree_test.i"
+	@echo "... traverse_tree_test.s"
 .PHONY : help
 
 

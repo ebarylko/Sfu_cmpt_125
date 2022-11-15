@@ -1,4 +1,4 @@
-# Install script for directory: /Users/ebarylko/Workbench/cmpt_125/Exercises/binary_tree_traversal
+# Install script for directory: /Users/ebarylko/Workbench/cmpt_125/Assignments/binary_tree_traversal
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/ebarylko/Workbench/cmpt_125/Exercises/binary_tree_traversal/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/ebarylko/Workbench/cmpt_125/Assignments/binary_tree_traversal/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

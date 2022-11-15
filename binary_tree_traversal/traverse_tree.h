@@ -1,0 +1,36 @@
+#ifndef TREE_TRAVERSAL
+#define TREE_TRAVERSAL
+#include <stdlib.h>
+
+
+// contract: binary tree will have children and parent. will be a collection of
+// nodes, will not be sorted and not be balanced.
+// will be able to search for parents, and children
+// create tree, add children, destroy tree
+// should I make function for accessing children? (should not changee regardless 
+// of implementation)
+// if adding children, must take a node
+// could have a function that creates a node
+
+typedef struct node {
+    int val;
+    struct node* parent;
+    struct node* left;
+    struct node* right;
+} node;
+
+// should I typedef binary_tree to just be a node?
+typedef struct {
+    node* root;
+} binary_tree;
+
+binary_tree* create_tree(int val); 
+
+void destroy_tree(binary_tree* tree); 
+
+void add_left_child(node* tree, int val); 
+
+void add_right_child(node* tree, int val); 
+
+
+#endif
