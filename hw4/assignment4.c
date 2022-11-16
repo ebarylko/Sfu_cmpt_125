@@ -1,7 +1,14 @@
 #include "assignment4.h"
-
+/**
+ * @brief takes two queues, and moves the contents of the first queue into the second
+ * 
+ * @param q1 the queue to take elements from
+ * @param q2 the queue to fill
+ * @return int the amount of elements taken from queue 1
+ */
 int transfer_queue(queue_str_t* q1, queue_str_t* q2) {
   int size = 0;
+  // move contents of q1 to q2
   while (!(queue_is_empty(q1))) {
     enqueue(q2, dequeue(q1));
     size++;
@@ -36,9 +43,10 @@ int queue_size(queue_str_t* q) {
  * @param q1 the first queue
  * @param q2 the second queue
  * @return true if both queues are equal
- * @return false if thhey are different
+ * @return false if they are different
  */
 bool queue_equal(queue_str_t* q1, queue_str_t* q2) {
+  // check both are same size
   if (queue_size(q1) != queue_size(q2))
     return false;
 
@@ -49,7 +57,7 @@ char* str1;
 char* str2;
 
 // checking the strings from both queues
-while ( !(queue_is_empty(q1)) && !(queue_is_empty(q2)) && match) {
+while ( !queue_is_empty(q1) && match) {
 // storing strings
 str1 = dequeue(q1);
 str2 = dequeue(q2);
@@ -64,7 +72,7 @@ if (strcmp(str1, str2))
 // if not equal before end, transfer remaining elements
 transfer_queue(q1, q1_copy);
 transfer_queue(q2, q2_copy);
-// return elements in coorrect order back to queues
+// return elements in correct order back to queues
 transfer_queue(q1_copy, q1);
 transfer_queue(q2_copy, q2);
 
@@ -73,6 +81,19 @@ queue_free(q2_copy);
 return match;
 
 }
+
+char* concat_str_queue(queue_str_t* q, char* str, int total_chars, queue_str_t* copy) {
+  char* temp_str;
+  while (!queue_is_empty(q)) {
+    temp_str = dequeue(q);
+    enqueue(copy, temp_str);
+    total_chars += strlen(temp_str);
+    str = (char *)realloc(str, total_chars * sizeof(char));
+    strcat(str, temp_str);
+  }
+  return str;
+}
+
 /**
  * @brief takes a queue, and returns a string containing
  * all the strings in the queues
@@ -87,24 +108,25 @@ char* queue_str_to_string(queue_str_t* q) {
     return NULL;
 
   queue_str_t* copy_queue = queue_create();
-  char* str;
+  // char* str;
 
   // keeping track of how much memory to allocate for later
   int total_chars = 1;
 
-  // add additional piece of memory so null char is accounted for
+  // initialize string containing all strings of queue
   char* full_str = (char*)malloc(total_chars * sizeof(char));
   full_str[0] = 0;
 
   // grab all strings from queue and concatenate them.
-  while (!queue_is_empty(q)) {
-    str = dequeue(q);
-    enqueue(copy_queue, str);
-    total_chars += strlen(str);
-    full_str = (char *)realloc(full_str, total_chars * sizeof(char));
-    strcat(full_str, str);
-  }
-  // // restore original queue
+  full_str = concat_str_queue(q, full_str, 1, copy_queue);
+  // while (!queue_is_empty(q))V {
+  //   str = dequeue(q);
+  //   enqueue(copy_queue, str);
+  //   total_chars += strlen(str);
+  //   full_str = (char *)realloc(full_str, total_chars * sizeof(char));
+  //   strcat(full_str, str);
+  // }
+   // restore original queue
   transfer_queue(copy_queue, q);
   queue_free(copy_queue);
   return full_str;
