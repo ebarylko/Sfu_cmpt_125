@@ -32,5 +32,11 @@ void add_left_child(node* tree, int val);
 
 void add_right_child(node* tree, int val); 
 
+int inorder_traverse(binary_tree* tree, int arr[], int size);
+
+int postorder_node(node* target, int arr[], int size, int index);
+
+int postorder_traverse(binary_tree* tree, int arr[], int size);
+
 
 #endif

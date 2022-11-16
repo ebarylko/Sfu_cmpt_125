@@ -59,3 +59,42 @@ void add_right_child(node* tree, int val) {
     tree->right = create_node(val);
     tree->right->parent = tree;
 }
+//       1
+//      2 3
+//2:  4 5 6 7
+
+int inorder_node(node* target, int arr[], int size, int index) {
+    if (!target) 
+        return 0;
+    int left = inorder_node(target->left, arr, size, index);
+    if (index + left >= size)
+        return left;
+    arr[index + left] = target->val;
+    int right = inorder_node(target->right, arr, size, index + left + 1);
+    return left + right + 1;
+}
+
+int inorder_traverse(binary_tree* tree, int arr[], int size) {
+    if (!tree)
+        return 0;
+    return inorder_node(tree->root, arr, size, 0);
+}
+
+int postorder_node(node* target, int arr[], int size, int index) {
+    if (!target) 
+        return 0;
+    int left = postorder_node(target->left, arr, size, index);
+    if (index + left >= size)
+        return left;
+
+    int right = postorder_node(target->right, arr, size, index + left);
+    arr[index + left + right] = target->val;
+    return left + right + 1;
+}
+
+
+int postorder_traverse(binary_tree* tree, int arr[], int size) {
+    if (!tree)
+        return 0;
+    return postorder_node(tree->root, arr, size, 0);
+}

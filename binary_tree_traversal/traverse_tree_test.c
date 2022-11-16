@@ -1,5 +1,6 @@
 #include "traverse_tree.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 
 
@@ -12,18 +13,52 @@ void create_tree_test() {
     }
 }
 
+bool compare_arrays(int arr1[], int arr2[], int size) {
+    for (int pos = 0; pos < size; pos++) {
+        if (arr1[pos] != arr2[pos])
+            return false;
+    }
+    return true;
+}
+//       1
+//      2 3
+//2: 4  5  6 7
+//3:     
 void add_children_test() {
     binary_tree* tree = create_tree(1);
 
     add_left_child(tree->root, 2);
     add_right_child(tree->root, 3);
 
-    if (tree && tree->root->left->val == 2 && tree->root->right->val == 3) {
+    add_left_child(tree->root->left, 4);
+    add_right_child(tree->root->left, 5);
+
+    add_left_child(tree->root->right, 6);
+    add_right_child(tree->root->right, 7);
+
+    int expected[] = {4, 2, 5, 1, 6, 3, 7};
+    int actual[7];
+
+    int counted = inorder_traverse(tree, actual, 7);
+
+    if (compare_arrays(expected, actual, 7)) {
         printf("\nadding children worked");
     } else {
         printf("\nadding children failed");
     }
+
+    // int expected_post[] = {4, 5, 2, 6, 7, 3, 1};
+    int actual_post[7];
+    int counted_post = postorder_traverse(tree, actual_post, 7);
+
+    if (compare_arrays(expected, actual_post, 7)) {
+        printf("\nadding children worked--");
+    } else {
+        printf("\nadding children failed--");
+    }
 }
+
+
 
 
 int main() {
