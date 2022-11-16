@@ -81,8 +81,17 @@ queue_free(q2_copy);
 return match;
 
 }
-
-char* concat_str_queue(queue_str_t* q, char* str, int total_chars, queue_str_t* copy) {
+/**
+ * @brief takes a queue q1 and a string, and returns the concatenation 
+ * of all the strings in q1.
+ * 
+ * @param q the queue being passed
+ * @param str an empty string
+ * @return char* the concatenation of all the strings in the queue
+ */
+char* concat_str_queue(queue_str_t* q, char* str) {
+  queue_str_t* copy = queue_create();
+  int total_chars = 1;
   char* temp_str;
   while (!queue_is_empty(q)) {
     temp_str = dequeue(q);
@@ -91,6 +100,9 @@ char* concat_str_queue(queue_str_t* q, char* str, int total_chars, queue_str_t* 
     str = (char *)realloc(str, total_chars * sizeof(char));
     strcat(str, temp_str);
   }
+  transfer_queue(copy, q);
+  queue_free(copy);
+
   return str;
 }
 
@@ -107,28 +119,17 @@ char* queue_str_to_string(queue_str_t* q) {
   if (queue_is_empty(q)) 
     return NULL;
 
-  queue_str_t* copy_queue = queue_create();
-  // char* str;
-
-  // keeping track of how much memory to allocate for later
-  int total_chars = 1;
+  // queue_str_t* copy_queue = queue_create();
 
   // initialize string containing all strings of queue
-  char* full_str = (char*)malloc(total_chars * sizeof(char));
+  char* full_str = (char*)malloc(sizeof(char));
   full_str[0] = 0;
 
   // grab all strings from queue and concatenate them.
-  full_str = concat_str_queue(q, full_str, 1, copy_queue);
-  // while (!queue_is_empty(q))V {
-  //   str = dequeue(q);
-  //   enqueue(copy_queue, str);
-  //   total_chars += strlen(str);
-  //   full_str = (char *)realloc(full_str, total_chars * sizeof(char));
-  //   strcat(full_str, str);
-  // }
+  full_str = concat_str_queue(q, full_str);
    // restore original queue
-  transfer_queue(copy_queue, q);
-  queue_free(copy_queue);
+  // transfer_queue(copy_queue, q);
+  // queue_free(copy_queue);
   return full_str;
 }
 
