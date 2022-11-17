@@ -1,6 +1,8 @@
 #ifndef TREE_TRAVERSAL
 #define TREE_TRAVERSAL
 #include <stdlib.h>
+#include <stdbool.h>
+
 
 
 // contract: binary tree will have children and parent. will be a collection of
@@ -34,9 +36,8 @@ void add_right_child(node* tree, int val);
 
 int inorder_traverse(binary_tree* tree, int arr[], int size);
 
-int postorder_node(node* target, int arr[], int size, int index);
-
 int postorder_traverse(binary_tree* tree, int arr[], int size);
 
+bool equal_trees(binary_tree* tr1, binary_tree* tr2); 
 
 #endif

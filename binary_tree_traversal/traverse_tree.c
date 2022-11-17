@@ -98,3 +98,37 @@ int postorder_traverse(binary_tree* tree, int arr[], int size) {
         return 0;
     return postorder_node(tree->root, arr, size, 0);
 }
+
+// Write an algorithm that given two Binary Trees checks if they are equal.
+// checks if nodes are valid. if one is not valid or neither match, return false. else
+// return result of checking children
+bool equal_nodes(node* nd1, node* nd2) {
+// stop when one of nodes is null or vals do not match
+if (!nd1 ^ !nd2)
+    return false;
+
+if (!nd1 && !nd2) 
+    return true;
+
+int match = nd1->val == nd2->val;  
+
+return match && equal_nodes(nd1->left, nd2->left) && equal_nodes(nd1->right, nd2->right);
+}
+
+// check one node at a time, if nodes are valid check if they match. if they do not,
+//return false. if both nodes are null, return true. if one is is null and other is 
+// valid, return false.
+// if both trees null, return true. if one tree null return false
+bool equal_trees(binary_tree* tr1, binary_tree* tr2) {
+if (!tr1 && !tr2)
+    return true;
+
+if (!tr1 ^ !tr2)
+    return false;
+
+return equal_nodes(tr1->root, tr2->root);
+}
+
+// ejercisios:
+// arbol binario: 1, 3, 5, 7
+// bsts:5 6

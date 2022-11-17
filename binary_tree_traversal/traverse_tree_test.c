@@ -58,11 +58,39 @@ void add_children_test() {
     }
 }
 
+void equal_trees_test() {
+    binary_tree* tree = create_tree(1);
+    add_left_child(tree->root, 2);
+    add_right_child(tree->root, 3);
+
+    binary_tree* tree2 = create_tree(1);
+    add_left_child(tree2->root, 2);
+    add_right_child(tree2->root, 9);
+
+
+    if (!equal_trees(tree, NULL)) {
+        printf("\n Equal tree check worked");
+    } else 
+        printf("\n Equal tree check failed");
+
+    if (equal_trees(tree, tree2)) {
+        printf("\n Equal tree check worked--");
+    } else 
+        printf("\n Equal tree check failed--");
+
+    if (equal_trees(NULL, NULL)) {
+        printf("\n Equal tree check worked-x");
+    } else 
+        printf("\n Equal tree check failed-x");
+
+
+}
 
 
 
 int main() {
     create_tree_test();
     add_children_test();
+    equal_trees_test();
     return 0;
 }
