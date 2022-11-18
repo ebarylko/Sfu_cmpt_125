@@ -96,26 +96,56 @@ void mirror_tree_test() {
     add_left_child(tree->root->right, 6);
     add_right_child(tree->root->right, 7);
 
-    binary_tree* mirror = create_tree(1);
+    binary_tree* tree2 = create_tree(1);
 
-    add_right_child(mirror->root, 2);
-    add_left_child(mirror->root, 3);
+    add_left_child(tree2->root, 2);
+    add_right_child(tree2->root, 3);
 
-    add_right_child(mirror->root->right, 4);
-    add_left_child(mirror->root->right, 5);
+    add_left_child(tree2->root->left, 4);
+    add_right_child(tree2->root->left, 5);
 
-    add_right_child(mirror->root->left, 6);
-    add_left_child(mirror->root->left, 7);
+    add_left_child(tree2->root->right, 6);
+    add_right_child(tree2->root->right, 7);
 
-    print_tree(tree);
-    printf("\n ----\n");
-    mirror_tree(tree);
-    print_tree(tree);
-    if (equal_trees(tree, mirror)) {
+    // binary_tree* mirror = create_tree(1);
+
+    // add_right_child(mirror->root, 2);
+    // add_left_child(mirror->root, 3);
+
+    // add_right_child(mirror->root->right, 4);
+    // add_left_child(mirror->root->right, 5);
+
+    // add_right_child(mirror->root->left, 6);
+    // add_left_child(mirror->root->left, 7);
+
+    mirror_tree(tree2);
+    mirror_tree(tree2);
+
+
+    if (equal_trees(tree, tree2)) {
         printf("\n Mirroring trees worked--");
     } else 
         printf("\n Mirroring trees failed--");
+}
 
+void tree_depth_test() {
+    binary_tree* tree2 = create_tree(1);
+
+    add_left_child(tree2->root, 2);
+    add_right_child(tree2->root, 3);
+
+    add_left_child(tree2->root->left, 4);
+    add_right_child(tree2->root->left, 5);
+
+    add_left_child(tree2->root->right, 6);
+    add_right_child(tree2->root->right, 7);
+
+    int depth = tree_depth(tree2);
+
+    if (depth == 1) {
+        printf("\nDepth checking worked");
+    } else 
+        printf("\nDepth checking failed, %d", depth);
 }
 
 int main() {
@@ -123,5 +153,6 @@ int main() {
     add_children_test();
     equal_trees_test();
     mirror_tree_test();
+    tree_depth_test();
     return 0;
 }

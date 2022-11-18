@@ -167,6 +167,35 @@ void mirror_tree(binary_tree* tree) {
     mirror_nodes(tree->root);
 }
 
+// Write an algorithm that gets a tree and computes 
+//its depth using recursive/iterative implementation.
+
+//recursively 
+
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+int node_depth(node* nd) {
+    if (!nd) 
+        return -1;
+    return max(node_depth(nd->left), node_depth(nd->right)) + 1;
+}
+
+int tree_depth(binary_tree* tree) {
+    if (!tree) 
+        return 0;
+    return node_depth(tree->root);
+}
+
+//iteratively
+// create stack of data type that holds nodes and depth at that node
+// check if node is valid. if so, push onto stack left and right children with depth size
+// incremented. 
+// if node not valid, decrement depth size and check whether is the depth is greater
+// than max. if so, change max. if not, continue on.
+// continue while stack !empty
+
 // ejercisios:
 // arbol binario: 1, 3, 5, 7
 // bsts:5 6

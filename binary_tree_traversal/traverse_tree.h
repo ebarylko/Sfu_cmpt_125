@@ -44,5 +44,6 @@ void mirror_tree(binary_tree* tree);
 
 void print_tree(binary_tree* tree); 
 
+int tree_depth(binary_tree* tree); 
 
 #endif
