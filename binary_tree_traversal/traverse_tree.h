@@ -40,4 +40,9 @@ int postorder_traverse(binary_tree* tree, int arr[], int size);
 
 bool equal_trees(binary_tree* tr1, binary_tree* tr2); 
 
+void mirror_tree(binary_tree* tree);
+
+void print_tree(binary_tree* tree); 
+
+
 #endif

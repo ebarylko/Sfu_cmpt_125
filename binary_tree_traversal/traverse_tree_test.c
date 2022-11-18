@@ -82,15 +82,46 @@ void equal_trees_test() {
         printf("\n Equal tree check worked-x");
     } else 
         printf("\n Equal tree check failed-x");
-
-
 }
 
+void mirror_tree_test() { 
+    binary_tree* tree = create_tree(1);
 
+    add_left_child(tree->root, 2);
+    add_right_child(tree->root, 3);
+
+    add_left_child(tree->root->left, 4);
+    add_right_child(tree->root->left, 5);
+
+    add_left_child(tree->root->right, 6);
+    add_right_child(tree->root->right, 7);
+
+    binary_tree* mirror = create_tree(1);
+
+    add_right_child(mirror->root, 2);
+    add_left_child(mirror->root, 3);
+
+    add_right_child(mirror->root->right, 4);
+    add_left_child(mirror->root->right, 5);
+
+    add_right_child(mirror->root->left, 6);
+    add_left_child(mirror->root->left, 7);
+
+    print_tree(tree);
+    printf("\n ----\n");
+    mirror_tree(tree);
+    print_tree(tree);
+    if (equal_trees(tree, mirror)) {
+        printf("\n Mirroring trees worked--");
+    } else 
+        printf("\n Mirroring trees failed--");
+
+}
 
 int main() {
     create_tree_test();
     add_children_test();
     equal_trees_test();
+    mirror_tree_test();
     return 0;
 }

@@ -100,19 +100,18 @@ int postorder_traverse(binary_tree* tree, int arr[], int size) {
 }
 
 // Write an algorithm that given two Binary Trees checks if they are equal.
-// checks if nodes are valid. if one is not valid or neither match, return false. else
-// return result of checking children
 bool equal_nodes(node* nd1, node* nd2) {
-// stop when one of nodes is null or vals do not match
 if (!nd1 ^ !nd2)
     return false;
 
 if (!nd1 && !nd2) 
     return true;
 
-int match = nd1->val == nd2->val;  
+int match = nd1->val == nd2->val;
 
-return match && equal_nodes(nd1->left, nd2->left) && equal_nodes(nd1->right, nd2->right);
+return nd1->val == nd2->val &&
+       equal_nodes(nd1->left, nd2->left) &&
+       equal_nodes(nd1->right, nd2->right);
 }
 
 // check one node at a time, if nodes are valid check if they match. if they do not,
@@ -127,6 +126,45 @@ if (!tr1 ^ !tr2)
     return false;
 
 return equal_nodes(tr1->root, tr2->root);
+}
+
+//Write an algorithm that gets a Binary Tree and modifies the tree so that it becomes its
+// own mirror image. What happens when you apply the algorithm on a tree twice? 
+//       1
+//      2 3
+//2: 4  5  6 7
+//       1
+//      3 2
+//2: 7  6  5 4
+
+void print_node(node* nd) {
+    if (!nd) 
+        return;
+    printf("%d\n", nd->val);
+    print_node(nd->left);
+    print_node(nd->right);
+}
+
+void print_tree(binary_tree* tree) {
+    if (!tree) 
+        return;
+    print_node(tree->root);
+}
+
+void mirror_nodes(node* nd) {
+    if (!nd) 
+        return;
+    mirror_nodes(nd->left);
+    mirror_nodes(nd->right);
+    node* temp = nd->left;
+    nd->left = nd->right;
+    nd->right = temp;
+}
+
+void mirror_tree(binary_tree* tree) {
+    if (!tree) 
+        return;
+    mirror_nodes(tree->root);
 }
 
 // ejercisios:
