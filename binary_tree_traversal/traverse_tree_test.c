@@ -143,9 +143,27 @@ void tree_depth_test() {
     int depth = tree_depth(tree2);
 
     if (depth == 1) {
-        printf("\nDepth checking worked");
+        printf("\nrecursive Depth checking worked");
     } else 
-        printf("\nDepth checking failed, %d", depth);
+        printf("\nrecursive Depth checking failed, %d", depth);
+    
+    binary_tree* tree1 = create_tree(1);
+
+    // add_left_child(tree1->root, 2);
+    // add_left_child(tree1->root->left, 3);
+
+    // add_left_child(tree1->root->left->left, 4);
+    // add_left_child(tree1->root->left->left->left, 5);
+
+    // add_right_child(tree1->root, 6);
+    // add_right_child(tree1->root->right, 7);
+
+    int iter_depth = iter_tree_depth(tree1);
+    if (iter_depth == 2) {
+        printf("\niterative Depth checking worked");
+    } else 
+        printf("\niterative Depth checking failed, %d", iter_depth);
+
 }
 
 int main() {

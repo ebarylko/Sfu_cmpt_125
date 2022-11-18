@@ -189,12 +189,143 @@ int tree_depth(binary_tree* tree) {
 }
 
 //iteratively
-// create stack of data type that holds nodes and depth at that node
-// check if node is valid. if so, push onto stack left and right children with depth size
-// incremented. 
-// if node not valid, decrement depth size and check whether is the depth is greater
-// than max. if so, change max. if not, continue on.
-// continue while stack !empty
+// data type; stack that can hold a node of a tree
+// stack: create, destroy, push, pop, size
+// create stack, then add root. while stack not empty, do following check:
+// if node is not valid, return 0. else, check distance from the root.
+// if distance from root greater than max, change max. else, do nothing.
+// push onto stack left and right nodes
+
+linked_list* create_list() {
+    linked_list* list = (linked_list*)malloc(sizeof(linked_list));
+    list->head = NULL;
+    list->tail = NULL;
+    list->elems = 0;
+    return list;
+}
+
+new_node* make_node(node* val) {
+    new_node* new_nd = (new_node*)malloc(sizeof(new_node));
+    new_nd->data = val;
+    new_nd->next = NULL;
+    return new_nd;
+}
+
+linked_list_iterator create_iterator(linked_list* list) {
+return list->head;
+}
+
+bool has_next(linked_list_iterator iter) {
+return iter;
+}
+
+node* get_elem(linked_list_iterator iter) {
+return iter->data;
+}
+
+linked_list_iterator next(linked_list_iterator iter) {
+return iter->next;
+}
+
+
+// get size of list
+int get_size(linked_list* list) {
+    int size = 0;
+    linked_list_iterator iter = create_iterator(list);
+    while (has_next(iter)) {
+        size++;
+        iter = next(iter);
+    }
+    return size;
+}
+
+// adds to head
+void add_to_head(linked_list* list, node* val) {
+    new_node* node = make_node(val);
+    node->next = list->head;
+    list->head = node;
+    if (!(list->elems)) {
+        list->tail = node;
+    }
+    (list->elems)++;
+}
+
+
+// gives all elements after head, returns taken element
+node* rest(linked_list* list) {
+    if (!list->elems)
+        return NULL;
+
+    new_node* old_head = list->head;
+    node* val = old_head->data;
+    if (list->elems == 1) {
+        list->tail = NULL;
+    }
+
+    list->head = list->head->next;
+    free(old_head);
+    list->elems--;
+    return val;
+}
+
+void free_list(linked_list* list) {
+    while (list->head)
+        rest(list);
+    free(list);
+}
+
+typedef linked_list stack;
+
+stack* create_stack() {
+    stack* new_stack = create_list();
+    return new_stack;
+}
+
+void free_stack(stack* stack) {
+    free_list(stack);
+}
+
+int stack_size(stack* stack) {
+    return get_size(stack);
+}
+
+void push(stack* stack, node* val) {
+    add_to_head(stack, val);
+}
+
+node* pop(stack* stack) {
+    return rest(stack);
+}
+
+int height(node* nd) {
+    int height = 0;
+    while (nd->parent) {
+        height++;
+        nd = nd->parent;
+    }
+    return height;
+}
+
+int iter_tree_depth(binary_tree* tree) {
+    if (!tree) 
+        return 0;
+
+    int max = 0;
+    stack* stack = create_stack();
+    push(stack, tree->root);
+    while (stack_size(stack)) {
+        int ht;
+        node* result = pop(stack);
+        if ( (ht = height(result)) > max) 
+            max = ht;
+
+        if (result->left)
+            push(stack, result->left);
+        if (result->right)
+            push(stack, result->right);
+    }
+    return max;
+}
 
 // ejercisios:
 // arbol binario: 1, 3, 5, 7
