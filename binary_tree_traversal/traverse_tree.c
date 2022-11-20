@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "traverse_tree.h"
+#define max(a, b) (a > b ? a : b)
 
 // contract: binary tree will have children and parent. will be a collection of
 // nodes, will not be sorted and not be balanced.
@@ -176,10 +177,6 @@ void mirror_tree(binary_tree* tree) {
 
 //recursively 
 
-int max(int a, int b) {
-    return a > b ? a : b;
-}
-
 int node_depth(node* nd) {
     if (!nd) 
         return -1;
@@ -314,21 +311,20 @@ int iter_tree_depth(binary_tree* tree) {
     if (!tree) 
         return 0;
 
-    int max = 0;
+    int mx = 0;
     stack* stack = create_stack();
     push(stack, tree->root);
     while (stack_size(stack)) {
         int ht;
         node* result = pop(stack);
-        if ( (ht = height(result)) > max) 
-            max = ht;
+        mx = max(mx, height(result));
 
         if (result->left)
             push(stack, result->left);
         if (result->right)
             push(stack, result->right);
     }
-    return max;
+    return mx;
 }
 
 // Write an algorithm that gets an array of numbers and returns a 
