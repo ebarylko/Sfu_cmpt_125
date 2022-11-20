@@ -32,11 +32,15 @@ void destroy_node(node* target) {
     free(target);
 }
 
-binary_tree* create_tree(int val) {
+binary_tree* create_tree_from_node(node* root) {
     binary_tree* tree = (binary_tree*)malloc(sizeof(binary_tree));
-    node* root = create_node(val);
     tree->root = root;
     return tree;
+}
+
+binary_tree* create_tree(int val) {
+    node* root = create_node(val);
+    return create_tree_from_node(root);
 }
 
 void destroy_tree(binary_tree* tree) {
@@ -325,6 +329,70 @@ int iter_tree_depth(binary_tree* tree) {
             push(stack, result->right);
     }
     return max;
+}
+
+// Write an algorithm that gets an array of numbers and returns a 
+//Binary Tree whose InOrder traversal is this sequence.
+// There might be more than one such tree.
+
+// if start > end || start < 0 || end >= size ||
+// [ 1 2 3 4 5]
+// [1 2]
+// [4 5]
+// [4]
+// [1]
+// I do not know where to transfer following node for func call
+
+
+/**
+ * @brief Create the root node and attaches left and right
+ * 
+ * @param start 
+ * @param end 
+ * @param size 
+ * @return node* 
+ */
+node* inorder_from_array(int *arr, int start, int end, int size) {
+    // check that is valid, if not return
+    if (start > end || start < 0 || end >= size)
+    {
+        return NULL;
+    }
+
+    int root = (end - start + 1) / 2;
+
+    // I know root index is the root
+    node *root_node = create_node(arr[start + root]);
+
+    root_node->left = inorder_from_array(arr, start, start + root - 1, size);
+    root_node->right = inorder_from_array(arr, start + root + 1, end, size);
+
+    return root_node;
+}
+
+// check middle of the array. make that element the root.
+// repeat on the left and right subtrees, giving the correct function
+// helper function: take a node, an array, a function, and a set of stop/start
+// indices. 
+// stop: if start index > stop index || start < 0, return
+// else: calculate midpoint of points given. add that to start index and 
+// then add to node using function passed. repeat on vals to the left and right of
+// midpoint. adjust start/stop to reflect this. 
+// if start = stop, add then do nothing
+/**
+ * @brief takes an array, and returns a binary tree such that traversing it in order 
+ * gives the values of the array
+ * 
+ * @param arr the array
+ * @param length size of the array
+ * @return binary_tree* the tree filled with the values of the array in inorder positioning
+ */
+binary_tree* arr_to_tree(int* arr, int length) {
+    if (!arr) 
+        return NULL;
+
+    node *root = inorder_from_array(arr, 0, length - 1, length);
+    return create_tree_from_node(root);
 }
 
 // ejercisios:

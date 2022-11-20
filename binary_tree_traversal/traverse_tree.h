@@ -76,6 +76,8 @@ node* pop(stack* stack);
 
 int iter_tree_depth(binary_tree* tree); 
 
+binary_tree* arr_to_tree(int* arr, int length);
+
 
 // linked list full of nodes, with pointer to next node
 
