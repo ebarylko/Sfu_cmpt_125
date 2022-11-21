@@ -184,6 +184,71 @@ void arr_to_tree_test() {
    destroy_tree(tree); 
 }
 
+void create_bst_test() {
+    binary_search_tree* bst = create_bst(5);
+    if (bst) {
+        printf("\nBst creation worked\n");
+    } else {
+        printf("\nBst creation failed\n");
+    }
+    destroy_bst(bst);
+}
+
+void bst_insertion_test() {
+    binary_search_tree* bst = create_bst(5);
+    insert(bst, 4);
+    insert(bst, 9);
+    insert(bst, 3);
+    insert(bst, 7);
+    insert(bst, 10);
+
+    node* right = bst->root->right;
+    node* left = bst->root->left;
+    int smallest = left->left->val;
+    int largest = right->right->val;
+    int third_largest = right->left->val;
+
+    if (right->val == 9 && left->val == 4) {
+        printf("Bst insertion worked for first level\n");
+    } else {
+        printf("Bst insertion failed for first level\n");
+    }
+
+    if (smallest == 3 && largest == 10 && third_largest == 7) {
+        printf("Bst insertion worked for second level\n");
+    } else {
+        printf("Bst insertion failed for second level\n");
+    }
+
+    destroy_bst(bst);
+}
+
+void find_node_test() {
+    binary_search_tree* bst = create_bst(5);
+    insert(bst, 4);
+    insert(bst, 9);
+    insert(bst, 3);
+    insert(bst, 7);
+    insert(bst, 10);
+
+    if (!find(NULL, 8)) {
+        printf("Find works on an empty tree\n");
+    } else {
+        printf("Find does not work on an empty tree\n");
+    }
+
+    node* found = find(bst, 3);
+    node* not_found = find(bst, -1);
+
+    if (found && found->val == 3 && !not_found) {
+        printf("Find works on an filled tree\n");
+    } else {
+        printf("Find does not work on a filled tree\n");
+    }
+
+    destroy_bst(bst);
+}
+
 int main() {
     create_tree_test();
     add_children_test();
@@ -191,5 +256,8 @@ int main() {
     mirror_tree_test();
     tree_depth_test();
     arr_to_tree_test();
+    create_bst_test();
+    bst_insertion_test();
+    find_node_test();
     return 0;
 }

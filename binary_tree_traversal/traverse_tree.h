@@ -15,6 +15,7 @@ typedef struct {
     node* root;
 } binary_tree;
 
+typedef binary_tree binary_search_tree;
 
 typedef struct new_node{
     node* data;
@@ -51,6 +52,16 @@ void mirror_tree(binary_tree* tree);
 void print_tree(binary_tree* tree); 
 
 int tree_depth(binary_tree* tree); 
+
+binary_search_tree* create_bst(int val);
+
+node* find(binary_search_tree* bst, int val);
+
+void insert(binary_search_tree* bst, int val);
+
+void delete_node(binary_search_tree*, node* nd);
+
+void destroy_bst(binary_search_tree*);
 
 linked_list* create_list(); 
 

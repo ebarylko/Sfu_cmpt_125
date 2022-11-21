@@ -4,17 +4,6 @@
 #include "traverse_tree.h"
 #define max(a, b) (a > b ? a : b)
 
-// contract: binary tree will have children and parent. will be a collection of
-// nodes, will not be sorted and not be balanced.
-// will be able to search for parents, and children
-// create tree, add children, destroy tree
-// should I make function for accessing children? (should not changee regardless 
-// of implementation)
-// if adding children, must take a node
-// could have a function that creates a node
-
-// should this function take a val, since to create a tree requires a root,
-// and a root needs a value.
 
 node* create_node(int val) {
     node* nd = (node*)malloc(sizeof(node));
@@ -64,9 +53,69 @@ void add_right_child(node* tree, int val) {
     tree->right = create_node(val);
     tree->right->parent = tree;
 }
-//       1
-//      2 3
-//2:  4 5 6 7
+
+// binary search tree:
+// contract: search in log n, insert in log n, create tree, delete tree, delete node
+// elements to the left of the node are smaller or =, elements to the right are bigger
+
+binary_search_tree* create_bst(int val) {
+    binary_search_tree* tree = create_tree(val);
+    return tree;
+}
+
+void destroy_bst(binary_search_tree* tree) {
+    destroy_tree(tree);
+}
+
+
+void insert(binary_search_tree* tree, int val) {
+    if (!tree) 
+        return;
+
+    node* curr = tree->root;
+    node* prev;
+
+    while (curr) {
+        prev = curr;
+        curr = val > curr->val ? curr->right : curr->left;
+    }
+
+    if (val > prev->val) {
+        add_right_child(prev, val);
+    } else {
+        add_left_child(prev, val);
+    }
+}
+
+
+node* find(binary_search_tree* tree, int val) {
+    if (!tree) 
+        return NULL;
+
+    node* nd = tree->root;
+    while (nd && nd->val != val) {
+        nd = val > nd->val ? nd->right : nd->left;
+    }
+
+    return nd;
+}
+
+// if tree not valid, get out.
+// if node is leaf, set it = null for parent
+// cases: node has parent/ has no parent
+// if it has one child, link parent and child
+// if it has two children, find smallest val in right sub tree and replace node with it
+void delete_node(binary_search_tree* tree, node* nd) {
+    if (!tree) 
+        return;
+
+    // if (leaf(nd)) {
+    //     if (nd->parent) {
+    //         nd->parent->
+
+    //     }
+    // }
+}
 
 int inorder_node(node* target, int arr[], int size, int index) {
     if (!target) 
