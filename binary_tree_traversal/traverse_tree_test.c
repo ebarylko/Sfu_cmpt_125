@@ -249,6 +249,37 @@ void find_node_test() {
     destroy_bst(bst);
 }
 
+
+void delete_node_test() {
+    binary_search_tree* bst = create_bst(5);
+    insert(bst, 4);
+    insert(bst, 9);
+
+
+    delete_node(bst, bst->root->right);
+    if (!bst->root->right) {
+        printf("deletion works for nodes which are leaves\n");
+    } else {
+        printf("deletion does not work for nodes which are leaves\n");
+    }
+
+
+    binary_search_tree* bst2 = create_bst(5);
+    insert(bst2, 4);
+    insert(bst2, 9);
+    insert(bst2, 10);
+
+    // delete_node(bst, bst->root);
+    delete_node(bst2, bst2->root->right);
+
+    if (bst2->root->right->val == 10) {
+        printf("node deletion works on a node with one child\n");
+    } else {
+        printf("node deletion does not work on a node with one child\n");
+        printf("%d, %d\n", bst2->root->right->val, bst2->root->val);
+    }
+}
+
 int main() {
     create_tree_test();
     add_children_test();
@@ -259,5 +290,6 @@ int main() {
     create_bst_test();
     bst_insertion_test();
     find_node_test();
+    delete_node_test();
     return 0;
 }

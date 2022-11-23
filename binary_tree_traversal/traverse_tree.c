@@ -14,11 +14,11 @@ node* create_node(int val) {
     return nd;
 }
 
-void destroy_node(node* target) {
+void destroy_subtree(node* target) {
     if (!target) 
         return;
-    destroy_node(target->left);
-    destroy_node(target->right);
+    destroy_subtree(target->left);
+    destroy_subtree(target->right);
     free(target);
 }
 
@@ -36,7 +36,7 @@ binary_tree* create_tree(int val) {
 void destroy_tree(binary_tree* tree) {
     if (!tree) 
         return;
-    destroy_node(tree->root);
+    destroy_subtree(tree->root);
     free(tree);
 }
 
@@ -73,17 +73,21 @@ void insert(binary_search_tree* tree, int val) {
         return;
 
     node* curr = tree->root;
-    node* prev;
+    node* prev = NULL;
 
     while (curr) {
         prev = curr;
         curr = val > curr->val ? curr->right : curr->left;
     }
 
-    if (val > prev->val) {
-        add_right_child(prev, val);
+    if (prev) {
+        if (val > prev->val) {
+            add_right_child(prev, val);
+        } else {
+            add_left_child(prev, val);
+        }
     } else {
-        add_left_child(prev, val);
+        tree->root = create_node(val);
     }
 }
 
@@ -102,19 +106,70 @@ node* find(binary_search_tree* tree, int val) {
 
 // if tree not valid, get out.
 // if node is leaf, set it = null for parent
-// cases: node has parent/ has no parent
+// cases: node has parent/ has no parent:
+// if no parent, free node. else, free node and set parent to point to null
 // if it has one child, link parent and child
+// if no parent above node, mreplace nd with child
 // if it has two children, find smallest val in right sub tree and replace node with it
+
+bool leaf(node* nd) {
+    return !nd->left && !nd->right;
+}
+
+bool left_child(node* child, node* parent) {
+    return parent->left == child;
+}
+
+
+node* one_child(node* nd) {
+    if (!nd->left ^ !nd->right) {
+        return nd->left ? nd->left : nd->right;
+    }
+    return NULL;
+}
+
+// if nd has one child: connect parent to child. free node afterwards
+//if nd has parent; connect child to parent.
+// if nd !parent: simply replace node with child
+// always store node somewhere temporarily
 void delete_node(binary_search_tree* tree, node* nd) {
     if (!tree) 
         return;
 
-    // if (leaf(nd)) {
-    //     if (nd->parent) {
-    //         nd->parent->
+    // iif node is a leaf
+    if (leaf(nd)) {
+        if (nd->parent) {
+            if (left_child(nd, nd->parent)) {
+                nd->parent->left = NULL;
+            } else {
+                nd->parent->right = NULL;
+            }
+        } else {
+            tree->root = NULL;
+        }
+        free(nd);   
+        return; 
+    }
 
-    //     }
-    // }
+    
+//     // if node has a child
+    node* child;
+    if ((child = one_child(nd))) {
+        printf("Val of child: %d, %d\n", child->val, nd->val);
+        if (nd->parent) {
+            if (left_child(nd, nd->parent)) {
+                nd->parent->left = child;
+            } else {
+                nd->parent->right = child;
+            }
+            child->parent = nd->parent;
+            printf("Val of parent: %d\n", child->parent->val);
+        } else {
+            tree->root = child;
+        }
+        free(nd);
+        return;
+    }
 }
 
 int inorder_node(node* target, int arr[], int size, int index) {
