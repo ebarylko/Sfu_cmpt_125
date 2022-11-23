@@ -128,10 +128,21 @@ node* one_child(node* nd) {
     return NULL;
 }
 
+node* largest_left(node* nd) {
+    while (nd->right) {
+        nd = nd->right;
+    }
+    return nd;
+}
+
 // if nd has one child: connect parent to child. free node afterwards
 //if nd has parent; connect child to parent.
 // if nd !parent: simply replace node with child
 // always store node somewhere temporarily
+// if it has two children: find the largest in the left subtree, replace node with that
+//  if nd has parent: change parent to point to replacement, replacement->left points
+// to nd->left and replacement->right points to nd->right
+// if no parent: everything from above, except the parent change
 void delete_node(binary_search_tree* tree, node* nd) {
     if (!tree) 
         return;
@@ -155,7 +166,6 @@ void delete_node(binary_search_tree* tree, node* nd) {
 //     // if node has a child
     node* child;
     if ((child = one_child(nd))) {
-        printf("Val of child: %d, %d\n", child->val, nd->val);
         if (nd->parent) {
             if (left_child(nd, nd->parent)) {
                 nd->parent->left = child;
@@ -163,13 +173,35 @@ void delete_node(binary_search_tree* tree, node* nd) {
                 nd->parent->right = child;
             }
             child->parent = nd->parent;
-            printf("Val of parent: %d\n", child->parent->val);
         } else {
             tree->root = child;
         }
         free(nd);
         return;
     }
+
+    // if node has two children
+    node* replacement = largest_left(nd->left);
+    if (left_child(replacement, replacement->parent)) {
+        replacement->parent->left = NULL;
+    } else {
+        replacement->parent->right = NULL;
+    }
+
+    replacement->left = nd->left;
+    replacement->right = nd->right;
+
+    if (nd->parent) {
+        if (left_child(nd, nd->parent)) {
+            nd->parent->left = replacement;
+        } else {
+            nd->parent->right = replacement;
+        }
+    } else {
+        tree->root = replacement;
+    }
+    free(nd);
+    return;
 }
 
 int inorder_node(node* target, int arr[], int size, int index) {

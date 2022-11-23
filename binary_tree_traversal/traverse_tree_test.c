@@ -278,6 +278,34 @@ void delete_node_test() {
         printf("node deletion does not work on a node with one child\n");
         printf("%d, %d\n", bst2->root->right->val, bst2->root->val);
     }
+
+    binary_search_tree* bst3 = create_bst(5);
+    insert(bst3, 4);
+    insert(bst3, 9);
+    insert(bst3, 10);
+
+    delete_node(bst3, bst3->root);
+
+    if (bst3->root->val == 4) {
+        printf("node deletion works on a node with two children\n");
+    } else {
+        printf("node deletion does not work on a node with two children\n");
+    }
+
+    binary_search_tree* bst4 = create_bst(5);
+    insert(bst4, 4);
+    insert(bst4, 9);
+    insert(bst4, 8);
+    insert(bst4, 10);
+
+    delete_node(bst4, bst4->root->right);
+
+    if (bst4->root->right->val == 8) {
+        printf("node deletion works on a node with two children that is not at root\n");
+    } else {
+        printf("node deletion does not work on a node with two children that is not at root\n");
+    }
+
 }
 
 int main() {
