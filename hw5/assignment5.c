@@ -64,6 +64,33 @@ int count_tokens(const char* str, char delim) {
 }
 
 /**
+ * @brief takes a string, a start position, and end position. 
+ * returns a string filled with the characters from start to 
+ * end inclusive
+ * 
+ * @param str the string passed
+ * @param start the position of where to start taaking chars
+ * @param end where to stop taking chars
+ * @return char* a string which is the collection of chars 
+ * from start to end - 1
+ */
+
+// alloc memory for consumed + 1, +1 for \0
+// go from start to start + chars -   1, fill up string with
+// chars from the string.
+// fill at temp_str[char] = \0
+// return temo_str
+char* fill_str(const char* str, int start, int chars) {
+  char* temp_str = (char*)malloc(sizeof(char) * chars + 1);
+  int new_pos = 0;
+  for (int i = start; i < start + chars; i++) {
+    temp_str[new_pos++] = str[i];
+  }
+  temp_str[new_pos] = 0;
+  return temp_str;
+}
+
+/**
  * @brief takes a string and a delimiter, and returns all the
  * substrings seperated by the delimiter
  * 
@@ -72,11 +99,31 @@ int count_tokens(const char* str, char delim) {
  * @return char** the array of substrings seperated by the delimiter
  * in the original string
  */
+// can't modify the string.
+// go through the array grabbing all the substrings split by
+// the delimiter and put them in an array.
+// go through the array, and check if chars have been consumed to
+// reach delim. if so, allocate a string with the 
+// memory for that amount of consumed chars, and fill string 
+// with chars from the indices pos - pos + consumed - 1.
+// put the string in array. return array at the end
 char** get_tokens(const char* str, char delim) {
   if (!str) 
     return NULL;
-  // implement me
-  return NULL;
+
+  char** strings = (char**)malloc(sizeof(char*) * count_tokens(str, delim));
+  int consumed;
+  int pos = 0;
+  int new_str_pos = 0;
+
+ while ((consumed = find_delim(str, pos, delim)) != -1) {
+  // if non-delim characters have been consumed
+    if (consumed) {
+      strings[new_str_pos++] = fill_str(str, pos, consumed);
+    }
+    pos = next_non_delim(str, pos + consumed, delim);
+}
+return strings;
 }
 
 
