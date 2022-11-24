@@ -82,6 +82,30 @@ void test_q1_2() {
     printf("Q1-2-get-tokens ok\n");
 }
 
+void test_q1_3() {
+
+  char *str = "---Given--the";
+  char delim = '*';
+  int count = count_tokens(str, delim);
+  if (count == 0)
+    printf("Q1-3-count ok\n");
+  else
+    printf("Q1-3-count ERROR\n");
+
+  char **tokens = get_tokens(str, delim);
+
+  char** sol= NULL;
+
+  if (!tokens) {
+    printf("Q1-3-tokens tokens == NULL\n");
+  }
+
+  free(tokens);
+
+
+}
+
+
 void test_q2_1() {
   char* init_str = "hello";
 
@@ -309,8 +333,9 @@ void test_q4_2() {
 // to comment out some of the test cases
 // and focus only on the one you are working on right now
 int main() {
-  test_q1_1();
-  test_q1_2();
+  // test_q1_1();
+  // test_q1_2();
+  test_q1_3();
 
   // test_q2_1();
   // test_q2_2();

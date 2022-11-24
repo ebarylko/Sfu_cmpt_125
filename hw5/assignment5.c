@@ -12,7 +12,7 @@
  * @return int the amount of chars consumed to find delim, or 
  * -1 is null char is encountered
  */
-int find_delim(const char* str, int pos, char delim) {
+int find_delim(const char* str, int pos, char delim, int length) {
   if (!str[pos]) 
     return -1;
 
@@ -21,7 +21,7 @@ int find_delim(const char* str, int pos, char delim) {
     consumed++;
   }
 
-  return consumed;
+  return consumed == length ? -1 : consumed;
 }
 
 int next_non_delim(const char* str, int pos, char delim) {
@@ -52,9 +52,10 @@ int count_tokens(const char* str, char delim) {
  int pos = 0;
  int consumed;
  int count = 0;
+ int length = strlen(str);
 
   // while null char has not been reached
- while ((consumed = find_delim(str, pos, delim)) != -1) {
+ while ((consumed = find_delim(str, pos, delim, length)) != -1) {
   // if non-delim characters have been consumed
     count += consumed > 0 ? 1: 0;
     pos = next_non_delim(str, pos + consumed, delim);
@@ -108,17 +109,19 @@ char* fill_str(const char* str, int start, int chars) {
 // with chars from the indices pos - pos + consumed - 1.
 // put the string in array. return array at the end
 char** get_tokens(const char* str, char delim) {
-  if (!str) 
+  if (!str || !count_tokens(str, delim)) 
     return NULL;
 
   char** strings = (char**)malloc(sizeof(char*) * count_tokens(str, delim));
   int consumed;
   int pos = 0;
   int new_str_pos = 0;
+  int length = strlen(str);
 
- while ((consumed = find_delim(str, pos, delim)) != -1) {
+ while ((consumed = find_delim(str, pos, delim, length)) != -1) {
   // if non-delim characters have been consumed
     if (consumed) {
+      printf("consumed: %d\n", consumed);
       strings[new_str_pos++] = fill_str(str, pos, consumed);
     }
     pos = next_non_delim(str, pos + consumed, delim);
