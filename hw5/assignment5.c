@@ -172,9 +172,45 @@ char** append_chars(const char* str, int n, char* chars) {
 
 /* Question 3 */
 
+bool seven_or_nine(char c) {
+  return c - 48 == 7 || c - 48 == 9;
+}
+
+int num_of_words(const char* str) {
+  int words = 1;
+  int pos = 0;
+
+  while (str[pos]) {
+    if (seven_or_nine(str[pos])) {
+      words *= 4;
+
+  } else {
+      words *= 3;
+    }
+
+    pos++;
+  }
+  return words;
+}
+
+/**
+ * @brief takes a phone number, and returns the amount of 
+ * words that can be constructed from the number 
+ * 
+ * @param phone_number the number being passed
+ * @return int the amount of words that can be constructed from 
+ * this number
+ */
+// if !str, return 0;
+// iterate through the string, multiplying by the number of
+// chars found at each number. 
+// if num == 7 || 9, there are four possibilities
+// else, there are three possibilities
 int count_words(const char* phone_number) {
-  // implement me
-  return -1;
+  if (!phone_number || !strlen(phone_number))
+    return 0;
+
+  return num_of_words(phone_number);
 }
 
 

@@ -233,6 +233,18 @@ void test_q3_1() {
     printf("Q3-1 ERROR\n");
 }
 
+void test_q3_3() {
+
+  int ans1 = count_words(NULL);
+  int ans2 = count_words("");
+
+  if (ans1== 0 && ans2== 0)
+    printf("Q3-3 ok\n");
+  else
+    printf("Q3-3 ERROR\n");
+}
+
+
 int str_cmp(const void* str1, const void* str2) {
   return strcmp(*(char**)str1, *(char**)str2);
 }
@@ -366,8 +378,9 @@ int main() {
   test_q2_3();
   test_q2_4();
 
-  // test_q3_1();
+  test_q3_1();
   // test_q3_2();
+  test_q3_3();
 
   // test_q4_1();
   // test_q4_2();
