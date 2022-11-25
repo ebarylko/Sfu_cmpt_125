@@ -39,12 +39,6 @@ int next_non_delim(const char* str, int pos, char delim) {
  * @param delim the delimeter passed
  * @return int the number of substrings seperated by the delimiter
  */
-// go until the delimiter is found. if the amount of
-// chars to reach delim is zero, go until next non-delim char
-// if amount of chars consumed is non-zero, increment count.
-// stop when null character is reached. -indicates no more delimiters or characters
-//
-//"HELLO WORLD dot  c" 
 int count_tokens(const char* str, char delim) {
  if (!str) 
   return 0;
@@ -75,12 +69,6 @@ int count_tokens(const char* str, char delim) {
  * @return char* a string which is the collection of chars 
  * from start to end - 1
  */
-
-// alloc memory for consumed + 1, +1 for \0
-// go from start to start + chars -   1, fill up string with
-// chars from the string.
-// fill at temp_str[char] = \0
-// return temo_str
 char* fill_str(const char* str, int start, int chars) {
   char* temp_str = (char*)malloc(sizeof(char) * chars + 1);
   int new_pos = 0;
@@ -100,41 +88,85 @@ char* fill_str(const char* str, int start, int chars) {
  * @return char** the array of substrings seperated by the delimiter
  * in the original string
  */
-// can't modify the string.
-// go through the array grabbing all the substrings split by
-// the delimiter and put them in an array.
-// go through the array, and check if chars have been consumed to
-// reach delim. if so, allocate a string with the 
-// memory for that amount of consumed chars, and fill string 
-// with chars from the indices pos - pos + consumed - 1.
-// put the string in array. return array at the end
 char** get_tokens(const char* str, char delim) {
-  if (!str || !count_tokens(str, delim)) 
+  if (!str || !count_tokens(str, delim))
     return NULL;
 
-  char** strings = (char**)malloc(sizeof(char*) * count_tokens(str, delim));
+  char **strings = (char **)malloc(sizeof(char *) * count_tokens(str, delim));
   int consumed;
   int pos = 0;
   int new_str_pos = 0;
   int length = strlen(str);
 
- while ((consumed = find_delim(str, pos, delim, length)) != -1) {
-  // if non-delim characters have been consumed
+  while ((consumed = find_delim(str, pos, delim, length)) != -1) {
+    // if non-delim characters have been consumed
     if (consumed) {
-      printf("consumed: %d\n", consumed);
       strings[new_str_pos++] = fill_str(str, pos, consumed);
     }
     pos = next_non_delim(str, pos + consumed, delim);
 }
-return strings;
+  return strings;
 }
 
 
 /* Question 2 */
+/**
+ * @brief takes a string and a character, and returns the 
+ * concatenation of the character to the string
+ * 
+ * @param str the string being passed
+ * @param c the character being passed
+ * @return char* the concatenation of the string with the 
+ * character
+ */
+char* concat_str(const char* str, char c) {
+int length = strlen(str);
+char* new_string = (char*)malloc( (length + 2) * sizeof(char));
+strcpy(new_string, str);
+new_string[length] = c;
+new_string[length + 1] = 0;
+return new_string;
+}
 
+/**
+ * @brief takes a string, collection of characters, the number
+ * of characters in the collection, and returns the
+ * concatenation of the string with every character in the 
+ * collection
+ * 
+ * @param str 
+ * @param elems 
+ * @param chars 
+ * @return char** 
+ */
+char** map_concat(const char* str, int elems, char* chars) {
+char** strings = (char**)malloc(elems * sizeof(char*));
+
+for (int pos = 0; pos < elems; pos++) {
+  strings[pos] = concat_str(str, chars[pos]);
+}
+
+return strings;
+}
+
+/**
+ * @brief takes a string, a collection of chars, and the number
+ * of chars in the collection N, and returns N amount of
+ * strings being the concatenation of the string with each 
+ * unique character in the collection
+ * 
+ * 
+ * @param str the string being passed
+ * @param n the amount of characters
+ * @param chars the collection of characters
+ * @return char** the collection of the concatenation of 
+ * str with every char in chars
+ */
 char** append_chars(const char* str, int n, char* chars) {
-  // implement me
-  return NULL;
+  if (!str || !n)
+    return NULL;
+
+  return map_concat(str, n, chars);
 }
 
 

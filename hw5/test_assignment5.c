@@ -94,14 +94,11 @@ void test_q1_3() {
 
   char **tokens = get_tokens(str, delim);
 
-  char** sol= NULL;
-
   if (!tokens) {
-    printf("Q1-3-tokens tokens == NULL\n");
+    printf("Q1-3-ok tokens == NULL\n");
   }
 
   free(tokens);
-
 
 }
 
@@ -194,6 +191,33 @@ void test_q2_3() {
     printf("Q2-3 ERROR\n");
 }
 
+void test_q2_4() {
+  char* init_str = NULL;
+
+  char c[] = {'x','y','x','z'};
+
+  char** res = append_chars(init_str, 4, c);
+
+  if (!res) {
+    printf("append_chars works on null strings\n");
+  } else {
+    printf("append_chars doesn't work on null strings\n");
+  }
+
+  char* str = "Hello";
+
+  char** sec_res = append_chars(str, 0, NULL);
+
+  if (!sec_res) {
+    printf("append_chars works with an empty collection of chars\n");
+  } else {
+    printf("append_chars doesn't work with an empty collection of chars \n");
+  }
+
+  free(res);
+  free(sec_res);
+
+}
 
 
 void test_q3_1() {
@@ -333,13 +357,14 @@ void test_q4_2() {
 // to comment out some of the test cases
 // and focus only on the one you are working on right now
 int main() {
-  // test_q1_1();
-  // test_q1_2();
+  test_q1_1();
+  test_q1_2();
   test_q1_3();
 
-  // test_q2_1();
-  // test_q2_2();
-  // test_q2_3();
+  test_q2_1();
+  test_q2_2();
+  test_q2_3();
+  test_q2_4();
 
   // test_q3_1();
   // test_q3_2();
