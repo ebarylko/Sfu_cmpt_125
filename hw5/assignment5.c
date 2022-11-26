@@ -201,11 +201,6 @@ int num_of_words(const char* str) {
  * @return int the amount of words that can be constructed from 
  * this number
  */
-// if !str, return 0;
-// iterate through the string, multiplying by the number of
-// chars found at each number. 
-// if num == 7 || 9, there are four possibilities
-// else, there are three possibilities
 int count_words(const char* phone_number) {
   if (!phone_number || !strlen(phone_number))
     return 0;
@@ -213,18 +208,56 @@ int count_words(const char* phone_number) {
   return num_of_words(phone_number);
 }
 
-
+/**
+ * @brief takes a phone number, and returns the collection 
+ * of all possible words that can be formed from the number
+ * 
+ * @param phone_number the number given
+ * @return char** the collection of all the possible phone numbers
+ */
+// if !number or !length(number), return null.
+// [a b c] [a b c] [a b c]
+// grab first collection, concat all possible chars onto first 
+// char then repeat with others.
+// repeat operation, but with the result of the concatenation of
+// first two collections and the third collection
+// need memory = to count_words * siizeof(char*)
+// need to find a way to change num to char possibilities
+// 
 char** get_words(const char* phone_number) {
-  // implement me
+  if (!phone_number || !strlen(phone_number))
+    return NULL;
+
   return NULL;
 }
 
 
 /* Question 4 */
 
+bool right_child(BTnode_t* nd) {
+  return nd->right;
+}
+
+/**
+ * @brief takes a binary search tree, and returns the biggest
+ * element within
+ * 
+ * @param tree the bst being passed
+ * @return int the largest element in the tree
+ */
+// if !tree, return 0;
+// stop when there is no right child.
+// return value at that point
 int get_max(BST_t* tree) {
-  // implement me
-  return -1;
+  if (!tree || !tree->root) 
+    return 0;
+
+  BTnode_t* nd = tree->root;
+
+  while (right_child(nd)) 
+    nd = nd->right;
+
+  return nd->value;
 }
 
 int get_median(BST_t* tree) {

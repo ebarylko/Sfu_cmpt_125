@@ -344,6 +344,23 @@ void test_q4_1() {
     printf("Q4-1 ok\n");
   else
     printf("Q4-1 ERROR\n");
+
+
+  if (get_max(NULL) == 0) {
+    printf("Get_max does function on invalid trees\n");
+  } else {
+    printf("Get_max does not function on invalid trees\n");
+  }
+
+  BST_t* tree2 = BST_create();
+
+  if (get_max(tree2) == 0) {
+    printf("Get_max does function on empty trees\n");
+  } else {
+    printf("Get_max does not function on empty trees\n");
+  }
+
+  BST_free(tree2);
 }
 
 
@@ -382,6 +399,6 @@ int main() {
   // test_q3_2();
   test_q3_3();
 
-  // test_q4_1();
+  test_q4_1();
   // test_q4_2();
 }
