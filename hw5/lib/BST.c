@@ -55,6 +55,7 @@ void BST_remove(BST_t* tree, int item) {
 }
 
 
+
 void BST_free(BST_t* tree) {
   BT_free(tree->root);
   free(tree);

@@ -325,6 +325,7 @@ BST_t* build_tree() {
   //       \
   //        7
   */
+ //[2 3 4 5 7 8 10 11]
  BST_insert(bstree, 11);
   return bstree;
 }
@@ -381,6 +382,24 @@ void test_q4_2() {
     printf("Q4-2 ERROR\n");
 }
 
+void test_q4_3() {
+
+  BST_t* tree = BST_create();
+
+  if (get_median(tree) == 0) {
+    printf("Median retrieval works on empty trees\n");
+  } else {
+    printf("Median retrieval does not work on empty trees\n");
+  }
+
+  BST_free(tree);
+  
+  if (get_median(NULL) == 0) {
+    printf("Median retrieval works on invalid trees\n");
+  } else {
+    printf("Median retrieval does not work on invalid trees\n");
+  }
+}
 
 // when testing your code, it may be convenient
 // to comment out some of the test cases
@@ -400,5 +419,6 @@ int main() {
   test_q3_3();
 
   test_q4_1();
-  // test_q4_2();
+  test_q4_2();
+  test_q4_3();
 }

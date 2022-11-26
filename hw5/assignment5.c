@@ -245,9 +245,6 @@ bool right_child(BTnode_t* nd) {
  * @param tree the bst being passed
  * @return int the largest element in the tree
  */
-// if !tree, return 0;
-// stop when there is no right child.
-// return value at that point
 int get_max(BST_t* tree) {
   if (!tree || !tree->root) 
     return 0;
@@ -260,7 +257,53 @@ int get_max(BST_t* tree) {
   return nd->value;
 }
 
+int inorder_node(BTnode_t* target, int arr[], int size, int index) {
+    if (!target) 
+        return 0;
+    int left = inorder_node(target->left, arr, size, index);
+    if (index + left >= size)
+        return left;
+    arr[index + left] = target->value;
+    int right = inorder_node(target->right, arr, size, index + left + 1);
+    return left + right + 1;
+}
+
+int inorder_traverse(BST_t* tree, int arr[], int size) {
+    if (!tree)
+        return 0;
+    return inorder_node(tree->root, arr, size, 0);
+}
+
+int count_nodes(BTnode_t* nd) {
+  if (!nd) 
+    return 0;
+  return 1 + count_nodes(nd->left) + count_nodes(nd->right);
+}
+
+int get_size(BST_t* tree) {
+  if (!tree || !tree->root)
+    return 0;
+
+  return count_nodes(tree->root);
+}
+
+/**
+ * @brief Takes a binary search tree, and returns the median
+ * element of the tree
+ * 
+ * @param tree the tree being passed
+ * @return int the median value of the tree
+ */
+// if invalid_tree or empty_tree, return 0;
+// for bst, the values returned are inorder traversal.
+// grab all values of the bst and put them in inorder traversal in
+// an array. then grab element of size / 2
 int get_median(BST_t* tree) {
-  // implement me
-  return -1;
+  if (!tree || !tree->root)
+    return 0;
+
+  int tree_size = get_size(tree);
+  int* tree_vals = (int*)malloc(tree_size * sizeof(int));
+  inorder_traverse(tree, tree_vals, tree_size);
+  return tree_vals[tree_size / 2];
 }
