@@ -158,26 +158,10 @@ char** append_chars(const char* str, int n, char* chars) {
 
 /* Question 3 */
 
-bool seven_or_nine(char c) {
-  return c - 48 == 7 || c - 48 == 9;
+bool is_seven_or_nine(char c) {
+  return c == '7' || c == '9';
 }
 
-int num_of_words(const char* str) {
-  int words = 1;
-  int pos = 0;
-
-  while (str[pos]) {
-    if (seven_or_nine(str[pos])) {
-      words *= 4;
-
-  } else {
-      words *= 3;
-    }
-
-    pos++;
-  }
-  return words;
-}
 
 /**
  * @brief takes a phone number, and returns the amount of 
@@ -191,7 +175,13 @@ int count_words(const char* phone_number) {
   if (!phone_number || !strlen(phone_number))
     return 0;
 
-  return num_of_words(phone_number);
+  int words = 1;
+
+  while (*phone_number) {
+    words *= is_seven_or_nine(*phone_number) ? 4 : 3;
+    phone_number++;
+  }
+  return words;
 }
 
 const char *PHONE_LETTERS[8] =
