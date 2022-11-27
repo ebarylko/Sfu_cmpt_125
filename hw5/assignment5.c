@@ -120,34 +120,13 @@ char** get_tokens(const char* str, char delim) {
  * @return char* the concatenation of the string with the 
  * character
  */
-char* concat_str(const char* str, char c) {
+char* str_append(const char* str, char c) {
   int length = strlen(str);
   char *new_string = (char *)malloc((length + 2) * sizeof(char));
   strcpy(new_string, str);
   new_string[length] = c;
   new_string[length + 1] = 0;
   return new_string;
-}
-
-/**
- * @brief takes a string, collection of characters, the number
- * of characters in the collection, and returns the
- * concatenation of the string with every character in the 
- * collection
- * 
- * @param str 
- * @param elems 
- * @param chars 
- * @return char** 
- */
-char** map_concat(const char* str, int elems, char* chars) {
-char** strings = (char**)malloc(elems * sizeof(char*));
-
-for (int pos = 0; pos < elems; pos++) {
-  strings[pos] = concat_str(str, chars[pos]);
-}
-
-return strings;
 }
 
 /**
@@ -167,7 +146,13 @@ char** append_chars(const char* str, int n, char* chars) {
   if (!str || !n)
     return NULL;
 
-  return map_concat(str, n, chars);
+  char** strings = (char**)malloc(n * sizeof(char*));
+
+  for (int pos = 0; pos < n; pos++) {
+    strings[pos] = str_append(str, chars[pos]);
+  }
+
+  return strings;
 }
 
 
@@ -256,7 +241,7 @@ str_arr cartesian_prod(str_arr curr, const char digit) {
 
   for (int pos = 0; pos < curr.size; pos++) {
     for (int start = 0; start < strlen(letters); start++) {
-      new.strings[new_pos++] = concat_str(curr.strings[pos], letters[start]);
+      new.strings[new_pos++] = str_append(curr.strings[pos], letters[start]);
     }
     free(curr.strings[pos]);
   }
