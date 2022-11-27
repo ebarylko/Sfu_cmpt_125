@@ -212,7 +212,14 @@ str_arr init_str_arr(int size) {
 }
 
 void free_str_arr(str_arr curr) {
+  for (int i = 0; i < curr.size; i++) {
+    free(curr.strings[i]);
+  }
   free(curr.strings);
+}
+
+void insert_str(str_arr target, int pos, char* str) {
+  target.strings[pos] = str;
 }
 
 /**
@@ -233,9 +240,9 @@ str_arr cartesian_prod(str_arr curr, const char digit) {
 
   for (int pos = 0; pos < curr.size; pos++) {
     for (int start = 0; start < strlen(letters); start++) {
-      new.strings[new_pos++] = str_append(curr.strings[pos], letters[start]);
+      char* new_combo = str_append(curr.strings[pos], letters[start]); 
+      insert_str(new, new_pos++, new_combo);
     }
-    free(curr.strings[pos]);
   }
 
   free_str_arr(curr);
