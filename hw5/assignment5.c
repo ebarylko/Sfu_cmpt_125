@@ -221,7 +221,8 @@ typedef struct {
 
 str_arr empty_str_arr() {
   char** prod = (char**)malloc(sizeof(char*) * 1);
-  prod[0] = "";
+  prod[0] = (char*)malloc(sizeof(char*));
+  prod[0][0] = 0;
   return (str_arr) {.strings = prod, .size = 1};
 }
 
@@ -264,7 +265,7 @@ str_arr cartesian_prod(str_arr curr, const char digit) {
 }
 
 str_arr gen_words(str_arr curr, const char* digits) {
-  while (digits) {
+  while (*digits) {
     curr = cartesian_prod(curr, *digits);
     digits++;
   }
