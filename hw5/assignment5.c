@@ -218,7 +218,7 @@ void free_str_arr(str_arr curr) {
   free(curr.strings);
 }
 
-void insert_str(str_arr target, int pos, char* str) {
+void append_str(str_arr target, int pos, char* str) {
   target.strings[pos] = str;
 }
 
@@ -241,7 +241,7 @@ str_arr cartesian_prod(str_arr curr, const char digit) {
   for (int pos = 0; pos < curr.size; pos++) {
     for (int start = 0; start < strlen(letters); start++) {
       char* new_combo = str_append(curr.strings[pos], letters[start]); 
-      insert_str(new, new_pos++, new_combo);
+      append_str(new, new_pos++, new_combo);
     }
   }
 
@@ -275,9 +275,6 @@ char** get_words(const char* phone_number) {
 
 /* Question 4 */
 
-bool right_child(BTnode_t* nd) {
-  return nd->right;
-}
 
 /**
  * @brief takes a binary search tree, and returns the biggest
@@ -292,7 +289,7 @@ int get_max(BST_t* tree) {
 
   BTnode_t* nd = tree->root;
 
-  while (right_child(nd)) 
+  while (nd->right) 
     nd = nd->right;
 
   return nd->value;
@@ -342,5 +339,7 @@ int get_median(BST_t* tree) {
   int tree_size = get_size(tree);
   int* tree_vals = (int*)malloc(tree_size * sizeof(int));
   inorder_traverse(tree, tree_vals, tree_size);
-  return tree_vals[tree_size / 2];
+  int median_val = tree_vals[tree_size / 2];
+  free(tree_vals);
+  return median_val;
 }
