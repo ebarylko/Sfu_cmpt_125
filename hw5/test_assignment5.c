@@ -415,7 +415,7 @@ int main() {
   test_q2_4();
 
   test_q3_1();
-  // test_q3_2();
+  test_q3_2();
   test_q3_3();
 
   test_q4_1();

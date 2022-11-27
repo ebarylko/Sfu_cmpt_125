@@ -40,22 +40,22 @@ int next_non_delim(const char* str, int pos, char delim) {
  * @return int the number of substrings seperated by the delimiter
  */
 int count_tokens(const char* str, char delim) {
- if (!str) 
-  return 0;
+  if (!str)
+    return 0;
 
- int pos = 0;
- int consumed;
- int count = 0;
- int length = strlen(str);
+  int pos = 0;
+  int consumed;
+  int count = 0;
+  int length = strlen(str);
 
   // while null char has not been reached
- while ((consumed = find_delim(str, pos, delim, length)) != -1) {
-  // if non-delim characters have been consumed
-    count += consumed > 0 ? 1: 0;
-    pos = next_non_delim(str, pos + consumed, delim);
- }
+  while ((consumed = find_delim(str, pos, delim, length)) != -1) {
+      // if non-delim characters have been consumed
+      count += consumed > 0 ? 1 : 0;
+      pos = next_non_delim(str, pos + consumed, delim);
+  }
 
- return count;
+  return count;
 }
 
 /**
@@ -89,10 +89,10 @@ char* fill_str(const char* str, int start, int chars) {
  * in the original string
  */
 char** get_tokens(const char* str, char delim) {
-  if (!str || !count_tokens(str, delim))
+  if (!str)
     return NULL;
 
-  char **strings = (char **)malloc(sizeof(char *) * count_tokens(str, delim));
+  char **strings = NULL;
   int consumed;
   int pos = 0;
   int new_str_pos = 0;
@@ -101,6 +101,7 @@ char** get_tokens(const char* str, char delim) {
   while ((consumed = find_delim(str, pos, delim, length)) != -1) {
     // if non-delim characters have been consumed
     if (consumed) {
+      strings = (char**)realloc(strings, sizeof(char*) * (new_str_pos + 1));
       strings[new_str_pos++] = fill_str(str, pos, consumed);
     }
     pos = next_non_delim(str, pos + consumed, delim);
@@ -119,34 +120,13 @@ char** get_tokens(const char* str, char delim) {
  * @return char* the concatenation of the string with the 
  * character
  */
-char* concat_str(const char* str, char c) {
-int length = strlen(str);
-char* new_string = (char*)malloc( (length + 2) * sizeof(char));
-strcpy(new_string, str);
-new_string[length] = c;
-new_string[length + 1] = 0;
-return new_string;
-}
-
-/**
- * @brief takes a string, collection of characters, the number
- * of characters in the collection, and returns the
- * concatenation of the string with every character in the 
- * collection
- * 
- * @param str 
- * @param elems 
- * @param chars 
- * @return char** 
- */
-char** map_concat(const char* str, int elems, char* chars) {
-char** strings = (char**)malloc(elems * sizeof(char*));
-
-for (int pos = 0; pos < elems; pos++) {
-  strings[pos] = concat_str(str, chars[pos]);
-}
-
-return strings;
+char* str_append(const char* str, char c) {
+  int length = strlen(str);
+  char *new_string = (char *)malloc((length + 2) * sizeof(char));
+  strcpy(new_string, str);
+  new_string[length] = c;
+  new_string[length + 1] = 0;
+  return new_string;
 }
 
 /**
@@ -166,7 +146,13 @@ char** append_chars(const char* str, int n, char* chars) {
   if (!str || !n)
     return NULL;
 
-  return map_concat(str, n, chars);
+  char** strings = (char**)malloc(n * sizeof(char*));
+
+  for (int pos = 0; pos < n; pos++) {
+    strings[pos] = str_append(str, chars[pos]);
+  }
+
+  return strings;
 }
 
 
@@ -208,6 +194,70 @@ int count_words(const char* phone_number) {
   return num_of_words(phone_number);
 }
 
+const char *PHONE_LETTERS[8] =
+    {
+        "abc", "def", "ghi",
+        "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+typedef struct {
+  char** strings;
+  int size;
+} str_arr;
+
+
+str_arr empty_str_arr() {
+  char** prod = (char**)malloc(sizeof(char*) * 1);
+  prod[0] = (char*)malloc(sizeof(char*));
+  prod[0][0] = 0;
+  return (str_arr) {.strings = prod, .size = 1};
+}
+
+
+str_arr init_str_arr(int size) {
+
+  char** prod = (char**)malloc(sizeof(char*) * size);
+  return (str_arr) {.strings = prod, .size = size};
+}
+
+void free_str_arr(str_arr curr) {
+  free(curr.strings);
+}
+
+/**
+ * @brief takes the collection of strings so far, and does
+ * the cartesian product between the collection and the letters
+ *  corresponding to the digit.
+ * 
+ * @param curr 
+ * @param digits 
+ * @return char** 
+ */
+str_arr cartesian_prod(str_arr curr, const char digit) {
+  const char* letters = PHONE_LETTERS[digit - '2'];
+
+  str_arr new = init_str_arr(strlen(letters) * curr.size);
+
+  int new_pos = 0;
+
+  for (int pos = 0; pos < curr.size; pos++) {
+    for (int start = 0; start < strlen(letters); start++) {
+      new.strings[new_pos++] = str_append(curr.strings[pos], letters[start]);
+    }
+    free(curr.strings[pos]);
+  }
+
+  free_str_arr(curr);
+  return new;
+}
+
+str_arr gen_words(str_arr curr, const char* digits) {
+  while (*digits) {
+    curr = cartesian_prod(curr, *digits);
+    digits++;
+  }
+  return curr;
+}
+
 /**
  * @brief takes a phone number, and returns the collection 
  * of all possible words that can be formed from the number
@@ -215,20 +265,12 @@ int count_words(const char* phone_number) {
  * @param phone_number the number given
  * @return char** the collection of all the possible phone numbers
  */
-// if !number or !length(number), return null.
-// [a b c] [a b c] [a b c]
-// grab first collection, concat all possible chars onto first 
-// char then repeat with others.
-// repeat operation, but with the result of the concatenation of
-// first two collections and the third collection
-// need memory = to count_words * siizeof(char*)
-// need to find a way to change num to char possibilities
-// 
 char** get_words(const char* phone_number) {
   if (!phone_number || !strlen(phone_number))
     return NULL;
 
-  return NULL;
+  str_arr init = empty_str_arr();
+  return gen_words(init, phone_number).strings;
 }
 
 
@@ -294,10 +336,6 @@ int get_size(BST_t* tree) {
  * @param tree the tree being passed
  * @return int the median value of the tree
  */
-// if invalid_tree or empty_tree, return 0;
-// for bst, the values returned are inorder traversal.
-// grab all values of the bst and put them in inorder traversal in
-// an array. then grab element of size / 2
 int get_median(BST_t* tree) {
   if (!tree || !tree->root)
     return 0;
