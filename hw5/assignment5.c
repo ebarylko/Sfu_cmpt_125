@@ -162,6 +162,12 @@ bool is_seven_or_nine(char c) {
   return c == '7' || c == '9';
 }
 
+const char* PHONE_LETTERS[8] = {"abc", "def",  "ghi", "jkl",
+                                "mno", "pqrs", "tuv", "wxyz"};
+
+const char* phone_letters(char c) {
+  return PHONE_LETTERS[c - '2'];
+}
 
 /**
  * @brief takes a phone number, and returns the amount of 
@@ -178,16 +184,12 @@ int count_words(const char* phone_number) {
   int words = 1;
 
   while (*phone_number) {
-    words *= is_seven_or_nine(*phone_number) ? 4 : 3;
+    words *= strlen(phone_letters(*phone_number));
     phone_number++;
   }
   return words;
 }
 
-const char *PHONE_LETTERS[8] =
-    {
-        "abc", "def", "ghi",
-        "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
 typedef struct {
   char** strings;
@@ -223,7 +225,7 @@ void free_str_arr(str_arr curr) {
  * @return char** 
  */
 str_arr cartesian_prod(str_arr curr, const char digit) {
-  const char* letters = PHONE_LETTERS[digit - '2'];
+  const char* letters = phone_letters(digit);
 
   str_arr new = init_str_arr(strlen(letters) * curr.size);
 
