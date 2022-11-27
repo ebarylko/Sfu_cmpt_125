@@ -40,22 +40,22 @@ int next_non_delim(const char* str, int pos, char delim) {
  * @return int the number of substrings seperated by the delimiter
  */
 int count_tokens(const char* str, char delim) {
- if (!str) 
-  return 0;
+  if (!str)
+    return 0;
 
- int pos = 0;
- int consumed;
- int count = 0;
- int length = strlen(str);
+  int pos = 0;
+  int consumed;
+  int count = 0;
+  int length = strlen(str);
 
   // while null char has not been reached
- while ((consumed = find_delim(str, pos, delim, length)) != -1) {
-  // if non-delim characters have been consumed
-    count += consumed > 0 ? 1: 0;
-    pos = next_non_delim(str, pos + consumed, delim);
- }
+  while ((consumed = find_delim(str, pos, delim, length)) != -1) {
+      // if non-delim characters have been consumed
+      count += consumed > 0 ? 1 : 0;
+      pos = next_non_delim(str, pos + consumed, delim);
+  }
 
- return count;
+  return count;
 }
 
 /**
@@ -89,10 +89,10 @@ char* fill_str(const char* str, int start, int chars) {
  * in the original string
  */
 char** get_tokens(const char* str, char delim) {
-  if (!str || !count_tokens(str, delim))
+  if (!str)
     return NULL;
 
-  char **strings = (char **)malloc(sizeof(char *) * count_tokens(str, delim));
+  char **strings = NULL;
   int consumed;
   int pos = 0;
   int new_str_pos = 0;
@@ -101,6 +101,7 @@ char** get_tokens(const char* str, char delim) {
   while ((consumed = find_delim(str, pos, delim, length)) != -1) {
     // if non-delim characters have been consumed
     if (consumed) {
+      strings = (char**)realloc(strings, sizeof(char*) * (new_str_pos + 1));
       strings[new_str_pos++] = fill_str(str, pos, consumed);
     }
     pos = next_non_delim(str, pos + consumed, delim);
