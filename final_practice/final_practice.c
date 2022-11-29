@@ -7,6 +7,18 @@
 
 #include "final_practice.h"
 
+bool is_lowercase(char c) {
+    return c >= 'a' && c <= 'z';
+}
+
+bool is_uppercase(char c) {
+    return c >= 'A' && c <= 'Z';
+}
+
+bool is_symbol(char c) {
+    return c == '!' ||  c == '#' || c == '@';
+}
+
 // create counters for each trait required. when predicate for trait matches, increment
 // at end of string return all the counters
 bool check_pwd(const char* str) {
@@ -27,6 +39,8 @@ bool check_pwd(const char* str) {
 
         if (is_symbol(*str))
             symbols++;
+
+        str++;
     }
 
     return digits && lower_case && upper_case && symbols;
@@ -37,12 +51,10 @@ bool check_pwd(const char* str) {
 //- contains at least one lower case letter
 //- contains at least one upper case letter
 //- contains at least one of these three symbols: !@#
-// if length not >= 8, return false.
-// iterate through array checking if string contains all required traits.
-// when reaching the end return the counters
+
 bool is_good_password(const char* str) {
-    if (!str) 
+    if (!str || strlen(str) < 8 ) 
         return false;
 
-    return strlen(str) < 8 ? false : check_pwd(str);
+    return check_pwd(str);
 }
