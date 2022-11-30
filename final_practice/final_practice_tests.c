@@ -105,6 +105,16 @@ void sort_mountain_test() {
         printf("mountain sorting does not work on arrs with one elem\n");
     }
 
+    int* arr5 = NULL;
+    sort_mountain(arr5, 0, find_peak(arr5, 0));
+
+    if (compare_arrays(arr5, NULL, 0)) {
+        printf("mountain sorting works on null arrs\n");
+    } else {
+        printf("mountain sorting does not work on null arrs\n");
+    }
+
+
 }
 
 int main() {
