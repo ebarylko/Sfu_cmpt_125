@@ -72,7 +72,7 @@ void sort_mountain_test() {
     if (compare_arrays(arr1, correct, 7)) {
         printf("mountain sorting works on arrs with peak in middle\n");
     } else {
-        printf("mountain sorting works on arrs with peak in middle\n");
+        printf("mountain sorting does not work on arrs with peak in middle\n");
     }
 
     int arr2[] = {1, 4, 5, 6, 7};
@@ -82,7 +82,7 @@ void sort_mountain_test() {
     if (compare_arrays(arr2, correct2, 5)) {
         printf("mountain sorting works on arrs with peak at the end\n");
     } else {
-        printf("mountain sorting works on arrs with peak at the end\n");
+        printf("mountain sorting does not work on arrs with peak at the end\n");
     }
 
     int arr3[] = {9, 8, 7, 0};
@@ -92,7 +92,17 @@ void sort_mountain_test() {
     if (compare_arrays(arr3, correct3, 4)) {
         printf("mountain sorting works on arrs with peak at the beginning\n");
     } else {
-        printf("mountain sorting works on arrs with peak at the beginning\n");
+        printf("mountain sorting does not work on arrs with peak at the beginning\n");
+    }
+
+    int arr4[] = {8};
+    sort_mountain(arr4, 1, find_peak(arr4, 1));
+
+    int correct4[] = {8};
+    if (compare_arrays(arr4, correct4, 1)) {
+        printf("mountain sorting works on arrs with one elem\n");
+    } else {
+        printf("mountain sorting does not work on arrs with one elem\n");
     }
 
 }
