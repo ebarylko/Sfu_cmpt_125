@@ -55,8 +55,51 @@ void find_peak_test() {
 
 }
 
+bool compare_arrays(int* arr1, int* arr2, int length) {
+    for (int pos = 0; pos < length; pos++) {
+        if (arr1[pos] != arr2[pos]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void sort_mountain_test() {
+    int arr1[] = {1, 4, 5, 6, 7, 3, 1};
+    sort_mountain(arr1, 7, find_peak(arr1, 7));
+
+    int correct[] = {1, 1, 3, 4, 5, 6, 7};
+    if (compare_arrays(arr1, correct, 7)) {
+        printf("mountain sorting works on arrs with peak in middle\n");
+    } else {
+        printf("mountain sorting works on arrs with peak in middle\n");
+    }
+
+    int arr2[] = {1, 4, 5, 6, 7};
+    sort_mountain(arr2, 7, find_peak(arr2, 5));
+
+    int correct2[] = {1, 4, 5, 6, 7};
+    if (compare_arrays(arr2, correct2, 5)) {
+        printf("mountain sorting works on arrs with peak at the end\n");
+    } else {
+        printf("mountain sorting works on arrs with peak at the end\n");
+    }
+
+    int arr3[] = {9, 8, 7, 0};
+    sort_mountain(arr3, 4, find_peak(arr3, 4));
+
+    int correct3[] = {0, 7, 8, 9};
+    if (compare_arrays(arr3, correct3, 4)) {
+        printf("mountain sorting works on arrs with peak at the beginning\n");
+    } else {
+        printf("mountain sorting works on arrs with peak at the beginning\n");
+    }
+
+}
+
 int main() {
     good_pwd_test();
     find_peak_test();
+    sort_mountain_test();
     return 0;
 }

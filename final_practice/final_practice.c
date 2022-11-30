@@ -78,6 +78,7 @@ bool left_of_mountain(const int* arr, int pos, int start, int end) {
 // if not left or right of mountain, point is the mountain. return val
 int peak(const int* arr, int start, int end) {
     int mid = (end - start + 1) / 2;
+
     if (right_of_mountain(arr, start + mid, start, end)) 
         return peak(arr, start, start + mid - 1);
     
@@ -101,3 +102,60 @@ int find_peak(const int* A, int n)  {
     return peak(A, 0, n - 1);
 }
 
+
+//Write a function that gets a mountain array of length n, and the index k
+//representing the peak, and sorts the array in the increasing order in O(n) time.
+// if !A, return.
+// if n ==1 or n < 0, return.
+// if k = n - 1, return.
+// if k = 0, reverse array
+// create a new array of size n.
+// go from both sides of the mountain, checking if left > right.
+// if so put right val in new_arr, increment pos for right.
+// stop when left > right
+
+// go up to midpoint, and swap elements on both sides of the array
+
+void swap(int* arr, int pos1, int pos2) {
+    int temp = arr[pos1];
+    arr[pos1] = arr[pos2];
+    arr[pos2] = temp;
+}
+
+void reverse_mountain(int* arr, int length) {
+    int mid = length / 2;
+    int end = length - 1;
+    for (int pos = 0; pos < mid; pos++) {
+        swap(arr, pos, end - pos);
+    }
+}
+
+// create new array, and go from each side of the old array.
+// if left > right, put right in new arr. if not put left in new arr.
+// update position and counter for new_arr. 
+void order_mountain(int* arr, int length) {
+    int* new_arr = (int*)malloc(sizeof(int) * length);
+
+    int start = 0;
+    int end = length - 1;
+    int new_pos = 0;
+
+    while (start < end) {
+        int val = arr[start] > arr[end] ? arr[end--] : arr[start++];
+        new_arr[new_pos++] = val;
+    }
+
+    arr = new_arr;
+}
+
+void sort_mountain(int* A, int n, int k) {
+    if (!A || n <= 1 || k == n - 1)
+        return;
+
+    if (k == 0) {
+        reverse_mountain(A, n);
+        return;
+    }
+
+    order_mountain(A, n);
+}
