@@ -306,19 +306,213 @@ int inorder_node(BTnode_t* target, int arr[], int size, int index) {
   return left + right + 1;
 }
 
-int inorder_traverse(BST_t* tree, int arr[], int size) {
+// need a stack that can take nodes of a tree, and pops out
+// nodes
+// for stack: push, pop, get_size
+// to make stack: must make linked list that can take nodes
+// LL: must be able to add to head, remove from head, get size
+// create/ destroy list
+
+typedef struct new_node{
+    BTnode_t* data;
+    struct new_node *next;
+} new_node;
+
+typedef struct {
+    new_node* head;
+    new_node* tail;
+    int elems;
+} linked_list;
+
+typedef new_node* linked_list_iterator;
+
+
+linked_list* create_list() {
+    linked_list* list = (linked_list*)malloc(sizeof(linked_list));
+    list->head = NULL;
+    list->tail = NULL;
+    list->elems = 0;
+    return list;
+}
+
+new_node* make_node(BTnode_t* val) {
+    new_node* new_nd = (new_node*)malloc(sizeof(new_node));
+    new_nd->data = val;
+    new_nd->next = NULL;
+    return new_nd;
+}
+
+linked_list_iterator create_iterator(linked_list* list) {
+return list->head;
+}
+
+bool has_next(linked_list_iterator iter) {
+return iter;
+}
+
+BTnode_t* get_elem(linked_list_iterator iter) {
+return iter->data;
+}
+
+linked_list_iterator next(linked_list_iterator iter) {
+return iter->next;
+}
+
+// get size of list
+int get_size(linked_list* list) {
+    int size = 0;
+    linked_list_iterator iter = create_iterator(list);
+    while (has_next(iter)) {
+        size++;
+        iter = next(iter);
+    }
+    return size;
+}
+
+// adds to head
+void add_to_head(linked_list* list, BTnode_t* val) {
+    new_node* node = make_node(val);
+    node->next = list->head;
+    list->head = node;
+    if (!(list->elems)) {
+        list->tail = node;
+    }
+    (list->elems)++;
+}
+
+
+// gives all elements after head, returns taken element
+BTnode_t* rest(linked_list* list) {
+    if (!list->elems)
+        return NULL;
+
+    new_node* old_head = list->head;
+    BTnode_t* val = old_head->data;
+    if (list->elems == 1) {
+        list->tail = NULL;
+    }
+
+    list->head = list->head->next;
+    free(old_head);
+    list->elems--;
+    return val;
+}
+
+void free_list(linked_list* list) {
+    while (list->head)
+        rest(list);
+    free(list);
+}
+
+typedef linked_list stack;
+
+stack* create_stack() {
+    stack* new_stack = create_list();
+    return new_stack;
+}
+
+void free_stack(stack* stack) {
+    free_list(stack);
+}
+
+int stack_size(stack* stack) {
+    return get_size(stack);
+}
+
+bool is_stack_empty(stack* stack) {
+  return !stack_size(stack);
+}
+
+void push(stack* stack, BTnode_t* val) {
+    add_to_head(stack, val);
+}
+
+BTnode_t* pop(stack* stack) {
+    return rest(stack);
+}    
+
+
+bool is_right_child(BTnode_t* child, BTnode_t* parent) {
+  if (!parent)
+    return false;
+
+  return parent->right == child;
+}
+
+bool is_left_child(BTnode_t* child, BTnode_t* parent) {
+  if (!parent)
+    return false;
+
+  return parent->left == child;
+}
+
+bool has_right(BTnode_t* nd) {
+  return nd->right;
+}
+
+void inorder_traverse(BST_t* tree, int arr[], int size) {
   if (!tree)
-    return 0;
-  return inorder_node(tree->root, arr, size, 0);
+    return;
+
+  stack* st = create_stack();
+  push(st, tree->root);
+
+  BTnode_t* prev = NULL;
+  int pos = 0;
+
+  while (!is_stack_empty(st)) {
+    BTnode_t* curr = pop(st);
+
+    if (curr->left == NULL) {
+      arr[pos++] = curr->value;
+      prev = is_right_child(curr, curr->parent) ? curr->parent : curr;
+      if (curr->right) {
+        push(st, curr->right);
+      }
+
+    } else if (is_left_child(prev, curr)) {
+      arr[pos++] = curr->value;
+      prev = curr;
+
+    } else if (has_right(curr)) {
+      push(st, curr->right);
+      push(st, curr);
+      push(st, curr->left);
+
+    } else {
+      push(st, curr);
+      push(st, curr->left);
+    }
+  }
 }
 
 int count_nodes(BTnode_t* nd) {
   if (!nd) 
     return 0;
-  return 1 + count_nodes(nd->left) + count_nodes(nd->right);
+
+  stack* st = create_stack();
+  push(st, nd);
+  int count = 0;
+
+  while (!is_stack_empty(st)) {
+    BTnode_t* temp = pop(st);
+
+    count++;
+    if (temp->left) {
+      push(st, temp->left);
+    }
+
+    if (temp->right) {
+      push(st, temp->right);
+    }
+  }
+
+  free_stack(st);
+
+  return count;
 }
 
-int get_size(BST_t* tree) {
+int Tree_size(BST_t* tree) {
   if (!tree || !tree->root)
     return 0;
 
@@ -336,9 +530,12 @@ int get_median(BST_t* tree) {
   if (!tree || !tree->root)
     return 0;
 
-  int tree_size = get_size(tree);
+  int tree_size = Tree_size(tree);
   int* tree_vals = (int*)malloc(tree_size * sizeof(int));
+
+
   inorder_traverse(tree, tree_vals, tree_size);
+
   int median_val = tree_vals[tree_size / 2];
   free(tree_vals);
   return median_val;

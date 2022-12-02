@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <sys/time.h>
 
 #include "assignment5.h"
 #include "lib/BTnode.h"
@@ -401,6 +402,41 @@ void test_q4_3() {
   }
 }
 
+void test_q4_4() {
+  struct timeval curr;
+  struct timeval future;
+
+  int i;
+  BST_t* tree = BST_create();
+
+//   for (i = 0; i < 300000; i++) {
+//       BST_insert(tree, i);
+// }
+  tree->root = create_node(0);
+  BTnode_t* nd = tree->root;
+  gettimeofday(&curr, NULL);
+  for (i = 1; i < 1000000; i++) {
+    set_right_child(nd, create_node(i));
+    nd = nd->right;
+}
+
+  gettimeofday(&future, NULL);
+  printf("%ld\n", future.tv_sec - curr.tv_sec);
+
+  int median = get_median(tree);
+  gettimeofday(&curr, NULL);
+  printf("%ld\n", curr.tv_sec - future.tv_sec);
+
+  if (median == 500000) {
+    printf("Median retrieval works on large trees\n");
+  } else {
+    printf("Median retrieval does not work on large trees\n");
+  }
+
+  BST_free(tree);
+
+}
+
 // when testing your code, it may be convenient
 // to comment out some of the test cases
 // and focus only on the one you are working on right now
@@ -421,4 +457,5 @@ int main() {
   test_q4_1();
   test_q4_2();
   test_q4_3();
+  test_q4_4();
 }
