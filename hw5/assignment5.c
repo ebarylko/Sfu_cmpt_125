@@ -416,7 +416,7 @@ void free_stack(stack* stack) {
 }
 
 int stack_size(stack* stack) {
-    return get_size(stack);
+    return stack->elems;
 }
 
 bool is_stack_empty(stack* stack) {
@@ -512,7 +512,7 @@ int count_nodes(BTnode_t* nd) {
   return count;
 }
 
-int Tree_size(BST_t* tree) {
+int calc_tree_size(BST_t* tree) {
   if (!tree || !tree->root)
     return 0;
 
@@ -530,7 +530,7 @@ int get_median(BST_t* tree) {
   if (!tree || !tree->root)
     return 0;
 
-  int tree_size = Tree_size(tree);
+  int tree_size = calc_tree_size(tree);
   int* tree_vals = (int*)malloc(tree_size * sizeof(int));
 
 

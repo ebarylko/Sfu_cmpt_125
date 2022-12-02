@@ -409,9 +409,6 @@ void test_q4_4() {
   int i;
   BST_t* tree = BST_create();
 
-//   for (i = 0; i < 300000; i++) {
-//       BST_insert(tree, i);
-// }
   tree->root = create_node(0);
   BTnode_t* nd = tree->root;
   gettimeofday(&curr, NULL);
@@ -433,7 +430,40 @@ void test_q4_4() {
     printf("Median retrieval does not work on large trees\n");
   }
 
-  BST_free(tree);
+  while (nd->parent) {
+    nd = nd->parent;
+    free(nd->right);
+  }
+
+  free(nd);
+  free(tree);
+
+  BST_t* tree2 = BST_create();
+
+  tree2->root = create_node(0);
+  BTnode_t* nd2 = tree2->root;
+
+  for (i = 1; i < 1000000; i++) {
+    set_left_child(nd2, create_node(-i));
+    nd2 = nd2->left;
+}
+  printf("Getting median of next tree\n");
+  int median2 = get_median(tree2);
+  gettimeofday(&curr, NULL);
+
+  if (median2 == 500000) {
+    printf("Median retrieval works on large trees--\n");
+  } else {
+    printf("Median retrieval does not work on large trees, %d--\n", median2);
+  }
+
+  while (nd2->parent) {
+    nd2 = nd2->parent;
+    free(nd2->left);
+  }
+
+  free(nd2);
+  free(tree2);
 
 }
 
