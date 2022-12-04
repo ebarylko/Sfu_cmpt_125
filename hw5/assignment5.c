@@ -306,12 +306,6 @@ int inorder_node(BTnode_t* target, int arr[], int size, int index) {
   return left + right + 1;
 }
 
-// need a stack that can take nodes of a tree, and pops out
-// nodes
-// for stack: push, pop, get_size
-// to make stack: must make linked list that can take nodes
-// LL: must be able to add to head, remove from head, get size
-// create/ destroy list
 
 typedef struct new_node{
     BTnode_t* data;

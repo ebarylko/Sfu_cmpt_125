@@ -148,10 +148,80 @@ void sort_mountain(int* A, int n, int k) {
     if (!A || n <= 1 || k == n - 1)
         return;
 
-    if (k == 0) {
-        reverse_mountain(A, n);
+    order_mountain(A, n);
+}
+
+node* create_node(int val) {
+    node* nd = (node*)malloc(sizeof(node));
+    nd->val = val;
+    nd->next = NULL;
+    return nd;
+}
+
+linked_list* create_list() {
+    linked_list* list = (linked_list*)malloc(sizeof(linked_list));
+    list->head = NULL;
+    list->tail = NULL;
+    list->elems = 0;
+    return list;
+}
+
+
+bool is_empty_list(linked_list* list) {
+    return list->elems == 0;
+}
+
+void add_to_tail(linked_list* list, int val) {
+    if (!list) 
         return;
+
+    node* nd = create_node(val);
+
+    if (is_empty_list(list)) {
+        list->head = nd;
+    } else {
+      list->tail->next = nd;
     }
 
-    order_mountain(A, n);
+    list->tail = nd;
+    list->elems++;
+}
+
+int rest(linked_list* list) {
+    if (!list || is_empty_list(list)) 
+        return 0;
+
+    node* old_head = list->head;
+    int val = old_head->val;
+    list->head = old_head->next;
+    free(old_head);
+    list->elems--;
+
+    if (is_empty_list(list)) {
+        list->tail = NULL;
+    }
+
+    return val;
+}
+
+void free_list(linked_list* list) {
+    while (list->head)
+        rest(list);
+    free(list);
+}
+
+bool pos_before_neg(node* nd) {
+    return nd->val >= 0 && nd->next->val < 0;
+}
+
+bool is_ordered_list(linked_list* list) {
+    if (!list || is_empty_list(list))
+      return true;
+
+    node* nd = list->head;
+    while (nd->next && !pos_before_neg(nd)) {
+        nd = nd->next;
+    }
+    
+    return nd->next ? false : true;
 }

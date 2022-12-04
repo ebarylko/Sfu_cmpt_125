@@ -64,26 +64,33 @@ bool compare_arrays(int* arr1, int* arr2, int length) {
     return true;
 }
 
+void mtn_scenario(int arr[], int length, int expected[], char* title) {
+    sort_mountain(arr, length, find_peak(arr, length));
+
+    if (compare_arrays(arr, expected, length)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+    printf("\033[0m");
+}
+
 void sort_mountain_test() {
-    int arr1[] = {1, 4, 5, 6, 7, 3, 1};
-    sort_mountain(arr1, 7, find_peak(arr1, 7));
+    mtn_scenario(
+        (int[7]){1, 4, 5, 6, 7, 3, 1}, 
+        7, 
+        (int[7]){1, 1, 3, 4, 5, 6, 7}, 
+        "When the peak is in the middle"
+    );
 
-    int correct[] = {1, 1, 3, 4, 5, 6, 7};
-    if (compare_arrays(arr1, correct, 7)) {
-        printf("mountain sorting works on arrs with peak in middle\n");
-    } else {
-        printf("mountain sorting does not work on arrs with peak in middle\n");
-    }
-
-    int arr2[] = {1, 4, 5, 6, 7};
-    sort_mountain(arr2, 7, find_peak(arr2, 5));
-
-    int correct2[] = {1, 4, 5, 6, 7};
-    if (compare_arrays(arr2, correct2, 5)) {
-        printf("mountain sorting works on arrs with peak at the end\n");
-    } else {
-        printf("mountain sorting does not work on arrs with peak at the end\n");
-    }
+    mtn_scenario(
+        (int[5]){1, 4, 5, 6, 7}, 
+        5, 
+        (int[5]){1, 4, 5, 6, 7}, 
+        "When the peak is at the end"
+    );
 
     int arr3[] = {9, 8, 7, 0};
     sort_mountain(arr3, 4, find_peak(arr3, 4));
@@ -117,9 +124,64 @@ void sort_mountain_test() {
 
 }
 
+linked_list* list_from_arr(int arr[], int size) {
+    linked_list* list = create_list();
+    for (int pos = 0; pos < size; pos++) {
+        add_to_tail(list, arr[pos]);
+    }
+    return list;
+}
+
+void linked_list_scenario(int arr[], int size, char* title) {
+    linked_list* list = list_from_arr(arr, size);
+
+    if (is_ordered_list(list)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+    printf("\033[0m");
+
+    free_list(list);
+}
+
+void test() {
+
+
+} 
+
+void negative_first_test() {
+    linked_list_scenario(NULL,
+     0,
+      "Empty list");
+
+    linked_list_scenario(
+        (int[3]){4, 7, 0},
+         3,
+          "List with solely positive numbers");
+
+    linked_list_scenario(
+        (int[3]){-4, -7, -0},
+         3,
+          "List with solely negative numbers");
+
+    linked_list_scenario(
+        (int[4]){-4, -7, 1, 9},
+         4,
+          "List with positive and negative numbers in order");
+
+    linked_list_scenario(
+        (int[4]){-4, 7, -1, 9},
+         4,
+          "List with positive and negative numbers not in order");
+}
+
 int main() {
     good_pwd_test();
     find_peak_test();
     sort_mountain_test();
+    negative_first_test();
     return 0;
 }
