@@ -1,4 +1,5 @@
 #include "final_practice.h"
+#include <assert.h>
 
 
 // empty string, null string,
@@ -147,10 +148,6 @@ void linked_list_scenario(int arr[], int size, char* title) {
     free_list(list);
 }
 
-void test() {
-
-
-} 
 
 void negative_first_test() {
     linked_list_scenario(NULL,
@@ -178,10 +175,128 @@ void negative_first_test() {
           "List with positive and negative numbers not in order");
 }
 
+bt_node* smallest_left_node(binary_tree* tree) {
+    if (!tree)
+        return NULL;
+
+    bt_node* nd = tree->root;
+
+    while (nd->left) {
+        nd = nd->left;
+    }
+
+    return nd;
+}
+
+void print_node(bt_node* nd, int indent) {
+    if (!nd) 
+        return;
+    printf("%.*s%d (%d)\n", indent, "\t\t\t\t\t\t\t\t\t\t", nd->val, nd->parent ? nd->parent->val : 999);
+    print_node(nd->left, indent + 1);
+    print_node(nd->right, indent + 1);
+}  
+
+void inorder_traversal_scenario(int arr[], int size, char* title) {
+    binary_tree* tree = arr_to_tree(arr, size);
+    assert(tree || !size);
+
+    if (tree) 
+        print_node(tree->root, 0);
+
+    bt_node* nd = smallest_left_node(tree);
+    assert(nd || !size);
+
+    int pos = 0;
+
+    while ( pos < size && nd && arr[pos] == nd->val) {
+      printf("Inorder val: %d\n", nd->val);
+      nd = next_inorder(nd);
+      pos++;
+    }
+
+    if (pos == size) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        // printf("pos: %d\n", pos);
+        // printf("arr: %d, node: %d\n", arr[pos], nd ? nd->val : -168);
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+    printf("\033[0m");
+
+    destroy_tree(tree);
+}
+
+// cases: empty tree, tree with one elem, tree with nodes all to the right 
+// or left, balanced tree
+void inorder_traversal_test() {
+    inorder_traversal_scenario(
+        NULL, 0, "Empty tree");
+
+    inorder_traversal_scenario(
+        (int[1]){6}, 1, "Tree with one element");
+
+    inorder_traversal_scenario(
+        (int[6]){2, 8, 9, 0, -1, -2}, 6, "Tree with multiple elements");
+    
+    inorder_traversal_scenario(
+        (int[2]){2, 8}, 2, "Tree with two elements");
+}
+
+// test: invalid_arr, invalid_interval, two elems, order_pair,
+// order arr_interval, overwrite arr interval
+void merge_sort_component_test() {
+    int arr[] = {1, 2, 3};
+    if (invalid_arr(NULL)) {
+        printf("valid array check works for empty arrs\n");
+    } else {
+        printf("valid array check does not works for empty arrs\n");
+    }
+
+    if (!invalid_arr(arr)) {
+        printf("valid array check works for arrs\n");
+    } else {
+        printf("valid array check does not works for arrs\n");
+    }
+
+    // invalid interval
+    if (!is_invalid_interval(0, 0)) {
+        printf("valid interval check works for interval of one elem\n");
+    } else {
+        printf("valid interval check does not work for interval of one elem\n");
+    }
+
+    if (!is_invalid_interval(4, 9)) {
+        printf("valid interval check works for non-empty interval\n");
+    } else {
+        printf("valid interval check does not work for non-empty interval\n");
+    }
+
+    if (is_invalid_interval(2, 1)) {
+        printf("valid interval check works for invalid interval\n");
+    } else {
+        printf("valid interval check does not work for invalid interval\n");
+    }
+    
+    //two_elems test
+    if (two_elems(1, 2)) {
+        printf("two element check works\n");
+    } else {
+        printf("two element check works\n");
+    }
+
+
+
+}
+
+
 int main() {
     good_pwd_test();
     find_peak_test();
     sort_mountain_test();
     negative_first_test();
+    inorder_traversal_test();
+    merge_sort_component_test();
     return 0;
 }

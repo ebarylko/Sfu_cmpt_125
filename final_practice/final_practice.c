@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
+#include <assert.h>
 
 
 #include "final_practice.h"
@@ -223,5 +224,182 @@ bool is_ordered_list(linked_list* list) {
         nd = nd->next;
     }
     
-    return nd->next ? false : true;
+    return !nd->next ;//? false : true;
 }
+
+binary_tree* create_tree_from_node(bt_node* root) {
+    binary_tree* tree = (binary_tree*)malloc(sizeof(binary_tree));
+    tree->root = root;
+    return tree;
+}
+
+bt_node* create_bt_node(int val) {
+    bt_node* nd = (bt_node*)malloc(sizeof(bt_node));
+    nd->val = val;
+    nd->parent = NULL;
+    nd->left = NULL;
+    nd->right = NULL;
+    return nd;
+}
+
+binary_tree* create_tree(int val) {
+    bt_node* root = create_bt_node(val);
+    return create_tree_from_node(root);
+}
+
+void destroy_subtree(bt_node* target) {
+    if (!target) 
+        return;
+    destroy_subtree(target->left);
+    destroy_subtree(target->right);
+    free(target);
+}
+
+void destroy_tree(binary_tree* tree) {
+    if (!tree) 
+        return;
+    destroy_subtree(tree->root);
+    free(tree);
+}
+
+bt_node* inorder_from_array(int *arr, int start, int end, int size) {
+    // check that is valid, if not return
+    if (start > end || start < 0 || end >= size)
+    {
+        return NULL;
+    }
+
+    int root = (end - start + 1) / 2;
+    // I know root index is the root
+    printf("Start + root: %d, val: %d\n", start + root, arr[start + root]);
+    bt_node *root_node = create_bt_node(arr[start + root]);
+// {2, 8, 9, 0, -1, -2}
+    root_node->left = inorder_from_array(arr, start, start + root - 1, size);
+
+    if (root_node->left)
+        root_node->left->parent = root_node;
+
+    root_node->right = inorder_from_array(arr, start + root + 1, end, size);
+
+    if (root_node->right)
+        root_node->right->parent = root_node;
+
+
+    return root_node;
+}
+
+binary_tree* arr_to_tree(int* arr, int length) {
+    if (!arr) 
+        return NULL;
+
+    bt_node *root = inorder_from_array(arr, 0, length - 1, length);
+    return create_tree_from_node(root);
+}
+
+bool has_right_child(bt_node* nd) {
+    return nd->right;
+}
+
+bool is_left_child(bt_node* nd) {
+    return nd->parent->left == nd;
+}
+
+bt_node* smallest_right_node(bt_node* nd) {
+    assert(nd);
+    while (nd->left) {
+        nd = nd->left;
+    }
+
+    return nd;
+}
+
+bool has_parent(bt_node* nd) {
+    return nd->parent;
+}
+
+bt_node* next_inorder(bt_node* nd) {
+    if (!nd)
+        return NULL;
+
+    printf("NI: %d, left: %d, right: %d\n", nd->val, nd->left, nd->right);
+
+    if (has_right_child(nd)) {
+        return smallest_right_node(nd->right);
+    }
+
+    while (has_parent(nd) && !is_left_child(nd)) {
+      printf("parent val: %d\n", nd->parent->val);
+      nd = nd->parent;
+    }
+
+    return nd->parent;
+}
+
+// if end < start, return. if end == start, return.
+// if end - start == 1, swap pair if needed.
+// calculate mid, then order up to mid, and after mid
+// merge interval
+
+// allocate an array with space for all elements.
+// go from start to end, and if either element smaller 
+// put it in array. when start and end cross, stop.
+// overwrite array with values from sorted array
+
+bool invalid_arr(int arr[]) {
+    return !arr;
+}
+
+bool is_invalid_interval(int start, int end) {
+    return start > end;
+}
+
+bool two_elems(int start, int end) {
+    return end - start == 1;
+}
+
+void order_pair(int arr[], int start, int end) {
+    if (arr[start] > arr[end]) 
+        swap(arr, start, end);
+}
+
+// void merge(int arr[], int start, int end) {
+//     int elems = end - start + 1;
+//     int* sorted_arr = (int*)malloc(elems * sizeof(int));
+
+//     order_arr_interval(arr, start, end, sorted_arr);
+//     overwrite_arr_interval(arr, sorted_arr, start, elems);
+//     free(sorted_arr);
+// }
+
+
+// void order(int arr[], int start, int end) {
+//     if (is_invalid_interval(start, end) || start == end)
+//         return;
+
+//     if (two_elems(start, end)) {
+//         order_pair(arr, start, end);
+//         return;
+//     }
+
+//     int mid = (end - start + 1) / 2;
+
+//     order(arr, start, start + mid);
+//     order(arr, start + mid + 1, end);
+//     merge(arr, start, end);
+
+// }
+
+// // if !arr, return. if arr of one elem, return.
+// // get midpoint; order elements up to midpoint, after midpoint.
+// // merge both halves
+// void merge_sort(int arr[], int size) {
+//     if (is_invalid_arr(arr) || size == 1)   
+//         return;
+
+//     int mid = size / 2;
+
+//     order(arr, 0, mid);
+//     order(arr, mid + 1, size - 1);
+
+//     merge(arr, 0, size - 1);
+// }
