@@ -283,9 +283,35 @@ void merge_sort_component_test() {
     if (two_elems(1, 2)) {
         printf("two element check works\n");
     } else {
-        printf("two element check works\n");
+        printf("two element check does not work\n");
     }
 
+    if (!two_elems(1, 9)) {
+        printf("two element check works on interval of 2+ elems\n");
+    } else {
+        printf("two element check does not work on interval of 2+ elems\n");
+    }
+
+    // order_pair: start < end, start > end
+    int actual1[] = {2, 1, 3};
+    int expected1[] = {1, 2, 3};
+    order_pair(actual1, 0, 1);
+
+    if (compare_arrays(actual1, expected1, 3)) {
+        printf("pair swap works\n");
+    } else {
+        printf("pair swap does not work\n");
+    }
+
+    int actual2[] = {3, 3};
+    int expected2[] = {3, 3};
+    order_pair(actual2, 0, 1);
+
+    if (compare_arrays(actual2, expected2, 2)) {
+        printf("pair swap works--\n");
+    } else {
+        printf("pair swap does not work--\n");
+    }
 
 
 }
