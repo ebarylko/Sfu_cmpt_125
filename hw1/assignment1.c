@@ -5,10 +5,10 @@
 #include <stdbool.h>
 
 /**
- * @brief count even numbers between x and y, inclusive  
- * @param x starting number 
+ * @brief count even numbers between x and y, inclusive
+ * @param x starting number
  * @param y ending number
- * @return a long with the amount of even numbers between x and y, inclusive 
+ * @return a long with the amount of even numbers between x and y, inclusive
  */
 long count_even(long x, long y)
 {
