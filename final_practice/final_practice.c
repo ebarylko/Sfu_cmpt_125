@@ -362,12 +362,34 @@ void order_pair(int arr[], int start, int end) {
         swap(arr, start, end);
 }
 
-// void merge(int arr[], int start, int end) {
-//     int elems = end - start + 1;
-//     int* sorted_arr = (int*)malloc(elems * sizeof(int));
+// take an array, and put the sorted elements in the new arr.
+// have counter for start/ end, and go through arr checking if one
+// is bigger/smaller
+// stop when start > end
+int* order_arr_interval(int unsorted[], int start, int end) {
+    int elems = end - start + 1;
+    int* sorted_arr = (int*)malloc(elems * sizeof(int));
 
-//     order_arr_interval(arr, start, end, sorted_arr);
-//     overwrite_arr_interval(arr, sorted_arr, start, elems);
+    int pos = 0;
+    while (start <= end) {
+        int val = unsorted[start] > unsorted[end] ? unsorted[end--] : unsorted[start++];
+        sorted_arr[pos++] = val;
+    }
+    return sorted_arr;
+}
+
+// take an interval of the array, and overwrite that interval with
+// vals from sorted array
+void overwrite_arr_interval(int target[], int sorted[], int start, int elems) {
+    for (int pos = 0; pos < elems; pos++) {
+        target[start + pos] = sorted[pos];
+    }
+}
+
+// void merge(int arr[], int start, int end) {
+
+//     order_arr_interval(arr, start, end);
+//     overwrite_arr_interval(arr, start, elems);
 //     free(sorted_arr);
 // }
 

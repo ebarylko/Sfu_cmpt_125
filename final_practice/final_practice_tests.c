@@ -313,6 +313,58 @@ void merge_sort_component_test() {
         printf("pair swap does not work--\n");
     }
 
+    // order arr interval: 1 elem, 1+ elem, sorted, unsorted
+
+    int arr3[] = {1};
+    int* new_arr3 = order_arr_interval(arr3, 0, 0);
+    if (compare_arrays(arr3, new_arr3, 1)) {
+        printf("arr ordering works on one elem--\n");
+    } else {
+        printf("arr ordering does not work on one elem--\n");
+    }
+    free(new_arr3);
+
+    int arr4[] = {1, 2, 4, 9};
+    int* new_arr4 = order_arr_interval(arr4, 0, 3);
+    if (compare_arrays(arr4, new_arr4, 4)) {
+        printf("arr ordering works on sorted elems--\n");
+    } else {
+        printf("arr ordering does not work on sorted elems--\n");
+    }
+    free(new_arr4);
+
+    int arr5[] = {9, 8, 7, 6};
+    int* new_arr5 = order_arr_interval(arr5, 1, 2);
+    int expected5[] = {7, 8};
+    if (compare_arrays(expected5, new_arr5, 2)) {
+        printf("arr ordering works on unsorted elems--\n");
+    } else {
+        printf("arr ordering does not work on unsorted elems--\n");
+    }
+    free(new_arr5);
+
+    // overwrite_arr_interval
+
+    int target[] = {1, 2, 3, 4};
+    int write_over[] = {9, 0, -1, 3};
+
+    overwrite_arr_interval(target, write_over, 0, 4);
+    if (compare_arrays(target, write_over, 4)) {
+        printf("write over works\n");
+    } else {
+        printf("write over does not work\n");
+    }
+
+    int target2[] = {1, 2, 3, 4};
+    int write_over2[] = {7, 8};
+    int expected_arr[] = {1, 2, 7, 8};
+
+    overwrite_arr_interval(target2, write_over2, 2, 2);
+    if (compare_arrays(target2, expected_arr, 4)) {
+        printf("write over works in an interval\n");
+    } else {
+        printf("write over does not work in an interval\n");
+    }
 
 }
 

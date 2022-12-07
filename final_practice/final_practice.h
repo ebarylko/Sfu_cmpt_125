@@ -62,4 +62,8 @@ bool two_elems(int start, int end);
 
 void order_pair(int arr[], int start, int end); 
 
+int* order_arr_interval(int unsorted[], int start, int end);
+
+void overwrite_arr_interval(int target[], int sorted[], int start, int elems); 
+
 #endif
