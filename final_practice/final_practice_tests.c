@@ -368,6 +368,43 @@ void merge_sort_component_test() {
 
 }
 
+void merge_sort_scenario(int arr[], int expected[], int size, char* title) {
+    merge_sort(arr, size);
+
+    if (compare_arrays(arr, expected, size)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+    printf("\033[0m");
+
+}
+
+void merge_sort_test() {
+    merge_sort_scenario(
+        (int[1]){1},
+        (int[1]){1},
+        1,
+        "Arr with one elem"
+    );
+
+    merge_sort_scenario(
+        (int[4]){9, 8, 1, 2},
+        (int[4]){1, 2, 8, 9},
+        4,
+        "Arr with unsorted elems"
+    );
+
+    merge_sort_scenario(
+        (int[4]){-9, -8, 1, 2},
+        (int[4]){-9, -8, 1, 2},
+        4,
+        "Arr with sorted elems"
+    );
+}
+
 
 int main() {
     good_pwd_test();
@@ -376,5 +413,6 @@ int main() {
     negative_first_test();
     inorder_traversal_test();
     merge_sort_component_test();
+    merge_sort_test();
     return 0;
 }

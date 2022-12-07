@@ -54,6 +54,8 @@ binary_tree* arr_to_tree(int* arr, int length);
 
 bt_node* next_inorder(bt_node* nd);
 
+void merge_sort(int arr[], int size); 
+
 bool invalid_arr(int arr[]); 
 
 bool is_invalid_interval(int start, int end); 

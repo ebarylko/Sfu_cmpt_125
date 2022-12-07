@@ -386,42 +386,42 @@ void overwrite_arr_interval(int target[], int sorted[], int start, int elems) {
     }
 }
 
-// void merge(int arr[], int start, int end) {
+void merge(int arr[], int start, int end) {
 
-//     order_arr_interval(arr, start, end);
-//     overwrite_arr_interval(arr, start, elems);
-//     free(sorted_arr);
-// }
+    int* sorted_arr = order_arr_interval(arr, start, end);
+    overwrite_arr_interval(arr, sorted_arr, start, end - start + 1);
+    free(sorted_arr);
+}
 
 
-// void order(int arr[], int start, int end) {
-//     if (is_invalid_interval(start, end) || start == end)
-//         return;
+void order(int arr[], int start, int end) {
+    if (is_invalid_interval(start, end) || start == end)
+        return;
 
-//     if (two_elems(start, end)) {
-//         order_pair(arr, start, end);
-//         return;
-//     }
+    if (two_elems(start, end)) {
+        order_pair(arr, start, end);
+        return;
+    }
 
-//     int mid = (end - start + 1) / 2;
+    int mid = (end - start + 1) / 2;
 
-//     order(arr, start, start + mid);
-//     order(arr, start + mid + 1, end);
-//     merge(arr, start, end);
+    order(arr, start, start + mid);
+    order(arr, start + mid + 1, end);
+    merge(arr, start, end);
 
-// }
+}
 
 // // if !arr, return. if arr of one elem, return.
 // // get midpoint; order elements up to midpoint, after midpoint.
 // // merge both halves
-// void merge_sort(int arr[], int size) {
-//     if (is_invalid_arr(arr) || size == 1)   
-//         return;
+void merge_sort(int arr[], int size) {
+    if (invalid_arr(arr) || size == 1)   
+        return;
 
-//     int mid = size / 2;
+    int mid = size / 2;
 
-//     order(arr, 0, mid);
-//     order(arr, mid + 1, size - 1);
+    order(arr, 0, mid);
+    order(arr, mid + 1, size - 1);
 
-//     merge(arr, 0, size - 1);
-// }
+    merge(arr, 0, size - 1);
+}
