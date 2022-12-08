@@ -393,8 +393,8 @@ void merge_sort_test() {
         "Arr with one elem"
     );
 
-// [ 1 2 3 7 9]
-// [ 1 2 8 9 -1 0]
+    // [ 1 2 3 7 9]
+    // [ 1 2 8 9 -1 0] -> [-1 2 8 9 1 0] -> [-1 0 2 8 9 1] -> [-1 0 1 2 8 9]
 // [- 8 1 2]
 // [1 -2]
     merge_sort_scenario(
@@ -433,6 +433,50 @@ void merge_sort_test() {
     );
 }
 
+void quick_sort_scenario(int arr[], int expected[], int size, char* title) {
+    quick_sort(arr, size);
+
+    if (compare_arrays(arr, expected, size)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+        print_arr(arr, size);
+    }
+    printf("\033[0m");
+
+}
+
+void quick_sort_test() {
+    quick_sort_scenario(
+        (int[1]){1},
+        (int[1]){1},
+        1,
+        "Arr with one elem"
+    );
+
+    quick_sort_scenario(
+        (int[5]){1, 2, 3, 4, 5},
+        (int[5]){1, 2, 3, 4, 5},
+        5,
+        "Arr with sorted elems"
+    );
+
+    quick_sort_scenario(
+        (int[5]){1, -1, 5, -1, -1},
+        (int[5]){-1, -1, -1, 1, 5},
+        5,
+        "Arr with duplicate + unsorted elems"
+    );
+
+    quick_sort_scenario(
+        (int[4]){1, 0, -3, -2} ,
+        (int[4]){-3, -2, 0, 1},
+        4,
+        "Arr with unsorted elems"
+    );
+}
 
 int main() {
     good_pwd_test();
@@ -442,5 +486,6 @@ int main() {
     inorder_traversal_test();
     merge_sort_component_test();
     merge_sort_test();
+    quick_sort_test();
     return 0;
 }

@@ -424,3 +424,39 @@ void merge_sort(int arr[], int size) {
     order( arr, 0, size - 1);
 
 }
+
+// quicksort
+
+
+bool at_pivot(int pos, int pivot) {
+    return pos == pivot;
+}
+
+void quick_sort_order(int arr[], int start, int end) {
+    if (is_invalid_interval(start, end) || start == end)
+        return;
+
+    int pivot_val = arr[end];
+    int curr_pos = start;
+    int j = start;
+
+    while (!at_pivot(curr_pos, end)) {
+        if (arr[curr_pos] <= pivot_val) {
+            swap(arr, curr_pos, j++);
+        }
+        curr_pos++;
+    }
+    swap(arr, j, end);
+
+    quick_sort_order(arr, start, j - 1);
+    quick_sort_order(arr, j + 1, end);
+
+
+}
+
+void quick_sort(int arr[], int size) {
+    if (invalid_arr(arr) || size == 1)   
+        return;
+
+    quick_sort_order(arr, 0, size - 1);
+}

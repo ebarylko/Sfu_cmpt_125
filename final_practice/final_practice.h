@@ -71,4 +71,7 @@ int* order_arr_interval(int unsorted[], int start, int end, int pivot);
 void overwrite_arr_interval(int target[], int sorted[], int start, int elems); 
 
 void copy_elems_to_arr(int target_arr[], int start_pos, int source_arr[], int start, int end); 
+
+void quick_sort(int arr[], int size); 
+
 #endif
