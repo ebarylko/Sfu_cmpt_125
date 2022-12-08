@@ -316,7 +316,7 @@ void merge_sort_component_test() {
     // order arr interval: 1 elem, 1+ elem, sorted, unsorted
 
     int arr3[] = {1};
-    int* new_arr3 = order_arr_interval(arr3, 0, 0);
+    int* new_arr3 = order_arr_interval(arr3, 0, 0, 0);
     if (compare_arrays(arr3, new_arr3, 1)) {
         printf("arr ordering works on one elem--\n");
     } else {
@@ -325,7 +325,7 @@ void merge_sort_component_test() {
     free(new_arr3);
 
     int arr4[] = {1, 2, 4, 9};
-    int* new_arr4 = order_arr_interval(arr4, 0, 3);
+    int* new_arr4 = order_arr_interval(arr4, 0, 3, 2);
     if (compare_arrays(arr4, new_arr4, 4)) {
         printf("arr ordering works on sorted elems--\n");
     } else {
@@ -334,7 +334,7 @@ void merge_sort_component_test() {
     free(new_arr4);
 
     int arr5[] = {9, 8, 7, 6};
-    int* new_arr5 = order_arr_interval(arr5, 1, 2);
+    int* new_arr5 = order_arr_interval(arr5, 1, 2, 2);
     int expected5[] = {7, 8};
     if (compare_arrays(expected5, new_arr5, 2)) {
         printf("arr ordering works on unsorted elems--\n");
@@ -366,6 +366,8 @@ void merge_sort_component_test() {
         printf("write over does not work in an interval\n");
     }
 
+    // copy_elems to arr test
+
 }
 
 void merge_sort_scenario(int arr[], int expected[], int size, char* title) {
@@ -377,6 +379,7 @@ void merge_sort_scenario(int arr[], int expected[], int size, char* title) {
     } else {
         printf("\033[0;31m"); 
         printf("%s FAIL\n", title);
+        print_arr(arr, size);
     }
     printf("\033[0m");
 
@@ -390,18 +393,43 @@ void merge_sort_test() {
         "Arr with one elem"
     );
 
+// [ 1 2 3 7 9]
+// [ 1 2 8 9 -1 0]
+// [- 8 1 2]
+// [1 -2]
     merge_sort_scenario(
-        (int[4]){9, 8, 1, 2},
-        (int[4]){1, 2, 8, 9},
-        4,
+        (int[6]){9, 8, 2, 1, 0, -1},
+        (int[6]){-1, 0, 1, 2, 8, 9},
+        6,
         "Arr with unsorted elems"
     );
 
     merge_sort_scenario(
-        (int[4]){-9, -8, 1, 2},
-        (int[4]){-9, -8, 1, 2},
-        4,
+        (int[3]){ -8, 1, 2},
+        (int[3]){ -8, 1, 2},
+        3,
         "Arr with sorted elems"
+    );
+
+    merge_sort_scenario(
+        (int[5]){20, 11, 5, 4, 2},
+        (int[5]){2, 4, 5, 11, 20},
+        5,
+        "Arr with all elems unsorted"
+    );
+
+    merge_sort_scenario(
+        (int[7]){20, 11, 5, 4, 2, 3, 4},
+        (int[7]){2, 3, 4, 4, 5, 11, 20},
+        7,
+        "Arr with duplicate elems"
+    );
+
+    merge_sort_scenario(
+        (int[6]){1, 1, 1, 1, 1, 1},
+        (int[6]){1, 1, 1, 1, 1, 1},
+        6,
+        "Arr with all elems being duplicates"
     );
 }
 

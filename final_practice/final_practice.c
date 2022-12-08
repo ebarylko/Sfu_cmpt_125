@@ -321,29 +321,25 @@ bt_node* next_inorder(bt_node* nd) {
     if (!nd)
         return NULL;
 
-    printf("NI: %d, left: %d, right: %d\n", nd->val, nd->left, nd->right);
-
     if (has_right_child(nd)) {
         return smallest_right_node(nd->right);
     }
 
     while (has_parent(nd) && !is_left_child(nd)) {
-      printf("parent val: %d\n", nd->parent->val);
       nd = nd->parent;
     }
 
     return nd->parent;
 }
 
-// if end < start, return. if end == start, return.
-// if end - start == 1, swap pair if needed.
-// calculate mid, then order up to mid, and after mid
-// merge interval
+// merge_sort
 
-// allocate an array with space for all elements.
-// go from start to end, and if either element smaller 
-// put it in array. when start and end cross, stop.
-// overwrite array with values from sorted array
+void print_arr(int arr[], int size) {
+    for (int pos = 0; pos < size; pos++) {
+        printf("%d, ", arr[pos]);
+    }
+    printf("\n");
+}
 
 bool invalid_arr(int arr[]) {
     return !arr;
@@ -362,33 +358,42 @@ void order_pair(int arr[], int start, int end) {
         swap(arr, start, end);
 }
 
-// take an array, and put the sorted elements in the new arr.
-// have counter for start/ end, and go through arr checking if one
-// is bigger/smaller
-// stop when start > end
-int* order_arr_interval(int unsorted[], int start, int end) {
+void copy_elems_to_arr(int target_arr[], int start_pos, int source_arr[], int start, int end) {
+    while (start <= end) {
+        target_arr[start_pos++] = source_arr[start++];
+    }
+}
+
+int* order_arr_interval(int unsorted[], int start, int end, int pivot) {
     int elems = end - start + 1;
     int* sorted_arr = (int*)malloc(elems * sizeof(int));
 
+    int temp_end = pivot + 1;
+
     int pos = 0;
-    while (start <= end) {
-        int val = unsorted[start] > unsorted[end] ? unsorted[end--] : unsorted[start++];
+    while (start <= pivot && temp_end <= end) {
+        int val = unsorted[start] > unsorted[temp_end] ? unsorted[temp_end++] : unsorted[start++];
         sorted_arr[pos++] = val;
     }
+
+    if (start > pivot) {
+        copy_elems_to_arr(sorted_arr, pos, unsorted, temp_end, end);
+    } else {
+        copy_elems_to_arr(sorted_arr, pos, unsorted, start, pivot);
+    }
+
     return sorted_arr;
 }
 
-// take an interval of the array, and overwrite that interval with
-// vals from sorted array
 void overwrite_arr_interval(int target[], int sorted[], int start, int elems) {
     for (int pos = 0; pos < elems; pos++) {
         target[start + pos] = sorted[pos];
     }
 }
 
-void merge(int arr[], int start, int end) {
+void merge(int arr[], int start, int end, int pivot) {
 
-    int* sorted_arr = order_arr_interval(arr, start, end);
+    int* sorted_arr = order_arr_interval(arr, start, end, pivot);
     overwrite_arr_interval(arr, sorted_arr, start, end - start + 1);
     free(sorted_arr);
 }
@@ -397,6 +402,7 @@ void merge(int arr[], int start, int end) {
 void order(int arr[], int start, int end) {
     if (is_invalid_interval(start, end) || start == end)
         return;
+
 
     if (two_elems(start, end)) {
         order_pair(arr, start, end);
@@ -407,21 +413,14 @@ void order(int arr[], int start, int end) {
 
     order(arr, start, start + mid);
     order(arr, start + mid + 1, end);
-    merge(arr, start, end);
-
+    merge(arr, start, end, start + mid);
 }
 
-// // if !arr, return. if arr of one elem, return.
-// // get midpoint; order elements up to midpoint, after midpoint.
-// // merge both halves
 void merge_sort(int arr[], int size) {
     if (invalid_arr(arr) || size == 1)   
         return;
 
     int mid = size / 2;
+    order( arr, 0, size - 1);
 
-    order(arr, 0, mid);
-    order(arr, mid + 1, size - 1);
-
-    merge(arr, 0, size - 1);
 }

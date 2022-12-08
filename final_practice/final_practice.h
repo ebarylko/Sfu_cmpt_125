@@ -54,6 +54,8 @@ binary_tree* arr_to_tree(int* arr, int length);
 
 bt_node* next_inorder(bt_node* nd);
 
+void print_arr(int arr[], int size); 
+
 void merge_sort(int arr[], int size); 
 
 bool invalid_arr(int arr[]); 
@@ -64,8 +66,9 @@ bool two_elems(int start, int end);
 
 void order_pair(int arr[], int start, int end); 
 
-int* order_arr_interval(int unsorted[], int start, int end);
+int* order_arr_interval(int unsorted[], int start, int end, int pivot);
 
 void overwrite_arr_interval(int target[], int sorted[], int start, int elems); 
 
+void copy_elems_to_arr(int target_arr[], int start_pos, int source_arr[], int start, int end); 
 #endif
