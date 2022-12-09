@@ -364,6 +364,8 @@ void copy_elems_to_arr(int target_arr[], int start_pos, int source_arr[], int st
     }
 }
 
+
+
 int* order_arr_interval(int unsorted[], int start, int end, int pivot) {
     int elems = end - start + 1;
     int* sorted_arr = (int*)malloc(elems * sizeof(int));
@@ -372,24 +374,19 @@ int* order_arr_interval(int unsorted[], int start, int end, int pivot) {
 
     int pos = 0;
     while (start <= pivot || temp_end <= end) {
+      if (start > pivot) {
+        sorted_arr[pos++] = unsorted[temp_end++];
 
-        if (start <= pivot && temp_end > end) {
-            sorted_arr[pos++] = unsorted[start++];
-        } else if (start > pivot && temp_end <= end) {
-            sorted_arr[pos++] = unsorted[temp_end++];
+      } else if (temp_end > end) {
+        sorted_arr[pos++] = unsorted[start++];
 
-        } else {
-            sorted_arr[pos++] = unsorted[start] > unsorted[temp_end] 
-                ? unsorted[temp_end++] 
-                : unsorted[start++];
-        }
+      } else {
+        sorted_arr[pos++] = unsorted[start] > unsorted[temp_end]
+                                ? unsorted[temp_end++]
+                                : unsorted[start++];
+      }
     }
 
-    // if (start > pivot) {
-    //     copy_elems_to_arr(sorted_arr, pos, unsorted, temp_end, end);
-    // } else {
-    //     copy_elems_to_arr(sorted_arr, pos, unsorted, start, pivot);
-    // }
 
     return sorted_arr;
 }
