@@ -471,6 +471,13 @@ void quick_sort_test() {
     );
 
     quick_sort_scenario(
+        (int[10]){1, 0, -3, -2, -6, -4, 3, 1, 0, -44,} ,
+        (int[10]){-44, -6, -4, -3, -2, 0, 0, 1, 1, 3},
+        10,
+        "Arr with 10 elems"
+    );
+
+    quick_sort_scenario(
         (int[4]){1, 0, -3, -2} ,
         (int[4]){-3, -2, 0, 1},
         4,

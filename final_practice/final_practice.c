@@ -371,16 +371,25 @@ int* order_arr_interval(int unsorted[], int start, int end, int pivot) {
     int temp_end = pivot + 1;
 
     int pos = 0;
-    while (start <= pivot && temp_end <= end) {
-        int val = unsorted[start] > unsorted[temp_end] ? unsorted[temp_end++] : unsorted[start++];
-        sorted_arr[pos++] = val;
+    while (start <= pivot || temp_end <= end) {
+
+        if (start <= pivot && temp_end > end) {
+            sorted_arr[pos++] = unsorted[start++];
+        } else if (start > pivot && temp_end <= end) {
+            sorted_arr[pos++] = unsorted[temp_end++];
+
+        } else {
+            sorted_arr[pos++] = unsorted[start] > unsorted[temp_end] 
+                ? unsorted[temp_end++] 
+                : unsorted[start++];
+        }
     }
 
-    if (start > pivot) {
-        copy_elems_to_arr(sorted_arr, pos, unsorted, temp_end, end);
-    } else {
-        copy_elems_to_arr(sorted_arr, pos, unsorted, start, pivot);
-    }
+    // if (start > pivot) {
+    //     copy_elems_to_arr(sorted_arr, pos, unsorted, temp_end, end);
+    // } else {
+    //     copy_elems_to_arr(sorted_arr, pos, unsorted, start, pivot);
+    // }
 
     return sorted_arr;
 }
@@ -420,8 +429,7 @@ void merge_sort(int arr[], int size) {
     if (invalid_arr(arr) || size == 1)   
         return;
 
-    int mid = size / 2;
-    order( arr, 0, size - 1);
+    order(arr, 0, size - 1);
 
 }
 
@@ -437,21 +445,17 @@ void quick_sort_order(int arr[], int start, int end) {
         return;
 
     int pivot_val = arr[end];
-    int curr_pos = start;
     int j = start;
 
-    while (!at_pivot(curr_pos, end)) {
+    for ( int curr_pos = start; !at_pivot(curr_pos, end); curr_pos++) {
         if (arr[curr_pos] <= pivot_val) {
             swap(arr, curr_pos, j++);
         }
-        curr_pos++;
     }
     swap(arr, j, end);
 
     quick_sort_order(arr, start, j - 1);
     quick_sort_order(arr, j + 1, end);
-
-
 }
 
 void quick_sort(int arr[], int size) {
