@@ -485,6 +485,123 @@ void quick_sort_test() {
     );
 }
 
+void dll_component_test() {
+    doubly_linked_list* list = create_dll();
+    if (list) {
+        printf("dll creation works\n");
+    } else {
+        printf("dll creation does not work\n");
+    }
+}
+
+doubly_linked_list* create_dll_from_arr(int arr[], int size) {
+    doubly_linked_list* list = create_dll();
+    for (int pos = 0; pos < size; pos++) {
+        add_to_head(list, arr[pos]);
+    }
+    return list;
+}
+
+bool compare_list_arr(doubly_linked_list* list, int arr[], int size) {
+    dl_node* nd = list->head;
+    for (int pos = 0; pos < size; pos++) {
+        if (arr[pos] != nd->val) {
+            return false;
+        }
+        nd = nd->next;
+    }
+    return true;
+}
+
+void print_list(doubly_linked_list* list) {
+    dl_node* nd = list->head;
+    while (nd) {
+        printf("Node val: %d\n", nd->val);
+        nd = nd->next;
+    }
+}
+
+void dll_add_scenario(int arr[], int expected[], int size, char* title) {
+    doubly_linked_list* list = create_dll_from_arr(arr, size);
+
+    if (compare_list_arr(list, expected, size)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+    printf("\033[0m");
+
+}
+
+void dl_add_test() {
+    dll_add_scenario(NULL, NULL, 0, "Empty arr");
+
+    dll_add_scenario(
+        (int[1]){3},
+        (int[1]){3},
+        1,
+        "Arr with one elem");
+
+    dll_add_scenario(
+        (int[3]){1, 2, 3},
+        (int[3]){3, 2, 1},
+        3,
+        "Arr with three elems");
+}
+
+void repeated_rest(doubly_linked_list* list, int repetitions) {
+    for (int i = 0; i < repetitions; i++) {
+        rest_dll(list);
+    }
+}
+
+void dll_rest_scenario(int arr[], int expected[], int size, int removal, char* title) {
+    doubly_linked_list* list = create_dll_from_arr(arr, size);
+    repeated_rest(list, removal);
+
+    if (compare_list_arr(list, expected, size - removal)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+    printf("\033[0m");
+
+}
+// create array, remove elements, check with array afterwards to see if they match
+// remove just one element
+// remove one+ element
+// remove entire arr
+void dll_rest_test() {
+    dll_rest_scenario(NULL, NULL, 0, 0, "Empty arr");
+
+    dll_rest_scenario(
+        (int[1]){1}, 
+        NULL,
+        1,
+        1,
+        "list with one elem");
+
+    dll_rest_scenario(
+        (int[3]){1, 2, 2}, 
+        (int[1]){1},
+        3,
+        2,
+        "list with three elem");
+
+    dll_rest_scenario(
+        (int[3]){1, 2, 2}, 
+        NULL,
+        3,
+        3,
+        "list with three elems, full removal of all elems");
+    
+
+}
+
 int main() {
     good_pwd_test();
     find_peak_test();
@@ -494,5 +611,8 @@ int main() {
     merge_sort_component_test();
     merge_sort_test();
     quick_sort_test();
+    dll_component_test();
+    dl_add_test();
+    dll_rest_test();
     return 0;
 }

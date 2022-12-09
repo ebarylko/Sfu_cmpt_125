@@ -461,3 +461,59 @@ void quick_sort(int arr[], int size) {
 
     quick_sort_order(arr, 0, size - 1);
 }
+
+// doubly linked list
+// for node: create node,destroy node
+// create list, destroy list, add to head, remove from head
+
+dl_node* create_dl_node(int val) {
+    dl_node* nd = (dl_node*)malloc(sizeof(dl_node));
+    nd->next = NULL;
+    nd->previous = NULL;
+    nd->val = val;
+    return nd;
+}
+
+doubly_linked_list* create_dll() {
+    doubly_linked_list* list = (doubly_linked_list*)malloc(sizeof(doubly_linked_list));
+    list->elems = 0;
+    list->head = NULL;
+    list->tail = NULL;
+    return list;
+}
+
+void add_to_head(doubly_linked_list* list, int val) {
+    dl_node* nd = create_dl_node(val);
+    nd->next = list->head;
+    list->head = nd;
+    list->elems++;
+
+    if (list->elems != 1) {
+        nd->next->previous = nd;
+    } else {
+        list->tail = nd;
+    }
+}
+
+bool empty_list(doubly_linked_list* list) {
+    return !list->elems;
+}
+
+int rest_dll(doubly_linked_list* list) {
+    if (!list || empty_list(list))
+        return -1;
+
+    dl_node* old_head = list->head;
+    list->head = old_head->next;
+    int val = old_head->val;
+    free(old_head);
+
+    list->elems--;
+    if (empty_list(list)) {
+        list->tail = NULL;
+    } else {
+        list->head->previous = NULL;
+    }
+
+    return val;
+}

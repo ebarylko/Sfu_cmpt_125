@@ -28,6 +28,19 @@ typedef struct {
    bt_node* root;
 } binary_tree;
 
+typedef struct dl_node {
+    int val;
+    struct dl_node* next;
+    struct dl_node* previous;
+} dl_node;
+
+typedef struct {
+    dl_node* head;
+    dl_node* tail;
+    int elems;
+} doubly_linked_list;
+
+
 bool is_good_password(const char* str);
 
 int find_peak(const int* A, int n); 
@@ -74,4 +87,9 @@ void copy_elems_to_arr(int target_arr[], int start_pos, int source_arr[], int st
 
 void quick_sort(int arr[], int size); 
 
+doubly_linked_list* create_dll(); 
+
+void add_to_head(doubly_linked_list* list, int val); 
+
+int rest_dll(doubly_linked_list* list); 
 #endif
