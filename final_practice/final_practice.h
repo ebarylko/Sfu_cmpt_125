@@ -28,6 +28,8 @@ typedef struct {
    bt_node* root;
 } binary_tree;
 
+typedef binary_tree binary_search_tree;
+
 typedef struct dl_node {
     int val;
     struct dl_node* next;
@@ -96,4 +98,10 @@ int rest_dll(doubly_linked_list* list);
 void remove_node(doubly_linked_list* list, dl_node* target); 
 
 void print_list(doubly_linked_list* list); 
+
+void filter(doubly_linked_list* list, bool (*func) (int)); 
+
+void mirror_tree(binary_tree* tree); 
+
+bt_node* find_predecessor(bt_node* nd); 
 #endif

@@ -646,8 +646,239 @@ void remove_node_test() {
       5,
        list5->head->next->next,
         "removing middle node from list with many elems");
+}
+
+// create list, apply pred, check with expected list
+void filter_scenario(int arr[], int expected[], int arr_size, int expected_size, bool (*func)(int), char* title) {
+    doubly_linked_list* list = create_dll_from_arr(arr, arr_size);
+    filter(list, func);
+
+    if (compare_list_arr(list, expected, expected_size)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+    printf("\033[0m");
+}
+
+bool is_even(int val) {
+    return (val % 2) == 0;
+}
+
+
+void filter_test() {
+    filter_scenario(
+        NULL, 
+        NULL, 
+        0,
+        0,
+        is_even,
+        "Empty list"
+    );
+
+    filter_scenario(
+        (int[4]){1, 2, 3, 4}, 
+        (int[2]){4, 2}, 
+        4,
+        2,
+        is_even,
+        "list with some elements failing predicate"
+    );
+
+    filter_scenario(
+        (int[4]){1, 9, 3, 7}, 
+        NULL,
+        4,
+        0,
+        is_even,
+        "list with no elements passing predicate"
+    );
+
+    filter_scenario(
+        (int[4]){2, 4, 6, 8}, 
+        (int[4]){8, 6, 4, 2}, 
+        4,
+        4,
+        is_even,
+        "list with all elements passing predicate"
+    );
+}
+
+// after reversing, must check to see if values from tree match
+// must see if after reversing twice I have the same tree
+// scenario: arr with values to generate tree, size of arr
+// expected arr, title
+// generate first tree, mirror, and then check against second tree.
+// if they match, good. if not, bad
+
+// equal if both are null, or if both match in every node
+// 
+// if one node not valid, false.
+// true if both null or both values match
+// must check on remaining nodes
+
+// 
+
+bool nodes_match(bt_node* nd1, bt_node* nd2) {
+    return nd1->val == nd2->val;
+}
+
+bool compare_nodes(bt_node* nd1, bt_node* nd2) {
+    if (!nd1 ^ !nd2)
+        return false;
+
+    if (!nd1 && !nd2)
+        return true;
+
+    return nodes_match(nd1, nd2) &&
+    compare_nodes(nd1->left, nd2->left) &&
+    compare_nodes(nd1->right, nd2->right);
+}
+
+bool compare_trees(binary_tree* tree1, binary_tree* tree2) {
+    if (!tree1 ^ !tree2)
+        return false;
+
+    if (!tree1 && !tree2)
+        return true;
+
+    return compare_nodes(tree1->root, tree2->root);
+}
+
+void mirror_tree_comp_test() {
+    binary_tree* tree1 = arr_to_tree((int[3]){1, 2, 3}, 3);
+    binary_tree* tree2 = arr_to_tree((int[3]){1, 2, 3}, 3);
+
+    if (compare_trees(tree1, tree2)) {
+        printf("Tree comparison works with two identical trees\n");
+    } else {
+        printf("Tree comparison does not work with two identical trees\n");
+    }
+    destroy_tree(tree1);
+    destroy_tree(tree2);
+
+    binary_tree* tree3 = arr_to_tree((int[3]){1, 2, 3}, 3);
+    binary_tree* tree4 = arr_to_tree((int[3]){9, 2, 3}, 3);
+
+    if (!compare_trees(tree3, tree4)) {
+        printf("Tree comparison works with two different trees\n");
+    } else {
+        printf("Tree comparison does not work with two different trees\n");
+    }
+    destroy_tree(tree3);
+    destroy_tree(tree4);
+
+    binary_tree* tree5 = arr_to_tree((int[3]){1, 2, 3}, 3);
+    binary_tree* tree6 = arr_to_tree((int[3]){3, 2, 1}, 3);
+
+    mirror_tree(tree6);
+
+    if (compare_trees(tree5, tree6)) {
+        printf("Tree comparison works with two different trees--\n");
+    } else {
+        printf("Tree comparison does not work with two different trees--\n");
+    }
+    destroy_tree(tree5);
+    destroy_tree(tree6);
 
 }
+
+void mirror_tree_scenario(int arr[], int size, int expected[], int expected_size, char* title) {
+    binary_tree* tree = arr_to_tree(arr, size);
+    mirror_tree(tree);
+    mirror_tree(tree);
+    binary_tree* expected_tree = arr_to_tree(expected, expected_size);
+
+
+    if (compare_trees(tree, expected_tree)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+    printf("\033[0m");
+
+    destroy_tree(tree);
+    destroy_tree(expected_tree);
+}
+
+void mirror_tree_test() {
+    mirror_tree_scenario(
+        NULL,
+        0,
+        NULL,
+        0,
+        "two empty trees"
+    );
+
+    mirror_tree_scenario(
+        (int[5]){1, 2, 3, 4, 5},
+        5,
+        (int[5]){1, 2, 3, 4, 5},
+        5,
+        "Two same trees"
+    );
+}
+
+//check with null node,
+// check on tree with one elem,
+// check with node being smallest elem,
+// check on varied tree
+
+int sum_predecessor(bt_node* nd) {
+    int sum = 0;
+    while ((nd = find_predecessor(nd)))
+        sum += nd->val;
+
+    return sum;
+}
+
+void find_predecessor_test() {
+    if (!find_predecessor(NULL)) {
+        printf("find predecessor works on null node\n");
+    } else {
+        printf("find predecessor does not works on null node\n");
+    }
+
+    binary_search_tree* tree = arr_to_tree((int[5]){1, 2, 3, 4, 5}, 5);
+    int val_1 = sum_predecessor(tree->root);
+
+    if (val_1 == 3) {
+        printf("Predecessor check works on root\n");
+    } else {
+        printf("Predecessor check does not work on root\n");
+    }
+
+    int val_2 = sum_predecessor(tree->root->left->left);
+    if (!val_2) {
+        printf("Predecessor check works on smallest node\n");
+    } else {
+        printf("Predecessor check does not work on smallest node\n");
+    }
+
+    int val_3 = sum_predecessor(tree->root->right);
+    if (val_3 == 10) {
+        printf("Predecessor check works on largest node\n");
+    } else {
+        printf("Predecessor check does not work on largest node\n");
+        printf("Val: %d\n", val_3);
+    }
+
+    int val_4 = sum_predecessor(tree->root->left);
+    if (val_4 == 1) {
+        printf("Predecessor check works on second smallest node\n");
+    } else {
+        printf("Predecessor check does not work on second smallest node\n");
+        printf("Val: %d\n", val_4);
+    }
+
+    destroy_tree(tree);
+
+}
+
 
 int main() {
     good_pwd_test();
@@ -662,5 +893,9 @@ int main() {
     dl_add_test();
     dll_rest_test();
     remove_node_test();
+    filter_test();
+    mirror_tree_comp_test();
+    mirror_tree_test();
+    find_predecessor_test();
     return 0;
 }

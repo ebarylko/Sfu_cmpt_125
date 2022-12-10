@@ -271,7 +271,6 @@ bt_node* inorder_from_array(int *arr, int start, int end, int size) {
 
     int root = (end - start + 1) / 2;
     // I know root index is the root
-    printf("Start + root: %d, val: %d\n", start + root, arr[start + root]);
     bt_node *root_node = create_bt_node(arr[start + root]);
 // {2, 8, 9, 0, -1, -2}
     root_node->left = inorder_from_array(arr, start, start + root - 1, size);
@@ -577,9 +576,78 @@ void remove_node(doubly_linked_list* list, dl_node* target) {
 // go through every elem in the list, if it does not comply with pred
 // remove it
 // if !list, return.
-
+// if usinf the current node, when memory gets freed cannot 
+// get to next node
+// make a copy of next node so that I can assign 
+// curr node to next node
 void filter(doubly_linked_list* list, bool (*func) (int)) {
     if (!list) 
         return;
-    
+
+    dl_node* nd = list->head;
+    while (nd) {
+      dl_node* next_nd = nd->next;
+      if (!func(nd->val)) {
+        remove_node(list, nd);
+      }
+      nd = next_nd;
+    }
 }
+
+// reverse
+
+void mirror_nodes(bt_node* nd) {
+    if (!nd)
+        return;
+
+    bt_node* cpy = nd->left;
+    nd->left = nd->right;
+    nd->right = cpy;
+    mirror_nodes(nd->left);
+    mirror_nodes(nd->right);
+}
+
+// if !tree, return.
+// for every node, assign it the reverse of what iit has
+// it null, return
+void mirror_tree(binary_tree* tree) {
+    if (!tree)
+        return;
+
+    mirror_nodes(tree->root);
+}
+
+// predescessor
+
+// looking for next smallest element.
+// if I have a left chhild, return that.
+// if I have no left child, go up until I am the right child.
+// in this case, parent will be smaller. 
+// if there is no parent, there is no presecessor
+// if !nd, return null
+
+bool invalid_node(bt_node* nd) {
+    return !nd;
+}
+
+bool has_left_child(bt_node* nd) {
+    return nd->left;
+}
+// should check to make sure right child is not duplicate
+bool is_right_child(bt_node* nd) {
+    return nd->parent->right == nd;
+}
+
+bt_node* find_predecessor(bt_node* nd) {
+    if (invalid_node(nd))
+        return NULL;
+    
+    if (has_left_child(nd)) 
+        return nd->left;
+
+    while (has_parent(nd) && !is_right_child(nd))
+        nd = nd->parent;
+
+    return nd->parent;
+}
+
