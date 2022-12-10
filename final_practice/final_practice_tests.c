@@ -869,6 +869,109 @@ void find_predecessor_test() {
 
 }
 
+void longest_subseq_comp_test() {
+    if (!has_elem_in_front(0, 1)) {
+        printf("Elem checking in front works for single elem arr\n");
+    } else {
+        printf("Elem checking in front does not work for single elem arr\n");
+    }
+
+    if (has_elem_in_front(4, 9)) {
+        printf("Elem checking in front works for multiple elem arr\n");
+    } else {
+        printf("Elem checking in front does not work for multiple elem arr\n");
+    }
+
+    const int arr1[] = {1, 2, 6, -1};
+
+    if (less_than_next_elem(arr1, 1)) {
+        printf("Checking for smaller elem works\n");
+    } else {
+        printf("Checking for smaller elem does not works\n");
+    }
+
+    if (!less_than_next_elem(arr1, 2)) {
+        printf("Checking for smaller elem works--\n");
+    } else {
+        printf("Checking for smaller elem does not works--\n");
+    }
+
+    int count1 = count_subseq(arr1, 4, 4);
+
+    if (!count1) {
+        printf("Checking for subseq works at invalid pos\n");
+    } else {
+        printf("Checking for subseq does not work at invalid pos\n");
+    }
+
+    int count2 = count_subseq(arr1, 3, 4);
+
+    if (count2 == 1) {
+        printf("Checking for subseq works end of arr\n");
+    } else {
+        printf("Checking for subseq does not work at end of arr\n");
+    }
+
+    int count3 = count_subseq(arr1, 2, 4);
+
+    if (count3 == 1) {
+        printf("Checking for subseq works at end - 1 of arr\n");
+    } else {
+        printf("Checking for subseq does not work at end - 1 of arr\n");
+    }
+    
+    int count4 = count_subseq(arr1, 0, 4);
+
+    if (count4 == 3) {
+        printf("Checking for subseq works at start of arr\n");
+    } else {
+        printf("Checking for subseq does not work at start of arr\n");
+    }
+}
+
+void longest_subseq_test() {
+    const int arr1[] = {6,2,5,3,6,8,9,1};
+    int count1 = longest_incr_subsequence(arr1, 8);
+    if (count1 == 4) {
+        printf("Subseq check works for arr of many elems\n");
+    } else {
+        printf("Subseq check does not work for arr of many elems\n");
+    }
+
+    const int arr2[] = {};
+    int count2 = longest_incr_subsequence(arr2, 0);
+    if (!count2) {
+        printf("Subseq check works for empty arr\n");
+    } else {
+        printf("Subseq check does not work for empty arr\n");
+    }
+
+    const int arr3[] = {1, 2, 3, 4, 5};
+    int count3 = longest_incr_subsequence(arr3, 5);
+    if (count3 == 5) {
+        printf("Subseq check works for increasing arr\n");
+    } else {
+        printf("Subseq check does not work for increasing arr\n");
+        printf("Val: %d\n", count3);
+    }
+
+    const int arr4[] = {5, 4, 3, 2};
+    int count4 = longest_incr_subsequence(arr4, 4);
+    if (count4 == 1) {
+        printf("Subseq check works for decreasing arr\n");
+    } else {
+        printf("Subseq check does not work for decreasing arr\n");
+        printf("Val: %d\n", count4);
+    }
+
+    const int arr5[] = {1, 1, 1};
+    int count5 = longest_incr_subsequence(arr5, 3);
+    if (count5 == 1) {
+        printf("Subseq check works for arr with duplicates\n");
+    } else {
+        printf("Subseq check does not work for arr with duplicates\n");
+}
+}
 
 int main() {
     good_pwd_test();
@@ -887,5 +990,7 @@ int main() {
     mirror_tree_comp_test();
     mirror_tree_test();
     find_predecessor_test();
+    longest_subseq_comp_test();
+    longest_subseq_test();
     return 0;
 }

@@ -658,4 +658,46 @@ bt_node* find_predecessor(bt_node* nd) {
     return nd->parent;
 }
 
+// I know that I will always have length of 1,
+// so length < 1 means I have reached the end.
+// while pos + 1 > pos, increment count
+// count subseq: ar, pos: return length of subseq.
+// if !pos < size, return 0;
+
+bool has_elem_in_front(int pos, int end) {
+    return pos != end - 1;
+}
+
+bool less_than_next_elem(const int* arr, int pos) {
+    return arr[pos] < arr[pos + 1];
+}
+
+int count_subseq(const int* arr, int pos, int end) {
+    if (pos >= end)
+        return 0;
+
+    int count = 1;
+    while (has_elem_in_front(pos, end) && less_than_next_elem(arr, pos)) {
+        pos++;
+        count++;
+    }
+    return count;
+}
+
+int longest_subseq(const int* arr, int size) {
+    int max = 0;
+    int pos = 0;
+    int length;
+    while ((length = count_subseq(arr, pos, size)) != 0) {
+        max = length > max ? length : max;
+        pos += length;
+    }
+    return max;
+}
+
 int longest_incr_subsequence(const int* arr, int size) {
+    if (!arr || !size)
+        return 0;
+
+    return longest_subseq(arr, size);
+}

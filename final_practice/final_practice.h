@@ -107,4 +107,9 @@ bt_node* find_predecessor(bt_node* nd);
 
 int longest_incr_subsequence(const int* arr, int size); 
 
+bool has_elem_in_front(int pos, int end);
+
+bool less_than_next_elem(const int* arr, int pos); 
+
+int count_subseq(const int* arr, int pos, int end); 
 #endif
