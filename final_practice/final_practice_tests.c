@@ -571,10 +571,7 @@ void dll_rest_scenario(int arr[], int expected[], int size, int removal, char* t
     printf("\033[0m");
 
 }
-// create array, remove elements, check with array afterwards to see if they match
-// remove just one element
-// remove one+ element
-// remove entire arr
+
 void dll_rest_test() {
     dll_rest_scenario(NULL, NULL, 0, 0, "Empty arr");
 
@@ -598,7 +595,57 @@ void dll_rest_test() {
         3,
         3,
         "list with three elems, full removal of all elems");
-    
+}
+
+void remove_node_scenario(doubly_linked_list* list, int expected[], int size, dl_node* target, char* title) {
+
+    remove_node(list, target);
+
+    if (compare_list_arr(list, expected, size - 1)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+    printf("\033[0m");
+}
+
+void remove_node_test() {
+    doubly_linked_list* list1 = create_dll_from_arr(NULL, 0);
+    remove_node_scenario(list1, NULL, 0, NULL, "Empty list");
+
+    doubly_linked_list* list2 = create_dll_from_arr(
+        (int[1]){1}, 1);
+    remove_node_scenario(list2, NULL, 1, list2->head, "list with one elem");
+
+    doubly_linked_list* list3 = create_dll_from_arr(
+        (int[5]){1, 2, 3, 4, 5}, 5);
+
+    remove_node_scenario(
+        list3,
+         (int[4]){4, 3, 2, 1},
+          5,
+           list3->head,
+            "removing head from list");
+
+    doubly_linked_list* list4 = create_dll_from_arr(
+        (int[5]){1, 2, 3, 4, 5}, 5);
+
+    remove_node_scenario(list4,
+     (int[4]){5, 4, 3, 2},
+      5,
+       list4->tail,
+        "removing tail from list with many elems");
+
+    doubly_linked_list* list5 = create_dll_from_arr(
+        (int[5]){1, 2, 3, 4, 5}, 5);
+
+    remove_node_scenario(list5,
+     (int[4]){5, 4, 2, 1},
+      5,
+       list5->head->next->next,
+        "removing middle node from list with many elems");
 
 }
 
@@ -614,5 +661,6 @@ int main() {
     dll_component_test();
     dl_add_test();
     dll_rest_test();
+    remove_node_test();
     return 0;
 }

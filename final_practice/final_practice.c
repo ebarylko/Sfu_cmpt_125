@@ -517,3 +517,69 @@ int rest_dll(doubly_linked_list* list) {
 
     return val;
 }
+
+// one elem: make copy of tail, store val, make tail point to previous,
+// make head point to null, reduce elements, free tail, return val
+// elems+: make copy, store val, make tail point to previous, make previous
+// point to null
+int remove_from_tail(doubly_linked_list* list) {
+    if (!list || empty_list(list))
+        return -1;
+
+    dl_node* old_tail = list->tail;
+    list->tail = old_tail->previous;
+    int val = old_tail->val;
+    free(old_tail);
+
+    list->elems--;
+    if (empty_list(list)) {
+        list->head = NULL;
+    } else {
+        list->tail->next = NULL;
+    }
+
+    return val;
+}
+// if !list || ! target, return.
+
+bool is_head(dl_node* nd) {
+    return !nd->previous;
+}
+
+bool is_tail(dl_node* nd) {
+    return !nd->next;
+}
+
+// connect previous with next, and vice versa, free node
+void connect_nodes(dl_node* nd) {
+    nd->next->previous = nd->previous;
+    nd->previous->next = nd->next;
+    free(nd);
+}
+
+void remove_node(doubly_linked_list* list, dl_node* target) {
+    if (!list || !target) 
+        return;
+
+    if (is_head(target)) {
+        rest_dll(list);
+        return;
+    }
+
+    if (is_tail(target)) {
+        remove_from_tail(list);
+        return;
+    }
+
+    connect_nodes(target);
+}
+
+// go through every elem in the list, if it does not comply with pred
+// remove it
+// if !list, return.
+
+void filter(doubly_linked_list* list, bool (*func) (int)) {
+    if (!list) 
+        return;
+    
+}

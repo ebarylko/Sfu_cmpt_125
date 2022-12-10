@@ -92,4 +92,8 @@ doubly_linked_list* create_dll();
 void add_to_head(doubly_linked_list* list, int val); 
 
 int rest_dll(doubly_linked_list* list); 
+
+void remove_node(doubly_linked_list* list, dl_node* target); 
+
+void print_list(doubly_linked_list* list); 
 #endif
