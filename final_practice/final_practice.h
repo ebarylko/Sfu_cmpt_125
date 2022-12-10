@@ -104,4 +104,7 @@ void filter(doubly_linked_list* list, bool (*func) (int));
 void mirror_tree(binary_tree* tree); 
 
 bt_node* find_predecessor(bt_node* nd); 
+
+int longest_incr_subsequence(const int* arr, int size); 
+
 #endif

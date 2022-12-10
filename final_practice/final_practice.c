@@ -638,12 +638,19 @@ bool is_right_child(bt_node* nd) {
     return nd->parent->right == nd;
 }
 
+bt_node* largest_left_node(bt_node* nd) {
+    while (has_right_child(nd)) 
+        nd = nd->right;
+
+    return nd;
+}
+
 bt_node* find_predecessor(bt_node* nd) {
     if (invalid_node(nd))
         return NULL;
     
     if (has_left_child(nd)) 
-        return nd->left;
+        return largest_left_node(nd->left);
 
     while (has_parent(nd) && !is_right_child(nd))
         nd = nd->parent;
@@ -651,3 +658,4 @@ bt_node* find_predecessor(bt_node* nd) {
     return nd->parent;
 }
 
+int longest_incr_subsequence(const int* arr, int size) {

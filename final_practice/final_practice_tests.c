@@ -867,16 +867,6 @@ void find_predecessor_test() {
         printf("Val: %d\n", val_3);
     }
 
-    int val_4 = sum_predecessor(tree->root->left);
-    if (val_4 == 1) {
-        printf("Predecessor check works on second smallest node\n");
-    } else {
-        printf("Predecessor check does not work on second smallest node\n");
-        printf("Val: %d\n", val_4);
-    }
-
-    destroy_tree(tree);
-
 }
 
 
