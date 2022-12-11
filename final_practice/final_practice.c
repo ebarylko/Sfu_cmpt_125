@@ -754,7 +754,9 @@ bool just_zeroes(int* freq) {
 
 // for while of repititions, insert the number, and increment pos
 void repeat_insertion(char* str, int pos, int num, int repetitions) {
-
+    for (int start = pos; start < pos + repetitions; start++) {
+        str[start] = 48 + num;
+    }
 }
 
 char* fill_string(int* freq, int size) {
@@ -764,6 +766,7 @@ char* fill_string(int* freq, int size) {
         repeat_insertion(string, insertion_pos, pos, freq[pos]);
         insertion_pos += freq[pos];
     }
+    string[size] = 0;
     return string;
 }
 
@@ -781,12 +784,12 @@ char* gen_largest_string(int* freq, int size) {
     return largest_string;
 }
 
-// char* print_max_number(const int* arr, int size) {
-//     if (!arr || !size)
-//         return NULL;
+char* print_max_number(const int* arr, int size) {
+    if (!arr || !size)
+        return NULL;
 
-//     int* freq = gen_freq(arr, size);
-//     char* largest_num = gen_largest_string(freq, size);
-//     free(freq);
-//     return largest_num;
-// }
+    int* freq = gen_freq(arr, size);
+    char* largest_num = gen_largest_string(freq, size);
+    free(freq);
+    return largest_num;
+}

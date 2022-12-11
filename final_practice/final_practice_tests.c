@@ -1,5 +1,6 @@
 #include "final_practice.h"
 #include <assert.h>
+#include <string.h>
 
 
 // empty string, null string,
@@ -1021,6 +1022,102 @@ void print_max_comp_test() {
         printf("checks for zero does not work in freq with just zero\n");
     }
     free(freq5);
+
+    //fill_string
+    const int arr6[] = {0, 1, 9, 0, 0};
+    int* freq6 = gen_freq(arr6, 5);
+    char* str = fill_string(freq6, 5);
+    if (strcmp(str, "91000") == 0) {
+        printf("str generation works\n");
+    } else {
+        printf("str generation does not work\n");
+    }
+    free(freq6);
+    free(str);
+
+    const int arr7[] = {3};
+    int* freq7 = gen_freq(arr7, 1);
+    char* str1 = fill_string(freq7, 1);
+    if (strcmp(str1, "3") == 0) {
+        printf("str generation works on single elem\n");
+    } else {
+        printf("str generation does not work on single elem\n");
+    }
+    free(freq7);
+    free(str1);
+}
+
+// scenario: always pass arr and size, and I want to compare the
+// strings generated.
+// arr, size, expected string, message
+// if one of strings is null, return false.
+// if both null, return true.
+// else, return strcmp
+bool strings_match(char* str1, char* str2) {
+    if (!str1 ^ !str2)
+        return false;
+
+   return !str1 && !str2 ? true : strcmp(str1, str2) == 0;
+}
+
+void print_max_scenario(int arr[], int size, char* expected, char* title) {
+    char* str = print_max_number(arr, size);
+
+    if (strings_match(str, expected)) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+    }
+
+    free(str);
+}
+
+void print_max_test() {
+    print_max_scenario(
+        NULL,
+        0,
+        NULL,
+        "Empty arr"
+    );
+
+    print_max_scenario(
+        (int[4]){0, 0, 0, 0},
+        4,
+        "0",
+        "Arr with just zeroes"
+    );
+
+    print_max_scenario(
+        (int[6]){0, 2, 5, 8, 9, 0},
+        6,
+        "985200",
+        "Arr with a mix of zeroes and non-zeroes"
+    );
+
+    print_max_scenario(
+        (int[9]){3, 2, 9, 7, 6, 5, 5, 5, 9},
+        9,
+        "997655532",
+        "Arr with solely non-zeroes and some duplicates"
+    );
+
+    print_max_scenario(
+        (int[8]){6, 7, 5, 3, 8, 3, 0, 0},
+        8,
+        "87653300",
+        "Ex1 from final"
+    );
+
+    print_max_scenario(
+        (int[5]){1, 2, 3, 4, 4},
+        5,
+        "44321",
+        "Ex2 from final"
+    );
+
+
 }
 
 int main() {
@@ -1043,5 +1140,6 @@ int main() {
     longest_subseq_comp_test();
     longest_subseq_test();
     print_max_comp_test();
+    print_max_test();
     return 0;
 }
