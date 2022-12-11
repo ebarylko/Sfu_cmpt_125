@@ -112,4 +112,10 @@ bool has_elem_in_front(int pos, int end);
 bool less_than_next_elem(const int* arr, int pos); 
 
 int count_subseq(const int* arr, int pos, int end); 
+
+char* print_max_number(const int* arr, int size); 
+
+int* gen_freq(const int* arr, int size); 
+
+bool just_zeroes(int* freq); 
 #endif

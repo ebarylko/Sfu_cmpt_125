@@ -973,6 +973,38 @@ void longest_subseq_test() {
 }
 }
 
+void print_max_comp_test() {
+    const int arr1[] = {1, 2, 3, 4, 4};
+    int* freq1 = gen_freq(arr1, 5);
+    int expected1[] = {0, 1, 1, 1, 2, 0, 0, 0, 0, 0};
+    if (compare_arrays(freq1, expected1, 10)) {
+        printf("Gen-freq works on arrays with few elems\n");
+    } else {
+        printf("Gen-freq does not work on arrays with few elems\n");
+    }
+    free(freq1);
+
+    const int arr2[] = {1, 2, 3, 4, 4, 3, 6, 7, 8, 9, 0, 7, 8};
+    int* freq2 = gen_freq(arr2, 13);
+    int expected2[] = {1, 1, 1, 2, 2, 0, 1, 2, 2, 1};
+    if (compare_arrays(freq2, expected2, 10)) {
+        printf("Gen-freq works on arrays with many elems with duplicates\n");
+    } else {
+        printf("Gen-freq does not work on arrays with duplicates\n");
+    }
+    free(freq2);
+
+    // just_zeroes
+    const int arr3[] = {1, 2, 3, 4, 4};
+    int* freq3 = gen_freq(arr3, 5);
+    if (!just_zeroes(freq3)) {
+        printf("checks for zero works in freq devoid of zero\n");
+    } else {
+        printf("checks for zero does not work in freq devoid of zero\n");
+    }
+    free(freq3);
+}
+
 int main() {
     good_pwd_test();
     find_peak_test();
@@ -992,5 +1024,6 @@ int main() {
     find_predecessor_test();
     longest_subseq_comp_test();
     longest_subseq_test();
+    print_max_comp_test();
     return 0;
 }

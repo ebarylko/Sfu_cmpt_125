@@ -678,8 +678,8 @@ int count_subseq(const int* arr, int pos, int end) {
 
     int count = 1;
     while (has_elem_in_front(pos, end) && less_than_next_elem(arr, pos)) {
-        pos++;
-        count++;
+      pos++;
+      count++;
     }
     return count;
 }
@@ -701,3 +701,73 @@ int longest_incr_subsequence(const int* arr, int size) {
 
     return longest_subseq(arr, size);
 }
+
+// print_max_num
+
+// if !arr, return null.
+// make a frequencies of the digits in the arr.
+// if all zeroes, return a string with just 0
+// if not, contruct the largest string
+
+// create an array from 0-9.
+// pass over arr, and every time digit is encountered,
+// increment new array.
+// return new_arr
+
+void initialize_freq(int* freq) {
+    for (int pos = 0; pos < 10; pos++) {
+        freq[pos] = 0;
+    }
+}
+
+int* gen_freq(const int* arr, int size) {
+    int* freq = (int*)malloc(10 * sizeof(int));
+    initialize_freq(freq);
+    for (int pos = 0; pos < size; pos++) {
+        freq[arr[pos]]++;
+    }
+    return freq;
+}
+
+// return false if there are more than just zeroes
+// true otherwise
+
+// check over arr. it it has non-zero digit, return true
+bool has_nonzero_digits(int* freq) {
+    for (int pos = 1; pos < 10; pos++) {
+        if (freq[pos])
+            return true;
+    }
+    return false;
+}
+
+bool just_zeroes(int* freq) {
+    return freq[0] && !has_nonzero_digits(freq);
+}
+
+// if all zeroes, return string with just zero.
+// if not, return largest string
+
+// char* gen_largest_string(int* freq, int size) {
+//     char* largest_string;
+
+//     if (just_zeroes(freq)) {
+//         largest_string = (char*)malloc(2 * sizeof(char));
+//         largest_string[0] = '0';
+//         largest_string[1] = 0;
+//         return largest_string;
+//     }
+
+//     largest_string = fill_string(freq, size);
+//     return largest_string;
+// }
+
+// char* print_max_number(const int* arr, int size) {
+//     if (!arr || !size)
+//         return NULL;
+
+//     int* freq = gen_freq(arr, size);
+//     char* largest_num = gen_largest_string(freq, size);
+//     free(freq);
+//     return largest_num;
+// }
