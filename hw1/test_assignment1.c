@@ -249,24 +249,23 @@ bool test_q5_3()  {
 // when testing your code, it may be convenient 
 // to comment out some of the test cases
 // and focus only on the one you are working on right now
-int main()  {
-  test_q1_1();
-  test_q1_2();
-  test_q1_3();
-  
-  test_q2_1();
-  test_q2_2();
-  
-  test_q3_1();
-  test_q3_2();
-//
-  test_q4_1();
-  test_q4_2();
-  test_q4_3();
+/* int main()  { */
+/*   test_q1_1(); */
+/*   test_q1_2(); */
+/*   test_q1_3(); */
 
-  test_q5_1();
-  test_q5_2();
-  test_q5_3();
-  return 0;
-}
+/*   test_q2_1(); */
+/*   test_q2_2(); */
+
+/*   test_q3_1(); */
+/*   test_q3_2(); */
+
+/*   test_q4_1(); */
+/*   test_q4_2(); */
+/*   test_q4_3(); */
+
+/*   test_q5_1(); */
+/*   test_q5_2(); */
+/*   test_q5_3(); */
+/* } */
 
