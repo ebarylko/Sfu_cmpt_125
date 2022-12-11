@@ -748,19 +748,38 @@ bool just_zeroes(int* freq) {
 // if all zeroes, return string with just zero.
 // if not, return largest string
 
-// char* gen_largest_string(int* freq, int size) {
-//     char* largest_string;
+// start from end of frequency, and do repeat insertion
+// for every num.
+// return string
 
-//     if (just_zeroes(freq)) {
-//         largest_string = (char*)malloc(2 * sizeof(char));
-//         largest_string[0] = '0';
-//         largest_string[1] = 0;
-//         return largest_string;
-//     }
+// for while of repititions, insert the number, and increment pos
+void repeat_insertion(char* str, int pos, int num, int repetitions) {
 
-//     largest_string = fill_string(freq, size);
-//     return largest_string;
-// }
+}
+
+char* fill_string(int* freq, int size) {
+    char* string = (char*)malloc((size + 1) * sizeof(char));
+    int insertion_pos = 0;
+    for (int pos = 9; pos > -1; pos--) {
+        repeat_insertion(string, insertion_pos, pos, freq[pos]);
+        insertion_pos += freq[pos];
+    }
+    return string;
+}
+
+char* gen_largest_string(int* freq, int size) {
+    char* largest_string;
+
+    if (just_zeroes(freq)) {
+        largest_string = (char*)malloc(2 * sizeof(char));
+        largest_string[0] = '0';
+        largest_string[1] = 0;
+        return largest_string;
+    }
+
+    largest_string = fill_string(freq, size);
+    return largest_string;
+}
 
 // char* print_max_number(const int* arr, int size) {
 //     if (!arr || !size)

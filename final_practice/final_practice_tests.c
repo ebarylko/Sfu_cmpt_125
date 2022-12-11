@@ -1003,6 +1003,24 @@ void print_max_comp_test() {
         printf("checks for zero does not work in freq devoid of zero\n");
     }
     free(freq3);
+
+    const int arr4[] = {0, 0, 0, 0, 4};
+    int* freq4 = gen_freq(arr4, 5);
+    if (!just_zeroes(freq4)) {
+        printf("checks for zero works in freq full of zeros\n");
+    } else {
+        printf("checks for zero does not work in freq full of zero\n");
+    }
+    free(freq4);
+
+    const int arr5[] = {0, 0, 0, 0, 0};
+    int* freq5 = gen_freq(arr5, 5);
+    if (just_zeroes(freq5)) {
+        printf("checks for zero works in freq with just zeros\n");
+    } else {
+        printf("checks for zero does not work in freq with just zero\n");
+    }
+    free(freq5);
 }
 
 int main() {
