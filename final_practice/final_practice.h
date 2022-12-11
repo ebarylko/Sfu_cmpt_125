@@ -117,7 +117,7 @@ char* print_max_number(const int* arr, int size);
 
 int* gen_freq(const int* arr, int size); 
 
-bool just_zeroes(int* freq); 
+bool just_zeroes(int* freq, int size); 
 
 char* fill_string(int* freq, int size); 
 

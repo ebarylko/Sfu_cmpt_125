@@ -704,15 +704,6 @@ int longest_incr_subsequence(const int* arr, int size) {
 
 // print_max_num
 
-// if !arr, return null.
-// make a frequencies of the digits in the arr.
-// if all zeroes, return a string with just 0
-// if not, contruct the largest string
-
-// create an array from 0-9.
-// pass over arr, and every time digit is encountered,
-// increment new array.
-// return new_arr
 
 void initialize_freq(int* freq) {
     for (int pos = 0; pos < 10; pos++) {
@@ -741,18 +732,10 @@ bool has_nonzero_digits(int* freq) {
     return false;
 }
 
-bool just_zeroes(int* freq) {
-    return freq[0] && !has_nonzero_digits(freq);
+bool just_zeroes(int* freq, int size) {
+    return freq[0] == size;//&& !has_nonzero_digits(freq);
 }
 
-// if all zeroes, return string with just zero.
-// if not, return largest string
-
-// start from end of frequency, and do repeat insertion
-// for every num.
-// return string
-
-// for while of repititions, insert the number, and increment pos
 void repeat_insertion(char* str, int pos, int num, int repetitions) {
     for (int start = pos; start < pos + repetitions; start++) {
         str[start] = 48 + num;
@@ -773,14 +756,15 @@ char* fill_string(int* freq, int size) {
 char* gen_largest_string(int* freq, int size) {
     char* largest_string;
 
-    if (just_zeroes(freq)) {
+    if (just_zeroes(freq, size)) {
         largest_string = (char*)malloc(2 * sizeof(char));
         largest_string[0] = '0';
         largest_string[1] = 0;
-        return largest_string;
+        // return largest_string;
+    } else {
+      largest_string = fill_string(freq, size);
     }
 
-    largest_string = fill_string(freq, size);
     return largest_string;
 }
 
