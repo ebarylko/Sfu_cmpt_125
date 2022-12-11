@@ -1026,7 +1026,7 @@ void print_max_comp_test() {
     //fill_string
     const int arr6[] = {0, 1, 9, 0, 0};
     int* freq6 = gen_freq(arr6, 5);
-    char* str = fill_string(freq6, 5);
+    char* str = gen_string(freq6, 5);
     if (strcmp(str, "91000") == 0) {
         printf("str generation works\n");
     } else {
@@ -1037,7 +1037,7 @@ void print_max_comp_test() {
 
     const int arr7[] = {3};
     int* freq7 = gen_freq(arr7, 1);
-    char* str1 = fill_string(freq7, 1);
+    char* str1 = gen_string(freq7, 1);
     if (strcmp(str1, "3") == 0) {
         printf("str generation works on single elem\n");
     } else {

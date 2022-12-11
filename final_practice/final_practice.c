@@ -738,11 +738,11 @@ bool just_zeroes(int* freq, int size) {
 
 void repeat_insertion(char* str, int pos, int num, int repetitions) {
     for (int start = pos; start < pos + repetitions; start++) {
-        str[start] = 48 + num;
+        str[start] = '0' + num;
     }
 }
 
-char* fill_string(int* freq, int size) {
+char* gen_string(int* freq, int size) {
     char* string = (char*)malloc((size + 1) * sizeof(char));
     int insertion_pos = 0;
     for (int pos = 9; pos > -1; pos--) {
@@ -762,7 +762,7 @@ char* gen_largest_string(int* freq, int size) {
         largest_string[1] = 0;
         // return largest_string;
     } else {
-      largest_string = fill_string(freq, size);
+      largest_string = gen_string(freq, size);
     }
 
     return largest_string;
