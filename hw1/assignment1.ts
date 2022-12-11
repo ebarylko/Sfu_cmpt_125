@@ -5,8 +5,19 @@
 
 #tcase Count even numbers
 
-#test count_even_1
-    ck_assert_int_eq(count_even(1, 4), 3);
+static const int samples[4][3] = {
+    {1, 4, 2},
+    {10, 3, 4},
+    {7, -8, 8},
+    {-11, -11, 0},
+};
 
-#test count_even_2
-    ck_assert_int_eq(count_even(10, 3), 4);
+#test-loop(0, 4) count_even_table
+    int start = samples[_i][0];
+    int end = samples[_i][1];
+    int expected = samples[_i][2];
+    ck_assert_int_eq(count_even(start, end), expected);
+
+#test count_even_4
+    ck_assert_int_eq(count_even(-11, -11), 0);
+
