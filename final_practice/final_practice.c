@@ -777,3 +777,31 @@ char* print_max_number(const int* arr, int size) {
     free(freq);
     return largest_num;
 }
+
+//binary_search
+
+// if arr not valid, return -1.
+// check for mid element. if greaater than target, repeat from start
+// to mid - 1. else, repeat on mid + 1 to end
+int find_target(const int* arr, int target, int start, int end) {
+    if (is_invalid_interval(start, end))
+        return -1;
+
+    int mid_pos = start + ((end - start + 1) / 2);
+    int mid_val = arr[mid_pos];
+
+    if (mid_val == target)
+        return mid_pos;
+
+    return target > mid_val ? 
+    find_target(arr, target, mid_pos + 1, end) : 
+    find_target(arr, target, start, mid_pos - 1); 
+}
+
+// do find from 0 to size-1
+int binary_search(const int* arr, int size, int target) {
+    if (!arr || !size)
+        return -1;
+
+    return find_target(arr, target, 0, size - 1);
+}

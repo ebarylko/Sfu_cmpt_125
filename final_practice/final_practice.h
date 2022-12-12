@@ -121,4 +121,5 @@ bool just_zeroes(int* freq, int size);
 
 char* gen_string(int* freq, int size); 
 
+int binary_search(const int* arr, int size, int target); 
 #endif

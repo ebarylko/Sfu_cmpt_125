@@ -1116,7 +1116,49 @@ void print_max_test() {
         "44321",
         "Ex2 from final"
     );
+}
 
+// arr, size, target, expected pos, title
+void binary_search_scenario(const int* arr, int size, int target, int expected, char* title){
+    int pos = binary_search(arr, size, target);
+
+    if (pos == expected) {
+        printf("\033[0;32m"); 
+        printf("%s \xE2\x9C\x93 PASS\n", title);
+    } else {
+        printf("\033[0;31m"); 
+        printf("%s FAIL\n", title);
+        printf("Actual pos: %D\n", pos);
+    }
+
+}
+
+// searching for element outside of arr,
+// searching for element within arr
+void binary_search_test() {
+    binary_search_scenario(
+        NULL,
+        0,
+        8,
+        -1,
+        "Empty arr"
+    );
+
+    binary_search_scenario(
+        (int[6]){1, 4, 5, 6, 9, 11},
+        6,
+        9,
+        4,
+        "Arr with target within arr"
+    );
+
+    binary_search_scenario(
+        (int[15]){1, 4, 5, 6, 9, 11, 13, 16, 65, 78, 89, 99, 101, 123, 234},
+        15,
+        0,
+        -1,
+        "Arr with target outside arr"
+    );
 
 }
 
@@ -1141,5 +1183,6 @@ int main() {
     longest_subseq_test();
     print_max_comp_test();
     print_max_test();
+    binary_search_test();
     return 0;
 }
