@@ -744,8 +744,7 @@ void repeat_insertion(char* str, int pos, int num, int repetitions) {
 
 char* gen_string(int* freq, int size) {
     char* string = (char*)malloc((size + 1) * sizeof(char));
-    int insertion_pos = 0;
-    for (int pos = 9; pos > -1; pos--) {
+    for (int pos = 9, insertion_pos = 0; pos > -1; pos--) {
         repeat_insertion(string, insertion_pos, pos, freq[pos]);
         insertion_pos += freq[pos];
     }
@@ -776,15 +775,15 @@ int find_target(const int* arr, int target, int start, int end) {
     if (is_invalid_interval(start, end))
         return -1;
 
-    int mid_pos = start + ((end - start + 1) / 2);
+    int mid_pos = start + (end - start + 1) / 2;
     int mid_val = arr[mid_pos];
 
     if (mid_val == target)
         return mid_pos;
 
-    return target > mid_val ? 
-    find_target(arr, target, mid_pos + 1, end) : 
-    find_target(arr, target, start, mid_pos - 1); 
+    return target > mid_val 
+        ?  find_target(arr, target, mid_pos + 1, end) 
+        : find_target(arr, target, start, mid_pos - 1); 
 }
 
 // do find from 0 to size-1
