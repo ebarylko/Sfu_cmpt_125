@@ -754,18 +754,7 @@ char* gen_string(int* freq, int size) {
 }
 
 char* gen_largest_string(int* freq, int size) {
-    char* largest_string;
-
-    if (just_zeroes(freq, size)) {
-        largest_string = (char*)malloc(2 * sizeof(char));
-        largest_string[0] = '0';
-        largest_string[1] = 0;
-        // return largest_string;
-    } else {
-      largest_string = gen_string(freq, size);
-    }
-
-    return largest_string;
+    return just_zeroes(freq, size) ? strdup("0") : gen_string(freq, size);
 }
 
 char* print_max_number(const int* arr, int size) {
